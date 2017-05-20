@@ -15,6 +15,12 @@ namespace HSLProcessor
             public string source;
         }
 
+        /// <summary>
+        /// Load and parse CSV file
+        /// </summary>
+        /// <param name="file">CSV file</param>
+        /// <param name="hasHeader">Whether the file has a header</param>
+        /// <returns>List of CSV content</returns>
         public static List<CSVContent> Load(FileInfo file, bool hasHeader = true)
         {
             try
@@ -27,17 +33,20 @@ namespace HSLProcessor
                 if (!hasHeader)
                     i = -1;
 
+                // Begin loading
                 while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine();
                     if (i > 0)
                     {
+                        // Rudimentary split
                         var splitted = line.Split(',');
 
                         var content = new CSVContent();
                         content.title = splitted[0];
                         content.artist = splitted[1];
 
+                        // If third argument is present, that's source/reference
                         if (splitted.Length == 3)
                         {
                             content.source = splitted[2];

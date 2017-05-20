@@ -9,12 +9,19 @@ namespace HSLProcessor
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(Exporter));
         public enum ExportResult { Success, Failed }
+
+        /// <summary>
+        /// Export to XML
+        /// </summary>
+        /// <param name="file">XML file to export to</param>
+        /// <returns>Result of the export</returns>
         public static ExportResult ExportXml(FileInfo file)
         {
             try
             {
                 HSLContext context = new HSLContext();
 
+                // Create a root element
                 XElement xl = new XElement("hsl");
                 foreach (var item in context.Songs)
                 {
@@ -26,6 +33,7 @@ namespace HSLProcessor
                     xl.Add(xl_item);
                 }
 
+                // Save to the file
                 xl.Save(new StreamWriter(new FileStream(file.FullName, FileMode.CreateNew)));
                 return ExportResult.Success;
             }

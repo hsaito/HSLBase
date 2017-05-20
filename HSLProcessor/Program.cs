@@ -35,6 +35,7 @@ namespace HSLProcessor
 
             Log.Debug("Starting the process.");
 
+            // No argument
             if (args.Length == 0)
             {
                 Log.Error("Missing arguments!");
@@ -65,12 +66,14 @@ namespace HSLProcessor
                         break;
                     }
 
+                // List
                 case "list":
                     {
-                        List.ListItems();
+                        Lister.List();
                         break;
                     }
 
+                // Export to XML
                 case "exportxml":
                     {
                         if (args.Length < 2)
@@ -82,6 +85,7 @@ namespace HSLProcessor
                         break;
                     }
 
+                // Import XML
                 case "importxml":
                     {
                         if (args.Length < 2)
@@ -92,6 +96,8 @@ namespace HSLProcessor
                         Importer.ImportXml(new FileInfo(args[1]));
                         break;
                     }
+
+                // Other (invalid) options
                 default:
                     {
                         Log.Error("Unknown option.");
