@@ -21,15 +21,12 @@ namespace HSLProcessor.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Artist")
-                        .IsRequired()
-                        .HasMaxLength(250);
+                        .IsRequired();
 
-                    b.Property<string>("Reference")
-                        .HasMaxLength(250);
+                    b.Property<string>("Reference");
 
                     b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(250);
+                        .IsRequired();
 
                     b.HasKey("Id");
 

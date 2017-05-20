@@ -8,7 +8,7 @@ using HSLProcessor;
 namespace HSLProcessor.Migrations
 {
     [DbContext(typeof(HSLContext))]
-    [Migration("20170520101820_Songs")]
+    [Migration("20170520111002_Songs")]
     partial class Songs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,15 +22,12 @@ namespace HSLProcessor.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Artist")
-                        .IsRequired()
-                        .HasMaxLength(250);
+                        .IsRequired();
 
-                    b.Property<string>("Reference")
-                        .HasMaxLength(250);
+                    b.Property<string>("Reference");
 
                     b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(250);
+                        .IsRequired();
 
                     b.HasKey("Id");
 

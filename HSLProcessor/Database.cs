@@ -13,11 +13,10 @@ namespace HSLProcessor
         [Required, Key]
         public Guid Id { get; set; }
 
-        [Required, StringLength(250)]
+        [Required]
         public string Title { get; set; }
-        [Required, StringLength(250)]
+        [Required]
         public string Artist { get; set; }
-        [StringLength(250)]
         public string Reference { get; set; }
     }
 

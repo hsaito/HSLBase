@@ -13,9 +13,9 @@ namespace HSLProcessor.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Artist = table.Column<string>(maxLength: 250, nullable: false),
-                    Reference = table.Column<string>(maxLength: 250, nullable: true),
-                    Title = table.Column<string>(maxLength: 250, nullable: false)
+                    Artist = table.Column<string>(nullable: false),
+                    Reference = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
