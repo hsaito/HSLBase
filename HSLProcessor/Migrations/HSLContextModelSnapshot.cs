@@ -20,6 +20,17 @@ namespace HSLProcessor.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Artist")
+                        .IsRequired()
+                        .HasMaxLength(250);
+
+                    b.Property<string>("Reference")
+                        .HasMaxLength(250);
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(250);
+
                     b.HasKey("Id");
 
                     b.ToTable("Songs");

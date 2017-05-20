@@ -30,7 +30,7 @@ namespace HSLProcessor
                     Console.Write(".");
                     var song = new Song
                     {
-                        Id = Guid.NewGuid(),
+                        //Id = Guid.NewGuid(),
                         Title = item.title,
                         Artist = item.artist,
                         Reference = item.source,

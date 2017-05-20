@@ -12,7 +12,10 @@ namespace HSLProcessor.Migrations
                 name: "Songs",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false)
+                    Id = table.Column<Guid>(nullable: false),
+                    Artist = table.Column<string>(maxLength: 250, nullable: false),
+                    Reference = table.Column<string>(maxLength: 250, nullable: true),
+                    Title = table.Column<string>(maxLength: 250, nullable: false)
                 },
                 constraints: table =>
                 {

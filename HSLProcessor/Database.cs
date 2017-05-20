@@ -3,22 +3,27 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HSLProcessor
 {
+    [Table("Song")]
     public class Song
     {
-        [Key]
-        public Guid Id;
+        [Required, Key]
+        public Guid Id { get; set; }
 
-        public string Title;
-        public string Artist;
-        public string Reference;
+        [Required, StringLength(250)]
+        public string Title { get; set; }
+        [Required, StringLength(250)]
+        public string Artist { get; set; }
+        [StringLength(250)]
+        public string Reference { get; set; }
     }
 
     public class HSLContext : DbContext
     {
-        public DbSet<Song> Songs { get; set; }
+        public virtual DbSet<Song> Songs { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -27,8 +32,9 @@ namespace HSLProcessor
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             modelBuilder.Entity<Song>().HasKey("Id");
+            modelBuilder.Entity<Song>().ToTable("Songs");
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
