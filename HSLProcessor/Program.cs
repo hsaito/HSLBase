@@ -79,6 +79,17 @@ namespace HSLProcessor
                         Exporter.ExportXml(new FileInfo(args[1]));
                         break;
                     }
+
+                case "importxml":
+                    {
+                        if (args.Length < 2)
+                        {
+                            Log.Error("Missing file name.");
+                            return -1;
+                        }
+                        Importer.ImportXml(new FileInfo(args[1]));
+                        break;
+                    }
                 default:
                     {
                         Log.Error("Unknown option.");

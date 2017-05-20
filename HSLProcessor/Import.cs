@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Xml.Linq;
 using log4net;
 
 namespace HSLProcessor
@@ -49,5 +50,33 @@ namespace HSLProcessor
                 return ImportResult.Failed;
             }
         }
+
+        public static ImportResult ImportXml(FileInfo file)
+        {
+            try
+            {
+                HSLContext context = new HSLContext();
+                XElement xl = XElement.Load(file.FullName);
+
+                foreach(var item in xl.Elements("entry"))
+                {
+                    var entry = new Song();
+                    entry.Id = new Guid(item.Attribute("id").Value);
+                    entry.Title = item.Element("title").Value;
+                    entry.Artist = item.Element("artist").Value;
+                    entry.Reference = item.Element("source").Value;
+                    context.Add(entry);
+                }
+                context.SaveChanges();
+                return ImportResult.Success;
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Failed exporting to XML");
+                Log.Debug(ex.Message);
+                return ImportResult.Failed;
+            }
+        }
+
     }
 }
