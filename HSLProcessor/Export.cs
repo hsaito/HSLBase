@@ -8,7 +8,8 @@ namespace HSLProcessor
     static class Exporter
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(Exporter));
-        public static void ExportXml(FileInfo file)
+        public enum ExportResult { Success, Failed }
+        public static ExportResult ExportXml(FileInfo file)
         {
             try
             {
@@ -26,11 +27,13 @@ namespace HSLProcessor
                 }
 
                 xl.Save(new StreamWriter(new FileStream(file.FullName, FileMode.CreateNew)));
+                return ExportResult.Success;
             }
             catch (Exception ex)
             {
-                Log.Error("Failed exporting to XML");
+                Log.Error("Failed exporting to XML.");
                 Log.Debug(ex.Message);
+                return ExportResult.Failed;
             }
         }
     }

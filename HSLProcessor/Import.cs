@@ -10,7 +10,7 @@ namespace HSLProcessor
         private static readonly ILog Log = LogManager.GetLogger(typeof(Importer));
         public enum ImportResult { Success, Failed }
 
-        public static ImportResult Import(string filename)
+        public static ImportResult ImportCsv(string filename)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace HSLProcessor
             }
             catch (Exception ex)
             {
-                Log.Error("Import process failed.");
+                Log.Error("Failed importing CSV.");
                 Log.Debug(ex.Message);
                 return ImportResult.Failed;
             }
@@ -72,7 +72,7 @@ namespace HSLProcessor
             }
             catch (Exception ex)
             {
-                Log.Error("Failed exporting to XML");
+                Log.Error("Failed importing XML.");
                 Log.Debug(ex.Message);
                 return ImportResult.Failed;
             }
