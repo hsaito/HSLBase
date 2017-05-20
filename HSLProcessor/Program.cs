@@ -35,7 +35,7 @@ namespace HSLProcessor
 
             Log.Debug("Starting the process.");
 
-            if(args.Length == 0)
+            if (args.Length == 0)
             {
                 Log.Error("Missing arguments!");
                 return -1;
@@ -53,7 +53,7 @@ namespace HSLProcessor
 
                         var result = Importer.Import(args[1]);
 
-                        if(result == Importer.ImportResult.Failed)
+                        if (result == Importer.ImportResult.Failed)
                         {
                             Log.Error("Import failed");
 
@@ -62,10 +62,21 @@ namespace HSLProcessor
 
                         break;
                     }
-                    
-                    case "list":
+
+                case "list":
                     {
                         List.ListItems();
+                        break;
+                    }
+
+                case "exportxml":
+                    {
+                        if (args.Length < 2)
+                        {
+                            Log.Error("Missing file name.");
+                            return -1;
+                        }
+                        Exporter.ExportXml(new FileInfo(args[1]));
                         break;
                     }
                 default:
