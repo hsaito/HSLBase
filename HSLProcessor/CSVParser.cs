@@ -15,14 +15,18 @@ namespace HSLProcessor
             public string source;
         }
 
-        public static List<CSVContent> Load(FileInfo file)
+        public static List<CSVContent> Load(FileInfo file, bool hasHeader = true)
         {
             try
             {
                 var list = new List<CSVContent>();
                 var reader = new StreamReader(new FileStream(file.FullName, FileMode.Open));
 
+                // If no header, grab one from index 0
                 int i = 0;
+                if (!hasHeader)
+                    i = -1;
+
                 while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine();
