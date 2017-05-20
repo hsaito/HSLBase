@@ -35,15 +35,18 @@ namespace HSLProcessor
 
             Log.Debug("Starting the process.");
 
-            if(args.Length == 0)
+            // No argument
+            if (args.Length == 0)
             {
                 Log.Error("Missing arguments!");
+                Console.WriteLine("Options are: importcsv, importxml, importcsv, and list");
                 return -1;
             }
 
             switch (args[0])
             {
-                case "import":
+                // Import
+                case "importcsv":
                     {
                         if (args.Length < 2)
                         {
@@ -51,9 +54,9 @@ namespace HSLProcessor
                             return -1;
                         }
 
-                        var result = Importer.Import(args[1]);
+                        var result = Importer.ImportCsv(args[1]);
 
-                        if(result == Importer.ImportResult.Failed)
+                        if (result == Importer.ImportResult.Failed)
                         {
                             Log.Error("Import failed");
 
@@ -62,12 +65,39 @@ namespace HSLProcessor
 
                         break;
                     }
-                    
-                    case "list":
+
+                // List
+                case "list":
                     {
-                        List.ListItems();
+                        Lister.List();
                         break;
                     }
+
+                // Export to XML
+                case "exportxml":
+                    {
+                        if (args.Length < 2)
+                        {
+                            Log.Error("Missing file name.");
+                            return -1;
+                        }
+                        Exporter.ExportXml(new FileInfo(args[1]));
+                        break;
+                    }
+
+                // Import XML
+                case "importxml":
+                    {
+                        if (args.Length < 2)
+                        {
+                            Log.Error("Missing file name.");
+                            return -1;
+                        }
+                        Importer.ImportXml(new FileInfo(args[1]));
+                        break;
+                    }
+
+                // Other (invalid) options
                 default:
                     {
                         Log.Error("Unknown option.");

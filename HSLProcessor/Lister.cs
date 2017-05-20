@@ -2,13 +2,19 @@ using System;
 
 namespace HSLProcessor
 {
-    static class List
+    static class Lister
     {
-        public static void ListItems()
+        /// <summary>
+        /// List DB items
+        /// </summary>
+        public static void List()
         {
             HSLContext context = new HSLContext();
 
+            // For counting
             int i = 0;
+
+            // Display each item
             foreach (var item in context.Songs)
             {
                 Console.WriteLine(
@@ -16,6 +22,8 @@ namespace HSLProcessor
                     item.Id, item.Title, item.Artist, item.Reference));
                 i++;
             }
+
+            // Display count
             Console.WriteLine(string.Format("Count: {0}",i));
         }
     }
