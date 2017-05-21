@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using log4net;
 
@@ -11,11 +12,21 @@ namespace HSLProcessor
         public enum ImportResult { Success, Failed }
 
         /// <summary>
-        /// Import CSV file
+        /// Synchronous wrapper for importing CSV file
         /// </summary>
         /// <param name="filename">CSV file to import</param>
         /// <returns>Result of the import</returns>
         public static ImportResult ImportCsv(string filename)
+        {
+            return ImportCsvAsync(filename).Result;
+        }
+
+        /// <summary>
+        /// Import CSV file
+        /// </summary>
+        /// <param name="filename">CSV file to import</param>
+        /// <returns>Result of the import</returns>
+        public static async Task<ImportResult> ImportCsvAsync(string filename)
         {
             try
             {
@@ -46,12 +57,12 @@ namespace HSLProcessor
                     };
 
                     // Add to the DB
-                    context.Songs.Add(song);
+                    await context.Songs.AddAsync(song);
                 }
                 Console.WriteLine("Done");
 
                 // Save to DB
-                context.SaveChanges();
+                await context.SaveChangesAsync();
                 return ImportResult.Success;
             }
             catch (Exception ex)
@@ -63,11 +74,21 @@ namespace HSLProcessor
         }
 
         /// <summary>
+        /// Synchronous wrapper for importing XML file
+        /// </summary>
+        /// <param name="file">XML file to import</param>
+        /// <returns>Result of the import</returns>
+        public static ImportResult ImportXml(FileInfo file)
+        {
+            return ImportXmlAsync(file).Result;
+        }
+
+        /// <summary>
         /// Import XML file
         /// </summary>
         /// <param name="file">XML file to import</param>
         /// <returns>Result of the import<</returns>
-        public static ImportResult ImportXml(FileInfo file)
+        public static async Task<ImportResult> ImportXmlAsync(FileInfo file)
         {
             try
             {
@@ -85,10 +106,10 @@ namespace HSLProcessor
                     entry.Artist = item.Element("artist").Value;
                     entry.Reference = item.Element("source").Value;
                     // Add to DB
-                    context.Add(entry);
+                    await context.AddAsync(entry);
                 }
                 // Save to DB
-                context.SaveChanges();
+                await context.SaveChangesAsync();
                 return ImportResult.Success;
             }
             catch (Exception ex)
