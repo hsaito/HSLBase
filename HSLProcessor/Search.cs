@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using log4net;
 
@@ -23,7 +25,34 @@ namespace HSLProcessor
             var list = new List<Song>();
             try
             {
-                throw new NotImplementedException();
+                HSLContext context = new HSLContext();
+                List<Song> result;
+                switch (type)
+                {
+                    case SearchType.Title:
+                        {
+                            result = context.Songs.Where((item) => item.Title.Contains(query)).ToList();
+                            break;
+                        }
+
+                    case SearchType.Artist:
+                        {
+                            result = context.Songs.Where((item) => item.Artist.Contains(query)).ToList();
+                            break;
+                        }
+
+                    case SearchType.Source:
+                        {
+                            result = context.Songs.Where((item) => item.Reference.Contains(query)).ToList();
+                            break;
+                        }
+
+                    default:
+                        {
+                            throw new Exception("Invalid query type");
+                        }
+                }
+                return (SearchResult.Success, result);
             }
             catch (Exception ex)
             {
