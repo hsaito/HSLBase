@@ -37,13 +37,15 @@ namespace HSLProcessor
 
                     case SearchType.Artist:
                         {
-                            result = context.Songs.Where((item) => item.Artist.Contains(query)).ToList();
+                            result = null;
+                            //result = context.Songs.Where((item) => item.Artist.Contains(query)).ToList();
                             break;
                         }
 
                     case SearchType.Source:
                         {
-                            result = context.Songs.Where((item) => item.Source.Contains(query)).ToList();
+                            result = null;
+                            //result = context.Songs.Where((item) => item.Source.Contains(query)).ToList();
                             break;
                         }
 

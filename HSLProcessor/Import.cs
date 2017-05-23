@@ -48,27 +48,38 @@ namespace HSLProcessor
                 foreach (var item in result)
                 {
                     Console.Write(".");
-                    var song = new Song
-                    {
-                        //Id = Guid.NewGuid(),
-                        Title = item.title,
-                        Artist = item.artist,
-                        Source = item.source,
-                    };
+                    var song = new Song();
+
+                    song.Title = item.title;
+
+                    var artist = new Artist();
+                    artist.Name = item.artist;
+                    var source = new Source();
+                    source.Name = item.source;
+
+                    var artist_item = Utils.GetOrAddArtist(artist).Id;
+                    var source_item = Utils.GetOrAddSource(source).Id;
+
+                    song.ArtistForeignKey = artist_item;
+                    song.SourceForeignKey = source_item;
 
                     // Add to the DB
                     await context.Songs.AddAsync(song);
                 }
                 Console.WriteLine("Done");
 
+                Console.Write("Saving...");
                 // Save to DB
                 await context.SaveChangesAsync();
+                Console.WriteLine("Done");
                 return ImportResult.Success;
             }
             catch (Exception ex)
             {
                 Log.Error("Failed importing CSV.");
                 Log.Debug(ex.Message);
+                if(ex.InnerException != null)
+                    Log.Debug(ex.InnerException.Message);
                 return ImportResult.Failed;
             }
         }
@@ -103,8 +114,8 @@ namespace HSLProcessor
                     var entry = new Song();
                     entry.Id = new Guid(item.Attribute("id").Value);
                     entry.Title = item.Element("title").Value;
-                    entry.Artist = item.Element("artist").Value;
-                    entry.Source = item.Element("source").Value;
+                    //entry.Artist = item.Element("artist").Value;
+                    //entry.Source = item.Element("source").Value;
                     // Add to DB
                     await context.AddAsync(entry);
                 }
