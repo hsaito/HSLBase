@@ -29,7 +29,7 @@ namespace HSLProcessor
                     xl_item.SetAttributeValue("id", item.Id);
                     xl_item.SetElementValue("title", item.Title);
                     xl_item.SetElementValue("artist", item.Artist);
-                    xl_item.SetElementValue("source", item.Reference);
+                    xl_item.SetElementValue("source", item.Source);
                     xl.Add(xl_item);
                 }
 

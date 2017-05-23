@@ -43,7 +43,7 @@ namespace HSLProcessor
 
                     case SearchType.Source:
                         {
-                            result = context.Songs.Where((item) => item.Reference.Contains(query)).ToList();
+                            result = context.Songs.Where((item) => item.Source.Contains(query)).ToList();
                             break;
                         }
 

@@ -17,7 +17,7 @@ namespace HSLProcessor
         public string Title { get; set; }
         [Required]
         public string Artist { get; set; }
-        public string Reference { get; set; }
+        public string Source { get; set; }
     }
 
     public class HSLContext : DbContext

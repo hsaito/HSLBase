@@ -14,7 +14,7 @@ namespace HSLProcessor.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Artist = table.Column<string>(nullable: false),
-                    Reference = table.Column<string>(nullable: true),
+                    Source = table.Column<string>(nullable: true),
                     Title = table.Column<string>(nullable: false)
                 },
                 constraints: table =>

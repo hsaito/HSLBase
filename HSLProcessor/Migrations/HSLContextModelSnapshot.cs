@@ -23,7 +23,7 @@ namespace HSLProcessor.Migrations
                     b.Property<string>("Artist")
                         .IsRequired();
 
-                    b.Property<string>("Reference");
+                    b.Property<string>("Source");
 
                     b.Property<string>("Title")
                         .IsRequired();

@@ -53,7 +53,7 @@ namespace HSLProcessor
                         //Id = Guid.NewGuid(),
                         Title = item.title,
                         Artist = item.artist,
-                        Reference = item.source,
+                        Source = item.source,
                     };
 
                     // Add to the DB
@@ -104,7 +104,7 @@ namespace HSLProcessor
                     entry.Id = new Guid(item.Attribute("id").Value);
                     entry.Title = item.Element("title").Value;
                     entry.Artist = item.Element("artist").Value;
-                    entry.Reference = item.Element("source").Value;
+                    entry.Source = item.Element("source").Value;
                     // Add to DB
                     await context.AddAsync(entry);
                 }
