@@ -114,12 +114,45 @@ namespace HSLProcessor
                     var entry = new Song();
                     entry.SongId = new Guid(item.Attribute("id").Value);
                     entry.Title = item.Element("title").Value;
-                    //entry.Artist = item.Element("artist").Value;
-                    //entry.Source = item.Element("source").Value;
+                    entry.ArtistId = new Guid(item.Element("artist").Attribute("id").Value);
+                    entry.SourceId = new Guid(item.Element("source").Attribute("id").Value);
+                    
+                    // Create and add artist entry
+                    var artist = new Artist();
+                    if(item.Element("artist") != null)
+                    {
+
+                        artist.ArtistId = entry.ArtistId;
+                        artist.Name = item.Element("artist").Value;
+                        Utils.GetOrAddArtist(artist, ref context);
+                    }
+                    else
+                    {
+                        artist.Name = "";
+                        Utils.GetOrAddArtist(artist, ref context);
+                    }
+
+                    // Create and add source entry
+                    var source = new Source();
+                    if(item.Element("source") != null)
+                    {
+                        source.SourceId = entry.SourceId;
+                        source.Name = item.Element("source").Value;
+                        Utils.GetOrAddSource(source, ref context);
+                    }
+                    else
+                    {
+                        source.Name = "";
+                        Utils.GetOrAddSource(source, ref context);
+                    }
+
+
                     // Add to DB
                     await context.AddAsync(entry);
+                    await context.SaveChangesAsync();
                 }
                 // Save to DB
+                context.LoadRelations();
                 await context.SaveChangesAsync();
                 return ImportResult.Success;
             }
