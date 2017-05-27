@@ -57,11 +57,11 @@ namespace HSLProcessor
                     var source = new Source();
                     source.Name = item.source;
 
-                    var artist_item = Utils.GetOrAddArtist(artist, ref context).Id;
-                    var source_item = Utils.GetOrAddSource(source, ref context).Id;
+                    var artist_item = Utils.GetOrAddArtist(artist, ref context).ArtistId;
+                    var source_item = Utils.GetOrAddSource(source, ref context).SourceId;
 
-                    song.ArtistForeignKey = artist_item;
-                    song.SourceForeignKey = source_item;
+                    song.ArtistId = artist_item;
+                    song.SourceId = source_item;
 
                     // Add to the DB
                     await context.Songs.AddAsync(song);
@@ -112,7 +112,7 @@ namespace HSLProcessor
                 foreach (var item in xl.Elements("entry"))
                 {
                     var entry = new Song();
-                    entry.Id = new Guid(item.Attribute("id").Value);
+                    entry.SongId = new Guid(item.Attribute("id").Value);
                     entry.Title = item.Element("title").Value;
                     //entry.Artist = item.Element("artist").Value;
                     //entry.Source = item.Element("source").Value;

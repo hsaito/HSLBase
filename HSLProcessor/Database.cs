@@ -11,23 +11,25 @@ namespace HSLProcessor
     public class Song
     {
         [Required, Key]
-        public Guid Id { get; set; }
+        public Guid SongId { get; set; }
 
         [Required]
         public string Title { get; set; }
-        public Guid ArtistForeignKey;
-        [ForeignKey("ArtistForeignKey")]
-        public Artist Artist { get; set; }
-        public Guid SourceForeignKey;
-        [ForeignKey("SourceForeignKey")]
-        public Source Source { get; set; }
+
+        public Guid ArtistId { get; set; }
+        [ForeignKey("ArtistId")]
+        public virtual Artist Artist { get; set; }
+
+        public Guid SourceId { get; set; }
+        [ForeignKey("SourceId")]
+        public virtual Source Source { get; set; }
     }
 
     [Table("Artist")]
     public class Artist
     {
         [Required, Key]
-        public Guid Id { get; set; }
+        public Guid ArtistId { get; set; }
         [Required]
         public string Name { get; set; }
     }
@@ -36,7 +38,7 @@ namespace HSLProcessor
     public class Source
     {
         [Required, Key]
-        public Guid Id { get; set; }
+        public Guid SourceId { get; set; }
         [Required]
         public string Name { get; set; }
     }
@@ -45,32 +47,44 @@ namespace HSLProcessor
     public class Series
     {
         [Required, Key]
-        public Guid Id { get; set; }
+        public Guid SeriesId { get; set; }
         [Required]
         public string Name { get; set; }
-        public List<Source> Source {get; set; }
-}
-
-public class HSLContext : DbContext
-{
-    public virtual DbSet<Song> Songs { get; set; }
-    public virtual DbSet<Artist> Artists { get; set; }
-    public virtual DbSet<Source> Sources { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlite("Data Source=HSL.db");
+        public List<Source> Source { get; set; }
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    public class HSLContext : DbContext
     {
-        modelBuilder.Entity<Song>().HasKey("Id");
-        modelBuilder.Entity<Artist>().HasKey("Id");
-        modelBuilder.Entity<Source>().HasKey("Id");
-        modelBuilder.Entity<Song>().ToTable("Songs");
-        modelBuilder.Entity<Artist>().ToTable("Artists");
-        modelBuilder.Entity<Source>().ToTable("Sources");
-        base.OnModelCreating(modelBuilder);
+        public virtual DbSet<Song> Songs { get; set; }
+        public virtual DbSet<Artist> Artists { get; set; }
+        public virtual DbSet<Source> Sources { get; set; }
+
+        /// <summary>
+        /// Explicitly load tables
+        /// </summary>
+        public void LoadRelations()
+        {
+            foreach(var song in Songs)
+            {
+                song.Artist = Artists.Find(song.ArtistId);
+                song.Source = Sources.Find(song.SourceId);
+            }
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite("Data Source=HSL.db");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Song>().HasKey("SongId");
+            modelBuilder.Entity<Artist>().HasKey("ArtistId");
+            modelBuilder.Entity<Source>().HasKey("SourceId");
+            modelBuilder.Entity<Song>().ToTable("Songs");
+            modelBuilder.Entity<Artist>().ToTable("Artists");
+            modelBuilder.Entity<Source>().ToTable("Sources");
+            base.OnModelCreating(modelBuilder);
+        }
     }
-}
 }

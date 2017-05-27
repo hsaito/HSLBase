@@ -21,7 +21,7 @@ namespace HSLProcessor
             }
             else
             {
-                return context.Artists.Find(result.First().Id);
+                return context.Artists.Find(result.First().ArtistId);
             }
         }
 
@@ -41,7 +41,7 @@ namespace HSLProcessor
             }
             else
             {
-                return context.Sources.Find(result.First().Id);
+                return context.Sources.Find(result.First().SourceId);
             }
 
         }

@@ -21,15 +21,26 @@ namespace HSLProcessor
             {
                 HSLContext context = new HSLContext();
 
+                context.LoadRelations();
+
                 // Create a root element
                 XElement xl = new XElement("hsl");
                 foreach (var item in context.Songs)
                 {
                     XElement xl_item = new XElement("entry");
-                    xl_item.SetAttributeValue("id", item.Id);
+                    xl_item.SetAttributeValue("id", item.SongId);
                     xl_item.SetElementValue("title", item.Title);
-                    xl_item.SetElementValue("artist", item.Artist);
-                    xl_item.SetElementValue("source", item.Source);
+
+                    XElement xl_artist = new XElement("artist");
+                    xl_artist.SetAttributeValue("id",item.Artist.ArtistId);
+                    xl_artist.Value = item.Artist.Name;
+                    xl_item.Add(xl_artist);
+
+                    XElement xl_source = new XElement("source");
+                    xl_source.SetAttributeValue("id",item.Source.SourceId);
+                    xl_source.Value = item.Source.Name;
+                    xl_item.Add(xl_source);
+
                     xl.Add(xl_item);
                 }
 

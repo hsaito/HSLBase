@@ -17,64 +17,47 @@ namespace HSLProcessor.Migrations
 
             modelBuilder.Entity("HSLProcessor.Artist", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("ArtistId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.HasKey("Id");
+                    b.HasKey("ArtistId");
 
                     b.ToTable("Artists");
                 });
 
-            modelBuilder.Entity("HSLProcessor.Series", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Series");
-                });
-
             modelBuilder.Entity("HSLProcessor.Song", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("SongId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("ArtistForeignKey");
+                    b.Property<Guid>("ArtistId");
 
-                    b.Property<Guid>("SourceForeignKey");
+                    b.Property<Guid>("SourceId");
 
                     b.Property<string>("Title")
                         .IsRequired();
 
-                    b.HasKey("Id");
+                    b.HasKey("SongId");
 
-                    b.HasIndex("ArtistForeignKey");
+                    b.HasIndex("ArtistId");
 
-                    b.HasIndex("SourceForeignKey");
+                    b.HasIndex("SourceId");
 
                     b.ToTable("Songs");
                 });
 
             modelBuilder.Entity("HSLProcessor.Source", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("SourceId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<Guid?>("SeriesId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SeriesId");
+                    b.HasKey("SourceId");
 
                     b.ToTable("Sources");
                 });
@@ -83,20 +66,13 @@ namespace HSLProcessor.Migrations
                 {
                     b.HasOne("HSLProcessor.Artist", "Artist")
                         .WithMany()
-                        .HasForeignKey("ArtistForeignKey")
+                        .HasForeignKey("ArtistId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HSLProcessor.Source", "Source")
                         .WithMany()
-                        .HasForeignKey("SourceForeignKey")
+                        .HasForeignKey("SourceId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("HSLProcessor.Source", b =>
-                {
-                    b.HasOne("HSLProcessor.Series")
-                        .WithMany("Source")
-                        .HasForeignKey("SeriesId");
                 });
         }
     }
