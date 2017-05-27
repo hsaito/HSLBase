@@ -57,8 +57,8 @@ namespace HSLProcessor
                     var source = new Source();
                     source.Name = item.source;
 
-                    var artist_item = Utils.GetOrAddArtist(artist).Id;
-                    var source_item = Utils.GetOrAddSource(source).Id;
+                    var artist_item = Utils.GetOrAddArtist(artist, ref context).Id;
+                    var source_item = Utils.GetOrAddSource(source, ref context).Id;
 
                     song.ArtistForeignKey = artist_item;
                     song.SourceForeignKey = source_item;
@@ -70,7 +70,7 @@ namespace HSLProcessor
 
                 Console.Write("Saving...");
                 // Save to DB
-                await context.SaveChangesAsync();
+                await context.SaveChangesAsync(true);
                 Console.WriteLine("Done");
                 return ImportResult.Success;
             }

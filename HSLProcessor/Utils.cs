@@ -10,16 +10,19 @@ namespace HSLProcessor
         /// </summary>
         /// <param name="artist">Artist class</param>
         /// <returns>Result of the artist</returns>
-        public static Artist GetOrAddArtist(Artist artist)
+        public static Artist GetOrAddArtist(Artist artist, ref HSLContext context)
         {
-            HSLContext context = new HSLContext();
-            artist.Id = Guid.NewGuid();
             var result = context.Artists.Where((item) => item.Name == artist.Name);
             if (result.Count() == 0)
             {
                 context.Artists.Add(artist);
+                context.SaveChanges();
+                return artist;
             }
-            return artist;
+            else
+            {
+                return context.Artists.Find(result.First().Id);
+            }
         }
 
                 /// <summary>
@@ -27,16 +30,20 @@ namespace HSLProcessor
         /// </summary>
         /// <param name="artist">Artist class</param>
         /// <returns>Result of the artist</returns>
-        public static Source GetOrAddSource(Source source)
+        public static Source GetOrAddSource(Source source, ref HSLContext context)
         {
-            HSLContext context = new HSLContext();
-            source.Id = Guid.NewGuid();
             var result = context.Sources.Where((item) => item.Name == source.Name);
             if (result.Count() == 0)
             {
                 context.Sources.Add(source);
+                context.SaveChanges();
+                return source;
             }
-            return source;
+            else
+            {
+                return context.Sources.Find(result.First().Id);
+            }
+
         }
     }
 }
