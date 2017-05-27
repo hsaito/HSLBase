@@ -11,6 +11,7 @@ namespace HSLProcessor
         public static void List()
         {
             HSLContext context = new HSLContext();
+            context.LoadRelations();
 
             // For counting
             int i = 0;
@@ -20,7 +21,7 @@ namespace HSLProcessor
             {
                 Console.WriteLine(
                     string.Format("Id: {0} Title: {1} Artist: {2} Source: {3}",
-                    item.SongId, item.Title, item.Artist, item.Source));
+                    item.SongId, item.Title, item.Artist.Name, item.Source.Name));
                 i++;
             }
 
@@ -39,7 +40,7 @@ namespace HSLProcessor
             {
                 Console.WriteLine(
                     string.Format("Id: {0} Title: {1} Artist: {2} Source: {3}",
-                    item.SongId, item.Title, item.Artist, item.Source));
+                    item.SongId, item.Title, item.Artist.Name, item.Source.Name));
                 i++;
             }
             Console.WriteLine(string.Format("Count: {0}", i));

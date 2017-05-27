@@ -26,6 +26,7 @@ namespace HSLProcessor
             try
             {
                 HSLContext context = new HSLContext();
+                context.LoadRelations();
                 List<Song> result;
                 switch (type)
                 {
@@ -38,14 +39,14 @@ namespace HSLProcessor
                     case SearchType.Artist:
                         {
                             result = null;
-                            //result = context.Songs.Where((item) => item.Artist.Contains(query)).ToList();
+                            result = context.Songs.Where((item) => item.Artist.Name.Contains(query)).ToList();
                             break;
                         }
 
                     case SearchType.Source:
                         {
                             result = null;
-                            //result = context.Songs.Where((item) => item.Source.Contains(query)).ToList();
+                            result = context.Songs.Where((item) => item.Source.Name.Contains(query)).ToList();
                             break;
                         }
 
