@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace HSLProcessor
 {
@@ -10,6 +11,7 @@ namespace HSLProcessor
         public static void List()
         {
             HSLContext context = new HSLContext();
+            context.LoadRelations();
 
             // For counting
             int i = 0;
@@ -19,12 +21,29 @@ namespace HSLProcessor
             {
                 Console.WriteLine(
                     string.Format("Id: {0} Title: {1} Artist: {2} Source: {3}",
-                    item.Id, item.Title, item.Artist, item.Reference));
+                    item.SongId, item.Title, item.Artist.Name, item.Source.Name));
                 i++;
             }
 
             // Display count
-            Console.WriteLine(string.Format("Count: {0}",i));
+            Console.WriteLine(string.Format("Count: {0}", i));
+        }
+
+        /// <summary>
+        /// List songs from the list of Song class
+        /// </summary>
+        /// <param name="songs">List of songs</param>
+        public static void List(List<Song> songs)
+        {
+            int i = 0;
+            foreach (var item in songs)
+            {
+                Console.WriteLine(
+                    string.Format("Id: {0} Title: {1} Artist: {2} Source: {3}",
+                    item.SongId, item.Title, item.Artist.Name, item.Source.Name));
+                i++;
+            }
+            Console.WriteLine(string.Format("Count: {0}", i));
         }
     }
 }

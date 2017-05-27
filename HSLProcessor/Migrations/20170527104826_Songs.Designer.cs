@@ -8,9 +8,10 @@ using HSLProcessor;
 namespace HSLProcessor.Migrations
 {
     [DbContext(typeof(HSLContext))]
-    partial class HSLContextModelSnapshot : ModelSnapshot
+    [Migration("20170527104826_Songs")]
+    partial class Songs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2");
