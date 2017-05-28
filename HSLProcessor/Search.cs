@@ -64,5 +64,57 @@ namespace HSLProcessor
                 return (SearchResult.Failed, list);
             }
         }
+
+                /// <summary>
+        /// Search the database
+        /// </summary>
+        /// <param name="query">Guid to search</param>
+        /// <param name="type">Search field</param>
+        /// <returns>List of the result as Song class</returns>
+        public static (SearchResult result, List<Song> hit) Search(Guid query, SearchType type)
+        {
+            var list = new List<Song>();
+            try
+            {
+                HSLContext context = new HSLContext();
+                context.LoadRelations();
+                List<Song> result;
+                switch (type)
+                {
+                    case SearchType.Title:
+                        {
+                            result = new List<Song>();
+                            result = context.Songs.Where((item) => item.SongId == query).ToList();
+                            break;
+                        }
+
+                    case SearchType.Artist:
+                        {
+                            result = null;
+                            result = context.Songs.Where((item) => item.Artist.ArtistId == query).ToList();
+                            break;
+                        }
+
+                    case SearchType.Source:
+                        {
+                            result = null;
+                            result = context.Songs.Where((item) => item.Source.SourceId == query).ToList();
+                            break;
+                        }
+
+                    default:
+                        {
+                            throw new Exception("Invalid query type");
+                        }
+                }
+                return (SearchResult.Success, result);
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Failed searching the database");
+                Log.Debug(ex.Message);
+                return (SearchResult.Failed, list);
+            }
+        }
     }
 }
