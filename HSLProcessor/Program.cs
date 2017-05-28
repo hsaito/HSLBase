@@ -125,9 +125,21 @@ namespace HSLProcessor
                         }
 
                         // Uniquify + Sort
-                        var unique_list = hit.GroupBy(song => song.SongId).Select(group => group.First()).ToList();
+                        var unique_list = hit.GroupBy(song => song.TitleId).Select(group => group.First()).ToList();
                         unique_list = unique_list.OrderBy(list => list.Title).ToList();
                         Lister.List(unique_list.ToList());
+                        break;
+                    }
+
+                // Generate HTML static pages
+                case "generatehtml":
+                    {
+                        if (args.Length < 2)
+                        {
+                            Log.Error("Missing file name.");
+                            return -1;
+                        }
+                        PageGenerator.Generate(new DirectoryInfo(args[1]));
                         break;
                     }
 

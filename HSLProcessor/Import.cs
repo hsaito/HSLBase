@@ -112,7 +112,7 @@ namespace HSLProcessor
                 foreach (var item in xl.Elements("entry"))
                 {
                     var entry = new Song();
-                    entry.SongId = new Guid(item.Attribute("id").Value);
+                    entry.TitleId = new Guid(item.Attribute("id").Value);
                     entry.Title = item.Element("title").Value;
                     entry.ArtistId = new Guid(item.Element("artist").Attribute("id").Value);
                     entry.SourceId = new Guid(item.Element("source").Attribute("id").Value);

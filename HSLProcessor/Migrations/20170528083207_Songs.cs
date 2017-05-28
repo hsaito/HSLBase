@@ -36,14 +36,14 @@ namespace HSLProcessor.Migrations
                 name: "Songs",
                 columns: table => new
                 {
-                    SongId = table.Column<Guid>(nullable: false),
+                    TitleId = table.Column<Guid>(nullable: false),
                     ArtistId = table.Column<Guid>(nullable: false),
                     SourceId = table.Column<Guid>(nullable: false),
                     Title = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Songs", x => x.SongId);
+                    table.PrimaryKey("PK_Songs", x => x.TitleId);
                     table.ForeignKey(
                         name: "FK_Songs_Artists_ArtistId",
                         column: x => x.ArtistId,
