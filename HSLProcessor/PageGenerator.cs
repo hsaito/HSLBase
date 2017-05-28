@@ -21,9 +21,13 @@ namespace HSLProcessor
         {
             try
             {
+                Log.Info("Generate top page...");
                 GenerateListing(directory);
+                Log.Info("Generating title details page...");
                 GenerateTitleDetail(new DirectoryInfo(directory.FullName + "/title"));
+                Log.Info("Generating artist details page...");
                 GenerateArtistDetail(new DirectoryInfo(directory.FullName + "/artist"));
+                Log.Info("Generating source details page...");
                 GenerateSourceDetail(new DirectoryInfo(directory.FullName + "/source"));
                 return GenerateResult.Success;
             }
@@ -67,15 +71,15 @@ namespace HSLProcessor
                 foreach (var item in song_list)
                 {
                     var item_template = title_template;
-                    var title_detail = string.Format("<li>Title: {0}</li>\r\n", item.Title);
+                    var title_detail = string.Format("<ul>\r\n<li>Title: {0}</li>\r\n", item.Title);
                     var artist_detail = "";
                     if (item.Artist.Name != "")
                         artist_detail = string.Format("<li>Artist: <a href=\"../artist/{1}.html\">{0}</a></li>\r\n", item.Artist.Name, item.Artist.ArtistId);
                     var source_detail = "";
                     if (item.Source.Name != "")
-                        source_detail = string.Format("<li>Source: <a href=\"../source/{1}.html\">{0}", item.Source.Name, item.Source.SourceId);
+                        source_detail = string.Format("<li>Source: <a href=\"../source/{1}.html\">{0}</a></li>\r\n", item.Source.Name, item.Source.SourceId);
 
-                    title_detail += artist_detail + source_detail;
+                    title_detail += artist_detail + source_detail+"</ul>";
 
                     item_template = item_template.Replace("{{title}}", item.Title);
                     item_template = item_template.Replace("{{content}}", title_detail);
