@@ -131,6 +131,18 @@ namespace HSLProcessor
                         break;
                     }
 
+                // Generate HTML static pages
+                case "generatehtml":
+                    {
+                        if (args.Length < 2)
+                        {
+                            Log.Error("Missing file name.");
+                            return -1;
+                        }
+                        PageGenerator.Generate(new DirectoryInfo(args[1]));
+                        break;
+                    }
+
                 // Other (invalid) options
                 default:
                     {
