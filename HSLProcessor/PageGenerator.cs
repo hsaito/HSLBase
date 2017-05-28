@@ -12,7 +12,11 @@ namespace HSLProcessor
         private static readonly ILog Log = LogManager.GetLogger(typeof(PageGenerator));
         public enum GenerateResult { Success, Failed }
 
-
+        /// <summary>
+        ///  Generate HTML pages based on DB entries
+        /// </summary>
+        /// <param name="directory">Directory (root) to export files</param>
+        /// <returns>Result of the process</returns>
         public static GenerateResult Generate(DirectoryInfo directory)
         {
             try
@@ -66,10 +70,10 @@ namespace HSLProcessor
                     var title_detail = string.Format("<li>Title: {0}</li>\r\n", item.Title);
                     var artist_detail = "";
                     if (item.Artist.Name != "")
-                        artist_detail = string.Format("<li>Artist: {0}</li>\r\n", item.Artist.Name);
+                        artist_detail = string.Format("<li>Artist: <a href=\"../artist/{1}.html\">{0}</a></li>\r\n", item.Artist.Name, item.Artist.ArtistId);
                     var source_detail = "";
                     if (item.Source.Name != "")
-                        source_detail = string.Format("<li>Source: {0}", item.Source.Name);
+                        source_detail = string.Format("<li>Source: <a href=\"../source/{1}.html\">{0}", item.Source.Name, item.Source.SourceId);
 
                     title_detail += artist_detail + source_detail;
 
