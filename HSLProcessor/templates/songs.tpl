@@ -15,6 +15,31 @@
             border: solid 1px;
             padding: 2px;
         }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        a:link {
+            text-decoration: none;
+            color: black;
+        }
+
+        a:visited {
+            text-decoration: none;
+            color: black;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: blue;
+        }
+
+        a:active {
+            text-decoration-style: underline;
+            color: darkgreen;
+        }
     </style>
 </head>
 
