@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using log4net;
@@ -136,6 +137,9 @@ namespace HSLProcessor
 
                     var (_, list) = Searcher.Search(item.ArtistId, Searcher.SearchType.Artist);
 
+                    // Sort the list
+                    list = list.OrderBy(o => o.Title).ToList();
+
                     var song_list_content = "<table id=\"content_table\"><tr class=\"row\"><th class=\"cell table_head\">Title</th><th class=\"cell table_head\">Source</th></tr>\r\n";
                     foreach (var title_item in list)
                     {
@@ -198,6 +202,9 @@ namespace HSLProcessor
 
                     var (_, list) = Searcher.Search(item.SourceId, Searcher.SearchType.Source);
 
+                    // Sort the list
+                    list = list.OrderBy(o => o.Title).ToList();
+
                     var song_list_content = "<table id=\"content_table\"><tr class=\"row\"><th class=\"cell table_head\">Title</th><th class=\"cell table_head\">Artist</th></tr>\r\n";
                     foreach (var title_item in list)
                     {
@@ -245,6 +252,9 @@ namespace HSLProcessor
                 {
                     song_list.Add(item);
                 }
+
+                // Sort the list
+                song_list = song_list.OrderBy(o => o.Title).ToList();
 
                 var current_dir = System.IO.Path.GetDirectoryName(
                   System.Reflection.Assembly.GetEntryAssembly().Location);
