@@ -20,6 +20,7 @@ namespace HSLProcessor
                 GenerateListing(directory);
                 GenerateTitleDetail(new DirectoryInfo(directory.FullName + "/title"));
                 GenerateArtistDetail(new DirectoryInfo(directory.FullName + "/artist"));
+                GenerateSourceDetail(new DirectoryInfo(directory.FullName + "/source"));
                 return GenerateResult.Success;
             }
             catch (Exception ex)
@@ -130,7 +131,7 @@ namespace HSLProcessor
                     var song_list_content = "<table id=\"content_table\"><tr class=\"row\"><th class=\"cell table_head\">Title</th><th class=\"cell table_head\">Source</th></tr>\r\n";
                     foreach (var title_item in list)
                     {
-                        song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"../title/{2}.html\">{0}</a></td></td><td class=\"cell\"><a href=\"source/{3}.html\">{1}</a></td></tr>\r\n"
+                        song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"../title/{2}.html\">{0}</a></td></td><td class=\"cell\"><a href=\"../source/{3}.html\">{1}</a></td></tr>\r\n"
                         , title_item.Title, title_item.Source.Name, title_item.SongId, title_item.Source.SourceId);
                     }
                     song_list_content += "</table>";
@@ -152,6 +153,67 @@ namespace HSLProcessor
             }
         }
 
+        /// <summary>
+        /// Generate source details listing
+        /// </summary>
+        /// <param name="directory">Directory to export to</param>
+        /// <returns>Result of the export</returns>
+        public static GenerateResult GenerateSourceDetail(DirectoryInfo directory)
+        {
+            try
+            {
+                if (!directory.Exists)
+                    directory.Create();
+
+                HSLContext context = new HSLContext();
+
+                context.LoadRelations();
+
+                // Create a song list
+                var source_list = new List<Source>();
+                foreach (var item in context.Sources)
+                {
+                    source_list.Add(item);
+                }
+
+                var current_dir = System.IO.Path.GetDirectoryName(
+                  System.Reflection.Assembly.GetEntryAssembly().Location);
+
+                var source_template_reader = new StreamReader(new FileStream(current_dir + @"/templates/source.tpl", FileMode.Open));
+                var source_template = source_template_reader.ReadToEnd();
+
+                foreach (var item in source_list)
+                {
+                    var item_template = source_template;
+
+                    item_template = item_template.Replace("{{source}}", item.Name);
+
+                    var (_, list) = Searcher.Search(item.SourceId, Searcher.SearchType.Source);
+
+                    var song_list_content = "<table id=\"content_table\"><tr class=\"row\"><th class=\"cell table_head\">Title</th><th class=\"cell table_head\">Artist</th></tr>\r\n";
+                    foreach (var title_item in list)
+                    {
+                        song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"../title/{2}.html\">{0}</a></td></td><td class=\"cell\"><a href=\"../artist/{3}.html\">{1}</a></td></tr>\r\n"
+                        , title_item.Title, title_item.Artist.Name, title_item.SongId, title_item.Artist.ArtistId);
+                    }
+                    song_list_content += "</table>";
+
+                    item_template = item_template.Replace("{{content}}",song_list_content);
+                    
+                    var writer = new StreamWriter(new FileStream(directory.FullName + "/" + item.SourceId + ".html", FileMode.Create), Encoding.UTF8);
+                    writer.Write(item_template);
+                    writer.Flush();
+                }
+
+                return GenerateResult.Success;
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Failed exporting to XML.");
+                Log.Debug(ex.Message);
+                return GenerateResult.Failed;
+            }
+        }
 
         /// <summary>
         /// Generate title main listing
