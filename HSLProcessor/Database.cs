@@ -11,7 +11,7 @@ namespace HSLProcessor
     public class Song
     {
         [Required, Key]
-        public Guid SongId { get; set; }
+        public Guid TitleId { get; set; }
 
         [Required]
         public string Title { get; set; }
@@ -78,7 +78,7 @@ namespace HSLProcessor
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Song>().HasKey("SongId");
+            modelBuilder.Entity<Song>().HasKey("TitleId");
             modelBuilder.Entity<Artist>().HasKey("ArtistId");
             modelBuilder.Entity<Source>().HasKey("SourceId");
             modelBuilder.Entity<Song>().ToTable("Songs");

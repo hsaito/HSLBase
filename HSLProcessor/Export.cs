@@ -28,7 +28,7 @@ namespace HSLProcessor
                 foreach (var item in context.Songs)
                 {
                     XElement xl_item = new XElement("entry");
-                    xl_item.SetAttributeValue("id", item.SongId);
+                    xl_item.SetAttributeValue("id", item.TitleId);
                     xl_item.SetElementValue("title", item.Title);
 
                     XElement xl_artist = new XElement("artist");

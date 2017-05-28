@@ -30,7 +30,7 @@ namespace HSLProcessor.Migrations
 
             modelBuilder.Entity("HSLProcessor.Song", b =>
                 {
-                    b.Property<Guid>("SongId")
+                    b.Property<Guid>("TitleId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid>("ArtistId");
@@ -40,7 +40,7 @@ namespace HSLProcessor.Migrations
                     b.Property<string>("Title")
                         .IsRequired();
 
-                    b.HasKey("SongId");
+                    b.HasKey("TitleId");
 
                     b.HasIndex("ArtistId");
 

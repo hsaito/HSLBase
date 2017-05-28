@@ -84,7 +84,7 @@ namespace HSLProcessor
                     case SearchType.Title:
                         {
                             result = new List<Song>();
-                            result = context.Songs.Where((item) => item.SongId == query).ToList();
+                            result = context.Songs.Where((item) => item.TitleId == query).ToList();
                             break;
                         }
 

@@ -84,7 +84,7 @@ namespace HSLProcessor
                     item_template = item_template.Replace("{{title}}", item.Title);
                     item_template = item_template.Replace("{{content}}", title_detail);
 
-                    var writer = new StreamWriter(new FileStream(directory.FullName + "/" + item.SongId + ".html", FileMode.Create), Encoding.UTF8);
+                    var writer = new StreamWriter(new FileStream(directory.FullName + "/" + item.TitleId + ".html", FileMode.Create), Encoding.UTF8);
                     writer.Write(item_template);
                     writer.Flush();
                 }
@@ -140,7 +140,7 @@ namespace HSLProcessor
                     foreach (var title_item in list)
                     {
                         song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"../title/{2}.html\">{0}</a></td></td><td class=\"cell\"><a href=\"../source/{3}.html\">{1}</a></td></tr>\r\n"
-                        , title_item.Title, title_item.Source.Name, title_item.SongId, title_item.Source.SourceId);
+                        , title_item.Title, title_item.Source.Name, title_item.TitleId, title_item.Source.SourceId);
                     }
                     song_list_content += "</table>";
 
@@ -202,7 +202,7 @@ namespace HSLProcessor
                     foreach (var title_item in list)
                     {
                         song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"../title/{2}.html\">{0}</a></td></td><td class=\"cell\"><a href=\"../artist/{3}.html\">{1}</a></td></tr>\r\n"
-                        , title_item.Title, title_item.Artist.Name, title_item.SongId, title_item.Artist.ArtistId);
+                        , title_item.Title, title_item.Artist.Name, title_item.TitleId, title_item.Artist.ArtistId);
                     }
                     song_list_content += "</table>";
 
@@ -259,7 +259,7 @@ namespace HSLProcessor
                 foreach (var item in song_list)
                 {
                     song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"title/{3}.html\">{0}</a></td><td class=\"cell\"><a href=\"artist/{4}.html\">{1}</a></td><td class=\"cell\"><a href=\"source/{5}.html\">{2}</a></td></tr>\r\n"
-                    , item.Title, item.Artist.Name, item.Source.Name, item.SongId, item.Artist.ArtistId, item.Source.SourceId);
+                    , item.Title, item.Artist.Name, item.Source.Name, item.TitleId, item.Artist.ArtistId, item.Source.SourceId);
                 }
 
                 song_list_output = song_list_output.Replace("{{content}}", song_list_content);
