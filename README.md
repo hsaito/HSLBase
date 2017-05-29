@@ -39,8 +39,17 @@ dotnet run list
 It is now possible to search contents of the database, using `search` command.
 
 <pre>
-dotnet search text
+dotnet run search text
 </pre>
+
+### Delete the entry
+You can remove entry by passing GUID of item into `deleteitem` command.
+
+<pre>
+dotnet run deleteitem 09f8312f-51e1-4425-b739-4374b2d656d5
+</pre>
+
+GUID for item can be obtained through `list` or `search` command.
 
 ### XML export
 You can export contents of database into `exportxml` command. Exported file can be imported using `importxml` command. XML file is useful as it contains the whole data structure including internal identifier, which can be imported without loss of data.
