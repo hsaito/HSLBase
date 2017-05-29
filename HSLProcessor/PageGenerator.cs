@@ -30,11 +30,12 @@ namespace HSLProcessor
                 GenerateArtistDetail(new DirectoryInfo(directory.FullName + "/artist"));
                 Log.Info("Generating source details page...");
                 GenerateSourceDetail(new DirectoryInfo(directory.FullName + "/source"));
+                Log.Info("Generation completed.");
                 return GenerateResult.Success;
             }
             catch (Exception ex)
             {
-                Log.Error("Failed exporting to XML.");
+                Log.Error("HTML generation failed.");
                 Log.Debug(ex.Message);
                 return GenerateResult.Failed;
             }
@@ -80,7 +81,7 @@ namespace HSLProcessor
                     if (item.Source.Name != "")
                         source_detail = string.Format("<li>Source: <a href=\"../source/{1}.html\">{0}</a></li>\r\n", item.Source.Name, item.Source.SourceId);
 
-                    title_detail += artist_detail + source_detail+"</ul>";
+                    title_detail += artist_detail + source_detail + "</ul>";
 
                     item_template = item_template.Replace("{{title}}", item.Title);
                     item_template = item_template.Replace("{{content}}", title_detail);
@@ -96,7 +97,7 @@ namespace HSLProcessor
             }
             catch (Exception ex)
             {
-                Log.Error("Failed exporting to XML.");
+                Log.Error("Failed generating title detail.");
                 Log.Debug(ex.Message);
                 return GenerateResult.Failed;
             }
@@ -150,10 +151,10 @@ namespace HSLProcessor
                     }
                     song_list_content += "</table>";
 
-                    item_template = item_template.Replace("{{content}}",song_list_content);
+                    item_template = item_template.Replace("{{content}}", song_list_content);
 
                     item_template = item_template.Replace("{{generated}}", DateTime.UtcNow.ToString("u"));
-                    
+
                     var writer = new StreamWriter(new FileStream(directory.FullName + "/" + item.ArtistId + ".html", FileMode.Create), Encoding.UTF8);
                     writer.Write(item_template);
                     writer.Flush();
@@ -163,7 +164,7 @@ namespace HSLProcessor
             }
             catch (Exception ex)
             {
-                Log.Error("Failed exporting to XML.");
+                Log.Error("Failed generating artist detail.");
                 Log.Debug(ex.Message);
                 return GenerateResult.Failed;
             }
@@ -217,8 +218,8 @@ namespace HSLProcessor
                     }
                     song_list_content += "</table>";
 
-                    item_template = item_template.Replace("{{content}}",song_list_content);
-                    
+                    item_template = item_template.Replace("{{content}}", song_list_content);
+
                     item_template = item_template.Replace("{{generated}}", DateTime.UtcNow.ToString("u"));
 
                     var writer = new StreamWriter(new FileStream(directory.FullName + "/" + item.SourceId + ".html", FileMode.Create), Encoding.UTF8);
@@ -230,7 +231,7 @@ namespace HSLProcessor
             }
             catch (Exception ex)
             {
-                Log.Error("Failed exporting to XML.");
+                Log.Error("Failed generating source detail.");
                 Log.Debug(ex.Message);
                 return GenerateResult.Failed;
             }
@@ -284,7 +285,7 @@ namespace HSLProcessor
                 song_list_output = song_list_output.Replace("{{content}}", song_list_content);
 
                 songs_template = songs_template.Replace("{{content}}", song_list_output);
-                
+
                 songs_template = songs_template.Replace("{{generated}}", DateTime.UtcNow.ToString("u"));
 
                 var writer = new StreamWriter(new FileStream(directory.FullName + "/songs.html", FileMode.Create), Encoding.UTF8);
@@ -296,7 +297,7 @@ namespace HSLProcessor
             }
             catch (Exception ex)
             {
-                Log.Error("Failed exporting to XML.");
+                Log.Error("Failed generating top listing.");
                 Log.Debug(ex.Message);
                 return GenerateResult.Failed;
             }
