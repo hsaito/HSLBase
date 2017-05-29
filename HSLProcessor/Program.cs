@@ -41,7 +41,7 @@ namespace HSLProcessor
             if (args.Length == 0)
             {
                 Log.Error("Missing arguments!");
-                Console.WriteLine("Options are: importcsv, importxml, importcsv, exportxml, generatehtml and list");
+                Console.WriteLine("Options are: importcsv, importxml, importcsv, exportxml, generatehtml, deleteitem, and list");
                 return -1;
             }
 
@@ -140,6 +140,17 @@ namespace HSLProcessor
                             return -1;
                         }
                         PageGenerator.Generate(new DirectoryInfo(args[1]));
+                        break;
+                    }
+
+                case "deleteitem":
+                    {
+                        if (args.Length < 2)
+                        {
+                            Log.Error("Missing file name.");
+                            return -1;
+                        }
+                        Updater.Delete(new Guid(args[1]));
                         break;
                     }
 
