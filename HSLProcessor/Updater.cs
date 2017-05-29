@@ -30,6 +30,7 @@ namespace HSLProcessor
                 {
                     case UpdateType.Title:
                         {
+                            Log.Info(string.Format("Finding and deleting {0} for title.",item));
                             var entry = context.Songs.Find(item);
                             if (entry == null)
                                 return UpdateResult.Failed;
@@ -40,6 +41,7 @@ namespace HSLProcessor
 
                     case UpdateType.Artist:
                         {
+                            Log.Info(string.Format("Finding and deleting {0} for artist.",item));
                             var entry = context.Artists.Find(item);
                             if (entry == null)
                                 return UpdateResult.Failed;
@@ -50,6 +52,7 @@ namespace HSLProcessor
 
                     case UpdateType.Source:
                         {
+                            Log.Info(string.Format("Finding and deleting {0} for source.",item));
                             var entry = context.Sources.Find(item);
                             if (entry == null)
                                 return UpdateResult.Failed;
@@ -78,14 +81,21 @@ namespace HSLProcessor
         {
             try
             {
+                Log.Info(string.Format("Searching {0} for deletion.",item));
                 var result_title = Delete(item, UpdateType.Title) == UpdateResult.Success;
                 var result_artist = Delete(item, UpdateType.Artist) == UpdateResult.Success;
                 var result_source = Delete(item, UpdateType.Source) == UpdateResult.Success;
 
                 if (result_title || result_artist || result_source)
+                {
+                    Log.Info("Deletion completed.");
                     return UpdateResult.Success;
+                }
                 else
+                {
+                    Log.Info("No hit. No changes made.");
                     return UpdateResult.Failed;
+                }
             }
             catch (Exception ex)
             {

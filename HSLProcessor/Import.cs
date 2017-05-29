@@ -30,6 +30,7 @@ namespace HSLProcessor
         {
             try
             {
+                Log.Info("Importing a CSV file "+filename);
                 HSLContext context = new HSLContext();
                 var file = new FileInfo(filename);
 
@@ -71,7 +72,8 @@ namespace HSLProcessor
                 Console.Write("Saving...");
                 // Save to DB
                 await context.SaveChangesAsync(true);
-                Console.WriteLine("Done");
+                Console.WriteLine(" Done");
+                Log.Info("Import process completed.");
                 return ImportResult.Success;
             }
             catch (Exception ex)
@@ -103,6 +105,7 @@ namespace HSLProcessor
         {
             try
             {
+                Log.Info("Importing XML file "+file.Name);
                 HSLContext context = new HSLContext();
 
                 // Load the file
@@ -154,6 +157,7 @@ namespace HSLProcessor
                 // Save to DB
                 context.LoadRelations();
                 await context.SaveChangesAsync();
+                Log.Info("Import completed.");
                 return ImportResult.Success;
             }
             catch (Exception ex)
