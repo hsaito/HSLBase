@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Xml.Linq;
 using log4net;
@@ -85,7 +86,7 @@ namespace HSLProcessor
 
                     item_template = item_template.Replace("{{title}}", item.Title);
                     item_template = item_template.Replace("{{content}}", title_detail);
-
+                    item_template = item_template.Replace("{{title_urlencoded}}", WebUtility.HtmlEncode(item.Title));
                     item_template = item_template.Replace("{{generated}}", DateTime.UtcNow.ToString("u"));
 
                     var writer = new StreamWriter(new FileStream(directory.FullName + "/" + item.TitleId + ".html", FileMode.Create), Encoding.UTF8);
@@ -152,7 +153,7 @@ namespace HSLProcessor
                     song_list_content += "</table>";
 
                     item_template = item_template.Replace("{{content}}", song_list_content);
-
+                    item_template = item_template.Replace("{{artist_urlencoded}}", WebUtility.HtmlEncode(item.Name));
                     item_template = item_template.Replace("{{generated}}", DateTime.UtcNow.ToString("u"));
 
                     var writer = new StreamWriter(new FileStream(directory.FullName + "/" + item.ArtistId + ".html", FileMode.Create), Encoding.UTF8);
@@ -219,7 +220,7 @@ namespace HSLProcessor
                     song_list_content += "</table>";
 
                     item_template = item_template.Replace("{{content}}", song_list_content);
-
+                    item_template = item_template.Replace("{{source_urlencoded}}", WebUtility.HtmlEncode(item.Name));
                     item_template = item_template.Replace("{{generated}}", DateTime.UtcNow.ToString("u"));
 
                     var writer = new StreamWriter(new FileStream(directory.FullName + "/" + item.SourceId + ".html", FileMode.Create), Encoding.UTF8);
