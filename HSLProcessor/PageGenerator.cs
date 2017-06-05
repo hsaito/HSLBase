@@ -33,6 +33,8 @@ namespace HSLProcessor
                 Log.Info("Generating source details page...");
                 GenerateSourceDetail(new DirectoryInfo(directory.FullName + "/source"));
                 Log.Info("Generation completed.");
+                GenerateSeriesDetail(new DirectoryInfo(directory.FullName + "/series"));
+                Log.Info("Generation completed.");
                 return GenerateResult.Success;
             }
             catch (Exception ex)
@@ -219,6 +221,13 @@ namespace HSLProcessor
 
                     item_template = item_template.Replace("{{source-"+replacement_code.ToString()+"}}", item.Name);
 
+                    if(item.Series != null)
+                    {
+                        var series_link = string.Format("<a href=\"../series/{0}.html\">{1}</a>",item.SeriesId, item.Series
+                        .Name);
+                        item_template = item_template.Replace("{{series-"+replacement_code.ToString()+"}}", series_link);
+                    }
+
                     var (_, list) = Searcher.Search(item.SourceId, Searcher.SearchType.Source);
 
                     // Sort the list
@@ -250,6 +259,78 @@ namespace HSLProcessor
                 return GenerateResult.Failed;
             }
         }
+
+        /// <summary>
+        /// Generate series details listing
+        /// </summary>
+        /// <param name="directory">Directory to export to</param>
+        /// <returns>Result of the export</returns>
+        public static GenerateResult GenerateSeriesDetail (DirectoryInfo directory)
+        {
+            try
+            {
+                if (!directory.Exists)
+                    directory.Create();
+
+                HSLContext context = new HSLContext();
+
+                context.LoadRelations();
+
+                // Create a song list
+                var series_list = new List<Series>();
+                foreach (var item in context.Series)
+                {
+                    series_list.Add(item);
+                }
+
+                var current_dir = System.IO.Path.GetDirectoryName(
+                  System.Reflection.Assembly.GetEntryAssembly().Location);
+
+                var source_template_reader = new StreamReader(new FileStream(current_dir + @"/templates/series.tpl", FileMode.Open));
+                var source_template = source_template_reader.ReadToEnd();
+
+                // Replacement code to prevent "over-replacement"
+                var replacement_code = Guid.NewGuid();
+                source_template = Regex.Replace(source_template,"{{(.*?)}}","{{$1-"+replacement_code.ToString()+"}}");
+
+                foreach (var item in series_list)
+                {
+                    var item_template = source_template;
+
+                    item_template = item_template.Replace("{{series-"+replacement_code.ToString()+"}}", item.Name);
+
+                    var (_, list) = Searcher.Search(item.SeriesId, Searcher.SearchType.Series);
+
+                    // Sort the list
+                    list = list.OrderBy(o => o.Title).ToList();
+
+                    var song_list_content = "<table id=\"content_table\"><tr class=\"row\"><th class=\"cell table_head\">Title</th><th class=\"cell table_head\">Artist</th><th class=\"cell table_head\">Source</th></tr>\r\n";
+                    foreach (var title_item in list)
+                    {
+                        song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"../title/{2}.html\">{0}</a></td></td><td class=\"cell\"><a href=\"../artist/{3}.html\">{1}</a></td><td class=\"cell\"><a href=\"../source/{5}.html\">{4}</a></td></tr>\r\n"
+                        , title_item.Title, title_item.Artist.Name, title_item.TitleId, title_item.Artist.ArtistId, title_item.Source.Name, title_item.SourceId);
+                    }
+                    song_list_content += "</table>";
+
+                    item_template = item_template.Replace("{{content-"+replacement_code.ToString()+"}}", song_list_content);
+                    item_template = item_template.Replace("{{source_urlencoded-"+replacement_code.ToString()+"}}", WebUtility.HtmlEncode(item.Name));
+                    item_template = item_template.Replace("{{generated-"+replacement_code.ToString()+"}}", DateTime.UtcNow.ToString("u"));
+
+                    var writer = new StreamWriter(new FileStream(directory.FullName + "/" + item.SeriesId + ".html", FileMode.Create), Encoding.UTF8);
+                    writer.Write(item_template);
+                    writer.Flush();
+                }
+
+                return GenerateResult.Success;
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Failed generating source detail.");
+                Log.Debug(ex.Message);
+                return GenerateResult.Failed;
+            }
+        }
+
 
         /// <summary>
         /// Generate title main listing

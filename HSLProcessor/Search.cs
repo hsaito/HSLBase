@@ -12,7 +12,7 @@ namespace HSLProcessor
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(Searcher));
         public enum SearchResult { Success, Failed }
-        public enum SearchType { Title, Artist, Source }
+        public enum SearchType { Title, Artist, Source, Series }
 
         /// <summary>
         /// Search the database
@@ -24,7 +24,7 @@ namespace HSLProcessor
         {
             var list = new List<Song>();
             try
-            {  
+            {
                 Log.Info("Beginning search.");
                 HSLContext context = new HSLContext();
                 context.LoadRelations();
@@ -33,14 +33,14 @@ namespace HSLProcessor
                 {
                     case SearchType.Title:
                         {
-                            Log.Info("Searching title for "+query);
+                            Log.Info("Searching title for " + query);
                             result = context.Songs.Where((item) => item.Title.Contains(query)).ToList();
                             break;
                         }
 
                     case SearchType.Artist:
                         {
-                            Log.Info("Searching artist for "+query);
+                            Log.Info("Searching artist for " + query);
                             result = null;
                             result = context.Songs.Where((item) => item.Artist.Name.Contains(query)).ToList();
                             break;
@@ -48,9 +48,27 @@ namespace HSLProcessor
 
                     case SearchType.Source:
                         {
-                            Log.Info("Searching source for "+query);
+                            Log.Info("Searching source for " + query);
                             result = null;
                             result = context.Songs.Where((item) => item.Source.Name.Contains(query)).ToList();
+                            break;
+                        }
+
+                    case SearchType.Series:
+                        {
+                            Log.Info("Searching series for " + query);
+                            result = null;
+
+                            var aff_title_list = context.Sources.Where((item) => item.Series.Name == query).ToList();
+
+                            result = new List<Song>();
+
+                            foreach (var entry in aff_title_list)
+                            {
+                                var source_list = context.Songs.Where((item) => item.Source.Name.Contains(entry.Name));
+                                result.AddRange(source_list);
+                            }
+
                             break;
                         }
 
@@ -69,7 +87,7 @@ namespace HSLProcessor
             }
         }
 
-                /// <summary>
+        /// <summary>
         /// Search the database
         /// </summary>
         /// <param name="query">Guid to search</param>
@@ -87,7 +105,7 @@ namespace HSLProcessor
                 {
                     case SearchType.Title:
                         {
-                            Log.Info("Searching title for "+query);
+                            Log.Info("Searching title for " + query);
                             result = new List<Song>();
                             result = context.Songs.Where((item) => item.TitleId == query).ToList();
                             break;
@@ -95,7 +113,7 @@ namespace HSLProcessor
 
                     case SearchType.Artist:
                         {
-                            Log.Info("Searching artist for "+query);
+                            Log.Info("Searching artist for " + query);
                             result = null;
                             result = context.Songs.Where((item) => item.Artist.ArtistId == query).ToList();
                             break;
@@ -103,9 +121,26 @@ namespace HSLProcessor
 
                     case SearchType.Source:
                         {
-                            Log.Info("Searching source for "+query);
+                            Log.Info("Searching source for " + query);
                             result = null;
                             result = context.Songs.Where((item) => item.Source.SourceId == query).ToList();
+                            break;
+                        }
+
+                    case SearchType.Series:
+                        {
+                            Log.Info("Searching series for " + query);
+                            result = null;
+
+                            var aff_title_list = context.Sources.Where((item) => item.Series.SeriesId == query).ToList();
+
+                            result = new List<Song>();
+
+                            foreach (var entry in aff_title_list)
+                            {
+                                var source_list = context.Songs.Where((item) => item.Source.Name.Contains(entry.Name));
+                                result.AddRange(source_list);
+                            }
                             break;
                         }
 

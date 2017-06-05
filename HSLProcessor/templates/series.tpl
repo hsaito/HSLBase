@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>Detail for {{source}}</title>
+    <title>Detail for {{series}}</title>
     <style>
         #content_table {
             border: solid 1px
@@ -44,15 +44,12 @@
 </head>
 
 <body>
-    <h1>{{source}}</h1>
+    <h1>{{series}}</h1>
     <div id="heading">
-        Source details for {{source}}
+        Series details for {{series}}
     </div>
     <hr>
-    <ul>
-        <li>Part of the series: {{series}}</li>
-    </ul>
-    <h2>Titles of {{source}}</h2>
+    <h2>Titles of {{series}}</h2>
     <div id="content">
         {{content}}
     </div>
