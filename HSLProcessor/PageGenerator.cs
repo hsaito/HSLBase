@@ -313,7 +313,7 @@ namespace HSLProcessor
                     song_list_content += "</table>";
 
                     item_template = item_template.Replace("{{content-"+replacement_code.ToString()+"}}", song_list_content);
-                    item_template = item_template.Replace("{{source_urlencoded-"+replacement_code.ToString()+"}}", WebUtility.HtmlEncode(item.Name));
+                    item_template = item_template.Replace("{{series_urlencoded-"+replacement_code.ToString()+"}}", WebUtility.HtmlEncode(item.Name));
                     item_template = item_template.Replace("{{generated-"+replacement_code.ToString()+"}}", DateTime.UtcNow.ToString("u"));
 
                     var writer = new StreamWriter(new FileStream(directory.FullName + "/" + item.SeriesId + ".html", FileMode.Create), Encoding.UTF8);
