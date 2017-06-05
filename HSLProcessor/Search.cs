@@ -141,6 +141,9 @@ namespace HSLProcessor
                                 var source_list = context.Songs.Where((item) => item.Source.Name.Contains(entry.Name));
                                 result.AddRange(source_list);
                             }
+
+                            result = result.Distinct().ToList();
+
                             break;
                         }
 
