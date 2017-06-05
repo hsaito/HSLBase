@@ -8,7 +8,7 @@ using HSLProcessor;
 namespace HSLProcessor.Migrations
 {
     [DbContext(typeof(HSLContext))]
-    [Migration("20170528083207_Songs")]
+    [Migration("20170604232819_Songs")]
     partial class Songs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,6 +27,19 @@ namespace HSLProcessor.Migrations
                     b.HasKey("ArtistId");
 
                     b.ToTable("Artists");
+                });
+
+            modelBuilder.Entity("HSLProcessor.Series", b =>
+                {
+                    b.Property<Guid>("SeriesId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("SeriesId");
+
+                    b.ToTable("Series");
                 });
 
             modelBuilder.Entity("HSLProcessor.Song", b =>
@@ -58,7 +71,11 @@ namespace HSLProcessor.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
+                    b.Property<Guid?>("SeriesId");
+
                     b.HasKey("SourceId");
+
+                    b.HasIndex("SeriesId");
 
                     b.ToTable("Sources");
                 });
@@ -74,6 +91,13 @@ namespace HSLProcessor.Migrations
                         .WithMany()
                         .HasForeignKey("SourceId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("HSLProcessor.Source", b =>
+                {
+                    b.HasOne("HSLProcessor.Series", "Series")
+                        .WithMany()
+                        .HasForeignKey("SeriesId");
                 });
         }
     }

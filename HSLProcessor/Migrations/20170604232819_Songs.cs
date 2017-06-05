@@ -21,15 +21,34 @@ namespace HSLProcessor.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sources",
+                name: "Series",
                 columns: table => new
                 {
-                    SourceId = table.Column<Guid>(nullable: false),
+                    SeriesId = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_Series", x => x.SeriesId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sources",
+                columns: table => new
+                {
+                    SourceId = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    SeriesId = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
                     table.PrimaryKey("PK_Sources", x => x.SourceId);
+                    table.ForeignKey(
+                        name: "FK_Sources_Series_SeriesId",
+                        column: x => x.SeriesId,
+                        principalTable: "Series",
+                        principalColumn: "SeriesId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -67,6 +86,11 @@ namespace HSLProcessor.Migrations
                 name: "IX_Songs_SourceId",
                 table: "Songs",
                 column: "SourceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Sources_SeriesId",
+                table: "Sources",
+                column: "SeriesId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -79,6 +103,9 @@ namespace HSLProcessor.Migrations
 
             migrationBuilder.DropTable(
                 name: "Sources");
+
+            migrationBuilder.DropTable(
+                name: "Series");
         }
     }
 }

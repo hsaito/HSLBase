@@ -41,6 +41,8 @@ namespace HSLProcessor
         public Guid SourceId { get; set; }
         [Required]
         public string Name { get; set; }
+        public Guid? SeriesId { get; set; }
+        public virtual Series Series { get; set; }
     }
 
     [Table("Series")]
@@ -50,7 +52,6 @@ namespace HSLProcessor
         public Guid SeriesId { get; set; }
         [Required]
         public string Name { get; set; }
-        public List<Source> Source { get; set; }
     }
 
     public class HSLContext : DbContext
@@ -58,16 +59,23 @@ namespace HSLProcessor
         public virtual DbSet<Song> Songs { get; set; }
         public virtual DbSet<Artist> Artists { get; set; }
         public virtual DbSet<Source> Sources { get; set; }
+        public virtual DbSet<Series> Series { get; set; }
 
         /// <summary>
         /// Explicitly load tables
         /// </summary>
         public void LoadRelations()
         {
-            foreach(var song in Songs)
+            foreach (var song in Songs)
             {
                 song.Artist = Artists.Find(song.ArtistId);
                 song.Source = Sources.Find(song.SourceId);
+            }
+
+            foreach (var source in Sources)
+            {
+                if(source.SeriesId != null)
+                    source.Series = Series.Find(source.SeriesId);
             }
         }
 
@@ -84,6 +92,7 @@ namespace HSLProcessor
             modelBuilder.Entity<Song>().ToTable("Songs");
             modelBuilder.Entity<Artist>().ToTable("Artists");
             modelBuilder.Entity<Source>().ToTable("Sources");
+            modelBuilder.Entity<Series>().ToTable("Series");
             base.OnModelCreating(modelBuilder);
         }
     }

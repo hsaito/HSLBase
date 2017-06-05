@@ -45,5 +45,25 @@ namespace HSLProcessor
             }
 
         }
+
+        /// <summary>
+        /// Get artist, if doesn't exist, create new
+        /// </summary>
+        /// <param name="series">Series class</param>
+        /// <returns>Result of the artist</returns>
+        public static Series GetOrAddSeries(Series series, ref HSLContext context)
+        {
+            var result = context.Series.Where((item) => item.Name == series.Name);
+            if (result.Count() == 0)
+            {
+                context.Series.Add(series);
+                context.SaveChanges();
+                return series;
+            }
+            else
+            {
+                return context.Series.Find(result.First().SeriesId);
+            }
+        }
     }
 }
