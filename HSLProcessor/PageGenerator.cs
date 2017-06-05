@@ -367,6 +367,7 @@ namespace HSLProcessor
                 songs_template = songs_template.Replace("{{title_count}}", context.Songs.Count().ToString());
                 songs_template = songs_template.Replace("{{artist_count}}", context.Artists.Count().ToString());
                 songs_template = songs_template.Replace("{{source_count}}", context.Sources.Count().ToString());
+                songs_template = songs_template.Replace("{{series_count}}", context.Series.Count().ToString());
 
                 var song_list_output = "<table id=\"content_table\"><tr class=\"row\"><th class=\"cell table_head\">Title</th><th class=\"cell table_head\">Artist</th><th class=\"cell table_head\">Source</th></tr>\r\n{{content}}</table>";
                 var song_list_content = "";
