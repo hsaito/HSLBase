@@ -364,12 +364,16 @@ namespace HSLProcessor
                 var songs_template_reader = new StreamReader(new FileStream(current_dir + @"/templates/songs.tpl", FileMode.Open));
                 var songs_template = songs_template_reader.ReadToEnd();
 
-                songs_template = songs_template.Replace("{{title_count}}", context.Songs.Count().ToString());
-                songs_template = songs_template.Replace("{{artist_count}}", context.Artists.Count().ToString());
-                songs_template = songs_template.Replace("{{source_count}}", context.Sources.Count().ToString());
-                songs_template = songs_template.Replace("{{series_count}}", context.Series.Count().ToString());
+                // Replacement code to prevent "over-replacement"
+                var replacement_code = Guid.NewGuid();
+                songs_template = Regex.Replace(songs_template,"{{(.*?)}}","{{$1-"+replacement_code.ToString()+"}}");
 
-                var song_list_output = "<table id=\"content_table\"><tr class=\"row\"><th class=\"cell table_head\">Title</th><th class=\"cell table_head\">Artist</th><th class=\"cell table_head\">Source</th></tr>\r\n{{content}}</table>";
+                songs_template = songs_template.Replace("{{title_count-"+replacement_code.ToString()+"}}", context.Songs.Count().ToString());
+                songs_template = songs_template.Replace("{{artist_count-"+replacement_code.ToString()+"}}", context.Artists.Count().ToString());
+                songs_template = songs_template.Replace("{{source_count-"+replacement_code.ToString()+"}}", context.Sources.Count().ToString());
+                songs_template = songs_template.Replace("{{series_count-"+replacement_code.ToString()+"}}", context.Series.Count().ToString());
+
+                var song_list_output = "<table id=\"content_table\"><tr class=\"row\"><th class=\"cell table_head\">Title</th><th class=\"cell table_head\">Artist</th><th class=\"cell table_head\">Source</th></tr>\r\n{{content-"+replacement_code.ToString()+"}}</table>";
                 var song_list_content = "";
 
                 foreach (var item in song_list)
@@ -378,11 +382,11 @@ namespace HSLProcessor
                     , item.Title, item.Artist.Name, item.Source.Name, item.TitleId, item.Artist.ArtistId, item.Source.SourceId);
                 }
 
-                song_list_output = song_list_output.Replace("{{content}}", song_list_content);
+                song_list_output = song_list_output.Replace("{{content-"+replacement_code.ToString()+"}}", song_list_content);
 
-                songs_template = songs_template.Replace("{{content}}", song_list_output);
+                songs_template = songs_template.Replace("{{content-"+replacement_code.ToString()+"}}", song_list_output);
 
-                songs_template = songs_template.Replace("{{generated}}", DateTime.UtcNow.ToString("u"));
+                songs_template = songs_template.Replace("{{generated-"+replacement_code.ToString()+"}}", DateTime.UtcNow.ToString("u"));
 
                 var writer = new StreamWriter(new FileStream(directory.FullName + "/songs.html", FileMode.Create), Encoding.UTF8);
                 writer.Write(songs_template);
