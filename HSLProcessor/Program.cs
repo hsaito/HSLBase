@@ -43,7 +43,7 @@ namespace HSLProcessor
                 if (args.Length == 0)
                 {
                     Log.Error("Missing arguments!");
-                    Console.WriteLine("Options are: importcsv, importxml, importcsv, exportxml, generatehtml, deleteitem, and list");
+                    Console.WriteLine("Options are: importcsv, importxml, importcsv, importseriescsv, exportxml, generatehtml, deleteitem, and list");
                     return -1;
                 }
 
@@ -58,7 +58,7 @@ namespace HSLProcessor
                                 return -1;
                             }
 
-                            var result = Importer.ImportCsv(args[1]);
+                            var result = Importer.ImportCsv(new FileInfo(args[1]));
 
                             if (result == Importer.ImportResult.Failed)
                             {
@@ -98,6 +98,17 @@ namespace HSLProcessor
                                 return -1;
                             }
                             Importer.ImportXml(new FileInfo(args[1]));
+                            break;
+                        }
+
+                    case "importseriescsv":
+                        {
+                            if (args.Length < 2)
+                            {
+                                Log.Error("Missing file name.");
+                                return -1;
+                            }
+                            Importer.ImportSourceSeriesCsv(new FileInfo(args[1]));
                             break;
                         }
 

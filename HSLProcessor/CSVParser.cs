@@ -8,11 +8,12 @@ namespace HSLProcessor
     public static class CSVParser
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(CSVParser));
+
+        public enum operation_mode { Songlist, Series_Source };
+
         public class CSVContent
         {
-            public string title;
-            public string artist;
-            public string source;
+            public Dictionary<string, string> entry;
         }
 
         /// <summary>
@@ -21,7 +22,7 @@ namespace HSLProcessor
         /// <param name="file">CSV file</param>
         /// <param name="hasHeader">Whether the file has a header</param>
         /// <returns>List of CSV content</returns>
-        public static List<CSVContent> Load(FileInfo file, bool hasHeader = true)
+        public static List<CSVContent> Load(FileInfo file, operation_mode op_mode = operation_mode.Songlist, bool hasHeader = true)
         {
             try
             {
@@ -43,17 +44,39 @@ namespace HSLProcessor
                         var splitted = line.Split(',');
 
                         var content = new CSVContent();
-                        content.title = splitted[0];
-                        content.artist = splitted[1];
+                        content.entry = new Dictionary<string, string>();
 
-                        // If third argument is present, that's source/reference
-                        if (splitted.Length == 3)
+                        switch (op_mode)
                         {
-                            content.source = splitted[2];
-                        }
-                        else
-                        {
-                            content.source = "";
+                            case operation_mode.Songlist:
+                                {
+                                    content.entry.Add("title", splitted[0]);
+                                    content.entry.Add("artist", splitted[1]);
+
+                                    // If third argument is present, that's source/reference
+                                    if (splitted.Length == 3)
+                                    {
+                                        content.entry.Add("source", splitted[2]);
+                                    }
+                                    else
+                                    {
+                                        content.entry.Add("source", "");
+                                    }
+                                    break;
+
+                                }
+                            case operation_mode.Series_Source:
+                                {
+                                    content.entry.Add("source", splitted[0]);
+                                    content.entry.Add("series", splitted[1]);
+                                    break;
+                                }
+
+                                default:
+                                {
+                                    throw new Exception("Unsupported operation type.");
+                                }
+
                         }
 
                         list.Add(content);

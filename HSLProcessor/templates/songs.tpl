@@ -46,7 +46,7 @@
 <body>
     <h1>Songs by title</h1>
     <div id="heading">
-        Count -- Title: {{title_count}} / Artist: {{artist_count}} / Source: {{source_count}}
+        Count -- Title: {{title_count}} / Artist: {{artist_count}} / Source: {{source_count}} / Series: {{series_count}}
     </div>
     <div id="content">
         {{content}}
