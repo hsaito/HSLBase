@@ -413,9 +413,9 @@ namespace HSLProcessor
             try
             {
                 XDocument doc = new XDocument(new XDeclaration("1.0", "UTF-8", "no"));
-                XNamespace ns = "http://www.sitemaps.org/schemas/sitemap/0.9";
-                XElement xl = new XElement("urlset");
-                xl.Add(new XAttribute(XNamespace.Xmlns + "xsi", ns.NamespaceName));
+                XNamespace ns = XNamespace.Get(@"http://www.sitemaps.org/schemas/sitemap/0.9");
+                XElement xl = new XElement(ns+"urlset");
+                xl.Add(new XAttribute("xmlns",ns.NamespaceName));
 
                 if (urlbase[urlbase.Length - 1] != '/')
                 {
@@ -427,8 +427,8 @@ namespace HSLProcessor
                 // Songs
                 foreach (var item in context.Songs)
                 {
-                    var songitem = new XElement("url");
-                    songitem.Add(new XElement("loc", urlbase + "title/" + item.TitleId + ".html"));
+                    var songitem = new XElement(ns+"url");
+                    songitem.Add(new XElement(ns+"loc", urlbase + "title/" + item.TitleId + ".html"));
                     xl.Add(songitem);
                 }
 
@@ -436,8 +436,8 @@ namespace HSLProcessor
                 foreach (var item in context.Artists)
                 {
 
-                    var songitem = new XElement("url");
-                    songitem.Add(new XElement("loc", urlbase + "artist/" + item.ArtistId + ".html"));
+                    var songitem = new XElement(ns+"url");
+                    songitem.Add(new XElement(ns+"loc", urlbase + "artist/" + item.ArtistId + ".html"));
                     xl.Add(songitem);
                 }
 
@@ -445,8 +445,8 @@ namespace HSLProcessor
                 foreach (var item in context.Sources)
                 {
 
-                    var songitem = new XElement("url");
-                    songitem.Add(new XElement("loc", urlbase + "source/" + item.SourceId + ".html"));
+                    var songitem = new XElement(ns+"url");
+                    songitem.Add(new XElement(ns+"loc", urlbase + "source/" + item.SourceId + ".html"));
                     xl.Add(songitem);
                 }
 
@@ -454,8 +454,8 @@ namespace HSLProcessor
                 foreach (var item in context.Series)
                 {
 
-                    var songitem = new XElement("url");
-                    songitem.Add(new XElement("loc", urlbase + "series/" + item.SeriesId + ".html"));
+                    var songitem = new XElement(ns+"url");
+                    songitem.Add(new XElement(ns+"loc", urlbase + "series/" + item.SeriesId + ".html"));
                     xl.Add(songitem);
                 }
 
