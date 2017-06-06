@@ -43,7 +43,7 @@ namespace HSLProcessor
                 if (args.Length == 0)
                 {
                     Log.Error("Missing arguments!");
-                    Console.WriteLine("Options are: importcsv, importxml, importcsv, importseriescsv, exportxml, generatehtml, deleteitem, and list");
+                    Console.WriteLine("Options are: importcsv, importxml, importcsv, importseriescsv, exportxml, generatehtml, generatesitemap, deleteitem, and list");
                     return -1;
                 }
 
@@ -87,6 +87,19 @@ namespace HSLProcessor
                             }
                             Exporter.ExportXml(new FileInfo(args[1]));
                             break;
+                        }
+
+                        case "generatesitemap":
+                        {
+                            if(args.Length < 3)
+                            {
+                                Log.Error("Missing arguments.\nUsage: file urlbase");
+                                return -1;
+                            }
+
+                            PageGenerator.ExportSitemap(new FileInfo(args[1]),args[2]);
+                            break;
+                            
                         }
 
                     // Import XML
