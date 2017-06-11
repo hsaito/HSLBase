@@ -26,9 +26,18 @@ Save this file, and use `importcsv` command to import.
 dotnet run importcsv inputfile.csv
 </pre>
 
+Series item can be imported using `importseriescsv` can be used to import series definition.
+
+Format for this CSV file is:
+
+<pre>
+Source,Series
+My Source, My Series
+</pre>
+
 The first line of the file is ignored by the parser.
 
-#### Importing XML
+### Importing XML
 If you have a XML data which you have exported from this tool, you will be able to import it using `importxml` command. 
 
 ### Listing the entries
