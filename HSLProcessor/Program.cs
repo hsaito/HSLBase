@@ -43,7 +43,7 @@ namespace HSLProcessor
                 if (args.Length == 0)
                 {
                     Log.Error("Missing arguments!");
-                    Console.WriteLine("Options are: importcsv, importxml, importcsv, importseriescsv, exportxml, generatehtml, generatesitemap, deleteitem, and list");
+                    Console.WriteLine("Options are: importcsv, importxml, importseriescsv, exportxml, generatehtml, generatesitemap, deleteitem, and list");
                     return -1;
                 }
 

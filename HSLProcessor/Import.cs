@@ -56,7 +56,7 @@ namespace HSLProcessor
                     var artist = new Artist();
                     artist.Name = item.entry["artist"];
                     var source = new Source();
-                    source.Name = item.entry["item.source"];
+                    source.Name = item.entry["source"];
 
                     var artist_item = Utils.GetOrAddArtist(artist, ref context).ArtistId;
                     var source_item = Utils.GetOrAddSource(source, ref context).SourceId;

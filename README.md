@@ -4,7 +4,7 @@ Hideki's Songlist Data Handler
 
 ## Purpose
 
-This is the new upcoming codebase for [Hideki's Songlist](http://songlist.hclippr.com/). 
+This is the new upcoming codebase for [Hideki's Songlist](http://songlist.hidekisaito.com/). 
 
 ## Using HSLProcessr
 
@@ -26,7 +26,19 @@ Save this file, and use `importcsv` command to import.
 dotnet run importcsv inputfile.csv
 </pre>
 
+Series item can be imported using `importseriescsv` can be used to import series definition.
+
+Format for this CSV file is:
+
+<pre>
+Source,Series
+My Source, My Series
+</pre>
+
 The first line of the file is ignored by the parser.
+
+### Importing XML
+If you have a XML data which you have exported from this tool, you will be able to import it using `importxml` command. 
 
 ### Listing the entries
 Once you have imported the data, you can confirm the contents of the data base using `list` command. Use the command as follows.
@@ -63,6 +75,18 @@ dotnet run importxml import.xml
 You can generate static web site contains whole data structure of the site. Each page is interactive; you will be able to click on title, artist, source information to jump to the specific page.
 
 You can use `generatehtml` command to do this.
+
+### Generating the sitemap
+Use `generatesitemap` to generate the [sitemap](https://www.sitemaps.org/protocol.html). This can be used to faciliate better indexing by search engines.
+
+This command takes two arguments, one for the file name, and other for the base URL.
+
+<pre>
+dotnet run generatesitemap sitemap.xml https://songlist.hidekisaito.com
+</pre>
+
+### Deleting an item
+Use `deleteitem` command to delete item. Specify UUID of the entry.
 
 <pre>
 dotnet run generatehtml output
