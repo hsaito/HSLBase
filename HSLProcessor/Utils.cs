@@ -65,5 +65,17 @@ namespace HSLProcessor
                 return context.Series.Find(result.First().SeriesId);
             }
         }
+
+        /// <summary>
+        /// Get Guid prefix
+        /// </summary>
+        /// <param name="guid">Guid</param>
+        /// <returns>Prefix (first two digits) of Guid in string</returns>
+        public static string GetGuidPrefix(Guid guid)
+        {
+            return guid.ToString().Substring(0,2);
+        }
+
+
     }
 }

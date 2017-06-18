@@ -84,10 +84,10 @@ namespace HSLProcessor
                     var title_detail = string.Format("<ul>\r\n<li>Title: {0}</li>\r\n", item.Title);
                     var artist_detail = "";
                     if (item.Artist.Name != "")
-                        artist_detail = string.Format("<li>Artist: <a href=\"../artist/{1}.html\">{0}</a></li>\r\n", item.Artist.Name, item.Artist.ArtistId);
+                        artist_detail = string.Format("<li>Artist: <a href=\"../../artist/{2}/{1}.html\">{0}</a></li>\r\n", item.Artist.Name, item.Artist.ArtistId, Utils.GetGuidPrefix(item.Artist.ArtistId));
                     var source_detail = "";
                     if (item.Source.Name != "")
-                        source_detail = string.Format("<li>Source: <a href=\"../source/{1}.html\">{0}</a></li>\r\n", item.Source.Name, item.Source.SourceId);
+                        source_detail = string.Format("<li>Source: <a href=\"../../source/{2}/{1}.html\">{0}</a></li>\r\n", item.Source.Name, item.Source.SourceId, Utils.GetGuidPrefix(item.Source.SourceId));
 
                     title_detail += artist_detail + source_detail + "</ul>";
 
@@ -96,7 +96,11 @@ namespace HSLProcessor
                     item_template = item_template.Replace("{{title_urlencoded-" + replacement_code.ToString() + "}}", WebUtility.HtmlEncode(item.Title));
                     item_template = item_template.Replace("{{generated-" + replacement_code.ToString() + "}}", DateTime.UtcNow.ToString("u"));
 
-                    var writer = new StreamWriter(new FileStream(directory.FullName + "/" + item.TitleId + ".html", FileMode.Create), Encoding.UTF8);
+                    var subbase = new DirectoryInfo(directory.FullName + "/" + Utils.GetGuidPrefix(item.TitleId));
+                    if (!subbase.Exists)
+                        subbase.Create();
+
+                    var writer = new StreamWriter(new FileStream(subbase.FullName + "/" + item.TitleId + ".html", FileMode.Create), Encoding.UTF8);
                     writer.Write(item_template);
                     writer.Flush();
                 }
@@ -158,8 +162,9 @@ namespace HSLProcessor
                     var song_list_content = "<table id=\"content_table\"><tr class=\"row\"><th class=\"cell table_head\">Title</th><th class=\"cell table_head\">Source</th></tr>\r\n";
                     foreach (var title_item in list)
                     {
-                        song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"../title/{2}.html\">{0}</a></td></td><td class=\"cell\"><a href=\"../source/{3}.html\">{1}</a></td></tr>\r\n"
-                        , title_item.Title, title_item.Source.Name, title_item.TitleId, title_item.Source.SourceId);
+                        song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"../../title/{4}/{2}.html\">{0}</a></td></td><td class=\"cell\"><a href=\"../../source/{5}/{3}.html\">{1}</a></td></tr>\r\n"
+                        , title_item.Title, title_item.Source.Name, title_item.TitleId, title_item.Source.SourceId, 
+                        Utils.GetGuidPrefix(title_item.TitleId), Utils.GetGuidPrefix(title_item.Source.SourceId));
                     }
                     song_list_content += "</table>";
 
@@ -167,7 +172,11 @@ namespace HSLProcessor
                     item_template = item_template.Replace("{{artist_urlencoded-" + replacement_code.ToString() + "}}", WebUtility.HtmlEncode(item.Name));
                     item_template = item_template.Replace("{{generated-" + replacement_code.ToString() + "}}", DateTime.UtcNow.ToString("u"));
 
-                    var writer = new StreamWriter(new FileStream(directory.FullName + "/" + item.ArtistId + ".html", FileMode.Create), Encoding.UTF8);
+                    var subbase = new DirectoryInfo(directory.FullName + "/" + Utils.GetGuidPrefix(item.ArtistId));
+                    if (!subbase.Exists)
+                        subbase.Create();
+
+                    var writer = new StreamWriter(new FileStream(subbase.FullName + "/" + item.ArtistId + ".html", FileMode.Create), Encoding.UTF8);
                     writer.Write(item_template);
                     writer.Flush();
                 }
@@ -223,8 +232,8 @@ namespace HSLProcessor
 
                     if (item.Series != null)
                     {
-                        var series_link = string.Format("<a href=\"../series/{0}.html\">{1}</a>", item.SeriesId, item.Series
-                        .Name);
+                        var series_link = string.Format("<a href=\"../../series/{2}/{0}.html\">{1}</a>", item.SeriesId, item.Series
+                        .Name, Utils.GetGuidPrefix((Guid)item.SeriesId));
                         item_template = item_template.Replace("{{series-" + replacement_code.ToString() + "}}", series_link);
                     }
 
@@ -236,8 +245,9 @@ namespace HSLProcessor
                     var song_list_content = "<table id=\"content_table\"><tr class=\"row\"><th class=\"cell table_head\">Title</th><th class=\"cell table_head\">Artist</th></tr>\r\n";
                     foreach (var title_item in list)
                     {
-                        song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"../title/{2}.html\">{0}</a></td></td><td class=\"cell\"><a href=\"../artist/{3}.html\">{1}</a></td></tr>\r\n"
-                        , title_item.Title, title_item.Artist.Name, title_item.TitleId, title_item.Artist.ArtistId);
+                        song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"../../title/{4}/{2}.html\">{0}</a></td></td><td class=\"cell\"><a href=\"../../artist/{5}/{3}.html\">{1}</a></td></tr>\r\n"
+                        , title_item.Title, title_item.Artist.Name, title_item.TitleId, title_item.Artist.ArtistId, 
+                        Utils.GetGuidPrefix(title_item.TitleId), Utils.GetGuidPrefix(title_item.Artist.ArtistId));
                     }
                     song_list_content += "</table>";
 
@@ -245,7 +255,11 @@ namespace HSLProcessor
                     item_template = item_template.Replace("{{source_urlencoded-" + replacement_code.ToString() + "}}", WebUtility.HtmlEncode(item.Name));
                     item_template = item_template.Replace("{{generated-" + replacement_code.ToString() + "}}", DateTime.UtcNow.ToString("u"));
 
-                    var writer = new StreamWriter(new FileStream(directory.FullName + "/" + item.SourceId + ".html", FileMode.Create), Encoding.UTF8);
+                    var subbase = new DirectoryInfo(directory.FullName + "/" + Utils.GetGuidPrefix(item.SourceId));
+                    if (!subbase.Exists)
+                        subbase.Create();
+
+                    var writer = new StreamWriter(new FileStream(subbase.FullName + "/" + item.SourceId + ".html", FileMode.Create), Encoding.UTF8);
                     writer.Write(item_template);
                     writer.Flush();
                 }
@@ -307,8 +321,9 @@ namespace HSLProcessor
                     var song_list_content = "<table id=\"content_table\"><tr class=\"row\"><th class=\"cell table_head\">Title</th><th class=\"cell table_head\">Artist</th><th class=\"cell table_head\">Source</th></tr>\r\n";
                     foreach (var title_item in list)
                     {
-                        song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"../title/{2}.html\">{0}</a></td></td><td class=\"cell\"><a href=\"../artist/{3}.html\">{1}</a></td><td class=\"cell\"><a href=\"../source/{5}.html\">{4}</a></td></tr>\r\n"
-                        , title_item.Title, title_item.Artist.Name, title_item.TitleId, title_item.Artist.ArtistId, title_item.Source.Name, title_item.SourceId);
+                        song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"../../title/{6}/{2}.html\">{0}</a></td></td><td class=\"cell\"><a href=\"../../artist/{7}/{3}.html\">{1}</a></td><td class=\"cell\"><a href=\"../../source/{8}/{5}.html\">{4}</a></td></tr>\r\n"
+                        , title_item.Title, title_item.Artist.Name, title_item.TitleId, title_item.Artist.ArtistId, title_item.Source.Name, title_item.SourceId, 
+                        Utils.GetGuidPrefix(title_item.TitleId), Utils.GetGuidPrefix(title_item.Artist.ArtistId), Utils.GetGuidPrefix(title_item.Source.SourceId));
                     }
                     song_list_content += "</table>";
 
@@ -316,7 +331,11 @@ namespace HSLProcessor
                     item_template = item_template.Replace("{{series_urlencoded-" + replacement_code.ToString() + "}}", WebUtility.HtmlEncode(item.Name));
                     item_template = item_template.Replace("{{generated-" + replacement_code.ToString() + "}}", DateTime.UtcNow.ToString("u"));
 
-                    var writer = new StreamWriter(new FileStream(directory.FullName + "/" + item.SeriesId + ".html", FileMode.Create), Encoding.UTF8);
+                    var subbase = new DirectoryInfo(directory.FullName + "/" + Utils.GetGuidPrefix(item.SeriesId));
+                    if (!subbase.Exists)
+                        subbase.Create();
+
+                    var writer = new StreamWriter(new FileStream(subbase + "/" + item.SeriesId + ".html", FileMode.Create), Encoding.UTF8);
                     writer.Write(item_template);
                     writer.Flush();
                 }
@@ -378,8 +397,9 @@ namespace HSLProcessor
 
                 foreach (var item in song_list)
                 {
-                    song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"title/{3}.html\">{0}</a></td><td class=\"cell\"><a href=\"artist/{4}.html\">{1}</a></td><td class=\"cell\"><a href=\"source/{5}.html\">{2}</a></td></tr>\r\n"
-                    , item.Title, item.Artist.Name, item.Source.Name, item.TitleId, item.Artist.ArtistId, item.Source.SourceId);
+                    song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"title/{6}/{3}.html\">{0}</a></td><td class=\"cell\"><a href=\"artist/{7}/{4}.html\">{1}</a></td><td class=\"cell\"><a href=\"source/{8}/{5}.html\">{2}</a></td></tr>\r\n"
+                    , item.Title, item.Artist.Name, item.Source.Name, item.TitleId, item.Artist.ArtistId, item.Source.SourceId, 
+                    Utils.GetGuidPrefix(item.TitleId), Utils.GetGuidPrefix(item.ArtistId), Utils.GetGuidPrefix(item.SourceId));
                 }
 
                 song_list_output = song_list_output.Replace("{{content-" + replacement_code.ToString() + "}}", song_list_content);
@@ -428,7 +448,7 @@ namespace HSLProcessor
                 foreach (var item in context.Songs)
                 {
                     var songitem = new XElement(ns+"url");
-                    songitem.Add(new XElement(ns+"loc", urlbase + "title/" + item.TitleId + ".html"));
+                    songitem.Add(new XElement(ns+"loc", urlbase + "title/" + Utils.GetGuidPrefix(item.TitleId) + "/" + item.TitleId + ".html"));
                     xl.Add(songitem);
                 }
 
@@ -437,7 +457,7 @@ namespace HSLProcessor
                 {
 
                     var songitem = new XElement(ns+"url");
-                    songitem.Add(new XElement(ns+"loc", urlbase + "artist/" + item.ArtistId + ".html"));
+                    songitem.Add(new XElement(ns+"loc", urlbase + "artist/" + Utils.GetGuidPrefix(item.ArtistId) + "/" + item.ArtistId + ".html"));
                     xl.Add(songitem);
                 }
 
@@ -446,7 +466,7 @@ namespace HSLProcessor
                 {
 
                     var songitem = new XElement(ns+"url");
-                    songitem.Add(new XElement(ns+"loc", urlbase + "source/" + item.SourceId + ".html"));
+                    songitem.Add(new XElement(ns+"loc", urlbase + "source/" + Utils.GetGuidPrefix(item.SourceId) + "/" + item.SourceId + ".html"));
                     xl.Add(songitem);
                 }
 
@@ -455,7 +475,7 @@ namespace HSLProcessor
                 {
 
                     var songitem = new XElement(ns+"url");
-                    songitem.Add(new XElement(ns+"loc", urlbase + "series/" + item.SeriesId + ".html"));
+                    songitem.Add(new XElement(ns+"loc", urlbase + "series/" + Utils.GetGuidPrefix(item.SeriesId) + "/" + item.SeriesId + ".html"));
                     xl.Add(songitem);
                 }
 
