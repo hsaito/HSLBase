@@ -70,10 +70,10 @@ namespace HSLProcessor
         /// Get Guid prefix
         /// </summary>
         /// <param name="guid">Guid</param>
-        /// <returns>Prefix (first two digits) of Guid in string</returns>
+        /// <returns>Prefix (first three characters) of Guid in string</returns>
         public static string GetGuidPrefix(Guid guid)
         {
-            return guid.ToString().Substring(0,2);
+            return guid.ToString().Substring(0,3);
         }
 
 
