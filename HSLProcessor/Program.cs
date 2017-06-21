@@ -89,7 +89,7 @@ namespace HSLProcessor
                             break;
                         }
 
-                        case "generatesitemap":
+                    case "generatesitemap":
                         {
                             if(args.Length < 3)
                             {
