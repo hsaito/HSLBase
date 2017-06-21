@@ -18,6 +18,7 @@ namespace HSLProcessor
         /// <summary>
         ///  Generate HTML pages based on DB entries
         /// </summary>
+        /// <param name "template">Location of the template</param>
         /// <param name="directory">Directory (root) to export files</param>
         /// <returns>Result of the process</returns>
         public static GenerateResult Generate(DirectoryInfo template, DirectoryInfo directory)
@@ -48,6 +49,7 @@ namespace HSLProcessor
         /// <summary>
         /// Generate title details listing
         /// </summary>
+        /// <param name "template">Location of the template</param>
         /// <param name="directory">Directory to export to</param>
         /// <returns>Result of the export</returns>
         public static GenerateResult GenerateTitleDetail(DirectoryInfo template, DirectoryInfo directory)
@@ -115,6 +117,7 @@ namespace HSLProcessor
         /// <summary>
         /// Generate artist details listing
         /// </summary>
+        /// <param name "template">Location of the template</param>
         /// <param name="directory">Directory to export to</param>
         /// <returns>Result of the export</returns>
         public static GenerateResult GenerateArtistDetail(DirectoryInfo template, DirectoryInfo directory)
@@ -189,6 +192,7 @@ namespace HSLProcessor
         /// <summary>
         /// Generate source details listing
         /// </summary>
+        /// <param name "template">Location of the template</param>
         /// <param name="directory">Directory to export to</param>
         /// <returns>Result of the export</returns>
         public static GenerateResult GenerateSourceDetail(DirectoryInfo template, DirectoryInfo directory)
@@ -269,6 +273,7 @@ namespace HSLProcessor
         /// <summary>
         /// Generate series details listing
         /// </summary>
+        /// <param name "template">Location of the template</param>
         /// <param name="directory">Directory to export to</param>
         /// <returns>Result of the export</returns>
         public static GenerateResult GenerateSeriesDetail(DirectoryInfo template, DirectoryInfo directory)
@@ -343,6 +348,7 @@ namespace HSLProcessor
         /// <summary>
         /// Generate title main listing
         /// </summary>
+        /// <param name "template">Location of the template</param>
         /// <param name="directory">Directory to export to</param>
         /// <returns>Result of the export</returns>
         public static GenerateResult GenerateListing(DirectoryInfo template, DirectoryInfo directory)
