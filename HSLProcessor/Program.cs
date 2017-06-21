@@ -89,7 +89,7 @@ namespace HSLProcessor
                             break;
                         }
 
-                        case "generatesitemap":
+                    case "generatesitemap":
                         {
                             if(args.Length < 3)
                             {
@@ -160,12 +160,12 @@ namespace HSLProcessor
                     // Generate HTML static pages
                     case "generatehtml":
                         {
-                            if (args.Length < 2)
+                            if (args.Length < 3)
                             {
-                                Log.Error("Missing file name.");
+                                Log.Error("Missing template and  file name.");
                                 return -1;
                             }
-                            PageGenerator.Generate(new DirectoryInfo(args[1]));
+                            PageGenerator.Generate(new DirectoryInfo(args[1]), new DirectoryInfo(args[2]));
                             break;
                         }
 

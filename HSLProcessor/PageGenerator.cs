@@ -18,22 +18,23 @@ namespace HSLProcessor
         /// <summary>
         ///  Generate HTML pages based on DB entries
         /// </summary>
+        /// <param name "template">Location of the template</param>
         /// <param name="directory">Directory (root) to export files</param>
         /// <returns>Result of the process</returns>
-        public static GenerateResult Generate(DirectoryInfo directory)
+        public static GenerateResult Generate(DirectoryInfo template, DirectoryInfo directory)
         {
             try
             {
                 Log.Info("Generate top page...");
-                GenerateListing(directory);
+                GenerateListing(template, directory);
                 Log.Info("Generating title details page...");
-                GenerateTitleDetail(new DirectoryInfo(directory.FullName + "/title"));
+                GenerateTitleDetail(template, new DirectoryInfo(directory.FullName + "/title"));
                 Log.Info("Generating artist details page...");
-                GenerateArtistDetail(new DirectoryInfo(directory.FullName + "/artist"));
+                GenerateArtistDetail(template, new DirectoryInfo(directory.FullName + "/artist"));
                 Log.Info("Generating source details page...");
-                GenerateSourceDetail(new DirectoryInfo(directory.FullName + "/source"));
+                GenerateSourceDetail(template, new DirectoryInfo(directory.FullName + "/source"));
                 Log.Info("Generation completed.");
-                GenerateSeriesDetail(new DirectoryInfo(directory.FullName + "/series"));
+                GenerateSeriesDetail(template, new DirectoryInfo(directory.FullName + "/series"));
                 Log.Info("Generation completed.");
                 return GenerateResult.Success;
             }
@@ -48,9 +49,10 @@ namespace HSLProcessor
         /// <summary>
         /// Generate title details listing
         /// </summary>
+        /// <param name "template">Location of the template</param>
         /// <param name="directory">Directory to export to</param>
         /// <returns>Result of the export</returns>
-        public static GenerateResult GenerateTitleDetail(DirectoryInfo directory)
+        public static GenerateResult GenerateTitleDetail(DirectoryInfo template, DirectoryInfo directory)
         {
             try
             {
@@ -68,10 +70,7 @@ namespace HSLProcessor
                     song_list.Add(item);
                 }
 
-                var current_dir = System.IO.Path.GetDirectoryName(
-                  System.Reflection.Assembly.GetEntryAssembly().Location);
-
-                var title_template_reader = new StreamReader(new FileStream(current_dir + @"/templates/title.tpl", FileMode.Open));
+                var title_template_reader = new StreamReader(new FileStream(template + @"/title.tpl", FileMode.Open));
                 var title_template = title_template_reader.ReadToEnd();
 
                 // Replacement code to prevent "over-replacement"
@@ -118,9 +117,10 @@ namespace HSLProcessor
         /// <summary>
         /// Generate artist details listing
         /// </summary>
+        /// <param name "template">Location of the template</param>
         /// <param name="directory">Directory to export to</param>
         /// <returns>Result of the export</returns>
-        public static GenerateResult GenerateArtistDetail(DirectoryInfo directory)
+        public static GenerateResult GenerateArtistDetail(DirectoryInfo template, DirectoryInfo directory)
         {
             try
             {
@@ -138,10 +138,8 @@ namespace HSLProcessor
                     artist_list.Add(item);
                 }
 
-                var current_dir = System.IO.Path.GetDirectoryName(
-                  System.Reflection.Assembly.GetEntryAssembly().Location);
 
-                var artist_template_reader = new StreamReader(new FileStream(current_dir + @"/templates/artist.tpl", FileMode.Open));
+                var artist_template_reader = new StreamReader(new FileStream(template + @"/artist.tpl", FileMode.Open));
                 var artist_template = artist_template_reader.ReadToEnd();
 
                 // Replacement code to prevent "over-replacement"
@@ -194,9 +192,10 @@ namespace HSLProcessor
         /// <summary>
         /// Generate source details listing
         /// </summary>
+        /// <param name "template">Location of the template</param>
         /// <param name="directory">Directory to export to</param>
         /// <returns>Result of the export</returns>
-        public static GenerateResult GenerateSourceDetail(DirectoryInfo directory)
+        public static GenerateResult GenerateSourceDetail(DirectoryInfo template, DirectoryInfo directory)
         {
             try
             {
@@ -214,10 +213,7 @@ namespace HSLProcessor
                     source_list.Add(item);
                 }
 
-                var current_dir = System.IO.Path.GetDirectoryName(
-                  System.Reflection.Assembly.GetEntryAssembly().Location);
-
-                var source_template_reader = new StreamReader(new FileStream(current_dir + @"/templates/source.tpl", FileMode.Open));
+                var source_template_reader = new StreamReader(new FileStream(template + @"/source.tpl", FileMode.Open));
                 var source_template = source_template_reader.ReadToEnd();
 
                 // Replacement code to prevent "over-replacement"
@@ -277,9 +273,10 @@ namespace HSLProcessor
         /// <summary>
         /// Generate series details listing
         /// </summary>
+        /// <param name "template">Location of the template</param>
         /// <param name="directory">Directory to export to</param>
         /// <returns>Result of the export</returns>
-        public static GenerateResult GenerateSeriesDetail(DirectoryInfo directory)
+        public static GenerateResult GenerateSeriesDetail(DirectoryInfo template, DirectoryInfo directory)
         {
             try
             {
@@ -297,10 +294,7 @@ namespace HSLProcessor
                     series_list.Add(item);
                 }
 
-                var current_dir = System.IO.Path.GetDirectoryName(
-                  System.Reflection.Assembly.GetEntryAssembly().Location);
-
-                var source_template_reader = new StreamReader(new FileStream(current_dir + @"/templates/series.tpl", FileMode.Open));
+                var source_template_reader = new StreamReader(new FileStream(template + @"/series.tpl", FileMode.Open));
                 var source_template = source_template_reader.ReadToEnd();
 
                 // Replacement code to prevent "over-replacement"
@@ -354,9 +348,10 @@ namespace HSLProcessor
         /// <summary>
         /// Generate title main listing
         /// </summary>
+        /// <param name "template">Location of the template</param>
         /// <param name="directory">Directory to export to</param>
         /// <returns>Result of the export</returns>
-        public static GenerateResult GenerateListing(DirectoryInfo directory)
+        public static GenerateResult GenerateListing(DirectoryInfo template, DirectoryInfo directory)
         {
             try
             {
@@ -377,10 +372,7 @@ namespace HSLProcessor
                 // Sort the list
                 song_list = song_list.OrderBy(o => o.Title).ToList();
 
-                var current_dir = System.IO.Path.GetDirectoryName(
-                  System.Reflection.Assembly.GetEntryAssembly().Location);
-
-                var songs_template_reader = new StreamReader(new FileStream(current_dir + @"/templates/songs.tpl", FileMode.Open));
+                var songs_template_reader = new StreamReader(new FileStream(template + @"/songs.tpl", FileMode.Open));
                 var songs_template = songs_template_reader.ReadToEnd();
 
                 // Replacement code to prevent "over-replacement"
