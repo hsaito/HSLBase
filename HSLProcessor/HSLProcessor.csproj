@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <Authors>Hideki Saito</Authors>
     <Company>Hideki Saito</Company>
-    <Product>Hideki Saito</Product>
+    <Product>HSLProcessor</Product>
     <PackageId>HSLProcessor</PackageId>
     <Description>Processor for the HSL data.</Description>
     <Copyright>Copyright (c) 2017 Hideki Saito</Copyright>
