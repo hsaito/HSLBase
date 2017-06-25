@@ -76,6 +76,12 @@ You can generate static web site contains whole data structure of the site. Each
 
 You can use `generatehtml` command to do this.
 
+<pre>
+dotnet run generatehtml template output
+</pre>
+
+Argument passed `template` for template to use, and `output` portion to specify where you want output your page to.
+
 ### Generating the sitemap
 Use `generatesitemap` to generate the [sitemap](https://www.sitemaps.org/protocol.html). This can be used to faciliate better indexing by search engines.
 
@@ -87,9 +93,3 @@ dotnet run generatesitemap sitemap.xml https://songlist.hidekisaito.com
 
 ### Deleting an item
 Use `deleteitem` command to delete item. Specify UUID of the entry.
-
-<pre>
-dotnet run generatehtml output
-</pre>
-
-Argument passed `output` portion to specify where you want output your page to.

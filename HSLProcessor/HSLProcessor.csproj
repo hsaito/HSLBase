@@ -4,15 +4,16 @@
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <Authors>Hideki Saito</Authors>
     <Company>Hideki Saito</Company>
-    <Product>Hideki Saito</Product>
+    <Product>HSLProcessor</Product>
     <PackageId>HSLProcessor</PackageId>
     <Description>Processor for the HSL data.</Description>
     <Copyright>Copyright (c) 2017 Hideki Saito</Copyright>
     <PackageLicenseUrl>https://github.com/hsaito/HSLBase/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/hsaito/HSLBase</PackageProjectUrl>
-    <Version>1.4.0.0</Version>
-    <AssemblyVersion>1.4.0.0</AssemblyVersion>
-    <FileVersion>1.4.0.0</FileVersion>
+    <Version>1.4.1.0</Version>
+    <AssemblyVersion>1.4.1.0</AssemblyVersion>
+    <FileVersion>1.4.1.0</FileVersion>
+    <RuntimeIdentifiers>win7-x64;win7-x86;debian.8-x64;osx.10.12-x64</RuntimeIdentifiers>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.8" />
