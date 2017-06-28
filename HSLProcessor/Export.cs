@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
 using log4net;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace HSLProcessor
 {
@@ -9,6 +12,69 @@ namespace HSLProcessor
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(Exporter));
         public enum ExportResult { Success, Failed }
+
+        struct SongEntry
+        {
+            public string title_id;
+            public string title;
+            public string artist_id;
+            public string artist;
+            public string source_id;
+            public string source;
+            public string series_id;
+            public string series;
+        }
+
+        /// <summary>
+        /// Export to JSON
+        /// </summary>
+        /// <param name="file">JSON file to export to</param>
+        /// <returns>Result of the export</returns>
+        public static ExportResult ExportJson(FileInfo file)
+        {
+            try
+            {
+                var entry = new List<SongEntry>();
+                HSLContext context = new HSLContext();
+                context.LoadRelations();
+
+                foreach (var item in context.Songs)
+                {
+                    var song = new SongEntry();
+
+                    song.title = item.Title;
+                    song.title_id = item.TitleId.ToString();
+                    song.artist = item.Artist.Name;
+                    song.artist_id = item.Artist.ArtistId.ToString();
+
+                    if (item.Source != null)
+                    {
+                        song.source = item.Source.Name;
+                        song.source_id = item.Source.SourceId.ToString();
+
+                        if (item.Source.Series != null)
+                        {
+                            song.series = item.Source.Series.Name;
+                            song.series_id = item.Source.Series.SeriesId.ToString();
+                        }
+                    }
+                    entry.Add(song);
+                }
+                
+                var output = JsonConvert.SerializeObject(entry);
+
+                var writer = new StreamWriter(new FileStream(file.FullName, FileMode.Create));
+                writer.Write(output);
+                writer.Flush();
+                return ExportResult.Success;
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Failed exporting to JSON.");
+                Log.Debug(ex.Message);
+                return ExportResult.Failed;
+            }
+        }
 
         /// <summary>
         /// Export to XML
@@ -61,11 +127,11 @@ namespace HSLProcessor
                     XElement xl_item = new XElement("entry");
                     xl_item.SetAttributeValue("id", item.SourceId);
                     xl_item.SetElementValue("name", item.Name);
-                    
-                    if(item.Series != null)
+
+                    if (item.Series != null)
                     {
                         xl_item.SetElementValue("series", item.Series.Name);
-                        xl_item.Element("series").SetAttributeValue("id",item.Series.SeriesId);
+                        xl_item.Element("series").SetAttributeValue("id", item.Series.SeriesId);
                     }
 
                     xl_sources.Add(xl_item);
