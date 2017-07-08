@@ -89,6 +89,18 @@ namespace HSLProcessor
                             break;
                         }
 
+                    case "exportjson":
+                        {
+                            if(args.Length < 2)
+                            {
+                                Log.Error("Missing file name.");
+                                return -1;
+                            }
+
+                            Exporter.ExportJson(new FileInfo(args[1]));
+                            break;
+                        }
+
                     case "generatesitemap":
                         {
                             if(args.Length < 3)
