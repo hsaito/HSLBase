@@ -160,7 +160,7 @@ namespace HSLProcessor
                     var song_list_content = "<table id=\"content_table\"><tr class=\"row\"><th class=\"cell table_head\">Title</th><th class=\"cell table_head\">Source</th></tr>\r\n";
                     foreach (var title_item in list)
                     {
-                        song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"../../title/{4}/{2}.html\">{0}</a></td></td><td class=\"cell\"><a href=\"../../source/{5}/{3}.html\">{1}</a></td></tr>\r\n"
+                        song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"../../title/{4}/{2}.html\">{0}</a></td><td class=\"cell\"><a href=\"../../source/{5}/{3}.html\">{1}</a></td></tr>\r\n"
                         , title_item.Title, title_item.Source.Name, title_item.TitleId, title_item.Source.SourceId, 
                         Utils.GetGuidPrefix(title_item.TitleId), Utils.GetGuidPrefix(title_item.Source.SourceId));
                     }
@@ -241,7 +241,7 @@ namespace HSLProcessor
                     var song_list_content = "<table id=\"content_table\"><tr class=\"row\"><th class=\"cell table_head\">Title</th><th class=\"cell table_head\">Artist</th></tr>\r\n";
                     foreach (var title_item in list)
                     {
-                        song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"../../title/{4}/{2}.html\">{0}</a></td></td><td class=\"cell\"><a href=\"../../artist/{5}/{3}.html\">{1}</a></td></tr>\r\n"
+                        song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"../../title/{4}/{2}.html\">{0}</a></td><td class=\"cell\"><a href=\"../../artist/{5}/{3}.html\">{1}</a></td></tr>\r\n"
                         , title_item.Title, title_item.Artist.Name, title_item.TitleId, title_item.Artist.ArtistId, 
                         Utils.GetGuidPrefix(title_item.TitleId), Utils.GetGuidPrefix(title_item.Artist.ArtistId));
                     }
@@ -315,7 +315,7 @@ namespace HSLProcessor
                     var song_list_content = "<table id=\"content_table\"><tr class=\"row\"><th class=\"cell table_head\">Title</th><th class=\"cell table_head\">Artist</th><th class=\"cell table_head\">Source</th></tr>\r\n";
                     foreach (var title_item in list)
                     {
-                        song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"../../title/{6}/{2}.html\">{0}</a></td></td><td class=\"cell\"><a href=\"../../artist/{7}/{3}.html\">{1}</a></td><td class=\"cell\"><a href=\"../../source/{8}/{5}.html\">{4}</a></td></tr>\r\n"
+                        song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"../../title/{6}/{2}.html\">{0}</a></td><td class=\"cell\"><a href=\"../../artist/{7}/{3}.html\">{1}</a></td><td class=\"cell\"><a href=\"../../source/{8}/{5}.html\">{4}</a></td></tr>\r\n"
                         , title_item.Title, title_item.Artist.Name, title_item.TitleId, title_item.Artist.ArtistId, title_item.Source.Name, title_item.SourceId, 
                         Utils.GetGuidPrefix(title_item.TitleId), Utils.GetGuidPrefix(title_item.Artist.ArtistId), Utils.GetGuidPrefix(title_item.Source.SourceId));
                     }
