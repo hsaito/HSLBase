@@ -15,7 +15,7 @@ namespace HSLProcessor
             try
             {
                 Log.Info("Listing contents of the database.");
-                HSLContext context = new HSLContext();
+                var context = new HSLContext();
                 context.LoadRelations();
 
                 // For counting
@@ -49,7 +49,7 @@ namespace HSLProcessor
         {
             try
             {
-                int i = 0;
+                var i = 0;
                 foreach (var item in songs)
                 {
                     Console.WriteLine(
