@@ -9,6 +9,7 @@ namespace HSLProcessor
         /// Get artist, if doesn't exist, create new
         /// </summary>
         /// <param name="artist">Artist class</param>
+        /// <param name="context">Database context to use</param>
         /// <returns>Result of the artist</returns>
         public static Artist GetOrAddArtist(Artist artist, ref HSLContext context)
         {
@@ -28,7 +29,8 @@ namespace HSLProcessor
                 /// <summary>
         /// Get artist, if doesn't exist, create new
         /// </summary>
-        /// <param name="artist">Artist class</param>
+        /// <param name="source">Artist class</param>
+        /// <param name="context">Database context to use</param>
         /// <returns>Result of the artist</returns>
         public static Source GetOrAddSource(Source source, ref HSLContext context)
         {
@@ -50,6 +52,7 @@ namespace HSLProcessor
         /// Get artist, if doesn't exist, create new
         /// </summary>
         /// <param name="series">Series class</param>
+        /// <param name="context">Database context to use</param>
         /// <returns>Result of the artist</returns>
         public static Series GetOrAddSeries(Series series, ref HSLContext context)
         {

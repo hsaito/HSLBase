@@ -21,6 +21,7 @@ namespace HSLProcessor
         /// </summary>
         /// <param name="file">CSV file</param>
         /// <param name="hasHeader">Whether the file has a header</param>
+        /// <param name="op_mode">Operation mode to use</param>
         /// <returns>List of CSV content</returns>
         public static List<CSVContent> Load(FileInfo file, operation_mode op_mode = operation_mode.Songlist, bool hasHeader = true)
         {

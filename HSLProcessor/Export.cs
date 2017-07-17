@@ -4,7 +4,6 @@ using System.IO;
 using System.Xml.Linq;
 using log4net;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace HSLProcessor
 {
