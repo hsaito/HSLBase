@@ -33,11 +33,13 @@
 
         a:hover {
             text-decoration: underline;
+            text-decoration-style: solid;
             color: blue;
         }
 
         a:active {
-            text-decoration-style: underline;
+            text-decoration: underline;
+            text-decoration-style: solid;
             color: darkgreen;
         }
     </style>
