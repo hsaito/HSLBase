@@ -3,7 +3,7 @@ using log4net;
 
 namespace HSLProcessor
 {
-    static class Updater
+    internal static class Updater
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(Updater));
         public enum UpdateResult { Success, Failed }
@@ -77,11 +77,11 @@ namespace HSLProcessor
             try
             {
                 Log.Info(string.Format("Searching {0} for deletion.",item));
-                var result_title = Delete(item, UpdateType.Title) == UpdateResult.Success;
-                var result_artist = Delete(item, UpdateType.Artist) == UpdateResult.Success;
-                var result_source = Delete(item, UpdateType.Source) == UpdateResult.Success;
+                var resultTitle = Delete(item, UpdateType.Title) == UpdateResult.Success;
+                var resultArtist = Delete(item, UpdateType.Artist) == UpdateResult.Success;
+                var resultSource = Delete(item, UpdateType.Source) == UpdateResult.Success;
 
-                if (result_title || result_artist || result_source)
+                if (resultTitle || resultArtist || resultSource)
                 {
                     Log.Info("Deletion completed.");
                     return UpdateResult.Success;

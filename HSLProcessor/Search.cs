@@ -5,7 +5,7 @@ using log4net;
 
 namespace HSLProcessor
 {
-    static class Searcher
+    internal static class Searcher
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(Searcher));
         public enum SearchResult { Success, Failed }
@@ -23,7 +23,7 @@ namespace HSLProcessor
             try
             {
                 Log.Info("Beginning search.");
-                HSLContext context = new HSLContext();
+                var context = new HSLContext();
                 context.LoadRelations();
                 List<Song> result;
                 switch (type)
@@ -56,14 +56,14 @@ namespace HSLProcessor
                             Log.Info("Searching series for " + query);
                             result = null;
 
-                            var aff_title_list = context.Sources.Where((item) => item.Series.Name == query).ToList();
+                            var affTitleList = context.Sources.Where((item) => item.Series.Name == query).ToList();
 
                             result = new List<Song>();
 
-                            foreach (var entry in aff_title_list)
+                            foreach (var entry in affTitleList)
                             {
-                                var source_list = context.Songs.Where((item) => item.Source.Name.Contains(entry.Name));
-                                result.AddRange(source_list);
+                                var sourceList = context.Songs.Where((item) => item.Source.Name.Contains(entry.Name));
+                                result.AddRange(sourceList);
                             }
 
                             break;
@@ -95,7 +95,7 @@ namespace HSLProcessor
             var list = new List<Song>();
             try
             {
-                HSLContext context = new HSLContext();
+                var context = new HSLContext();
                 context.LoadRelations();
                 List<Song> result;
                 switch (type)
@@ -129,14 +129,14 @@ namespace HSLProcessor
                             Log.Info("Searching series for " + query);
                             result = null;
 
-                            var aff_title_list = context.Sources.Where((item) => item.Series.SeriesId == query).ToList();
+                            var affTitleList = context.Sources.Where((item) => item.Series.SeriesId == query).ToList();
 
                             result = new List<Song>();
 
-                            foreach (var entry in aff_title_list)
+                            foreach (var entry in affTitleList)
                             {
-                                var source_list = context.Songs.Where((item) => item.Source.Name.Contains(entry.Name));
-                                result.AddRange(source_list);
+                                var sourceList = context.Songs.Where((item) => item.Source.Name.Contains(entry.Name));
+                                result.AddRange(sourceList);
                             }
 
                             result = result.Distinct().ToList();
