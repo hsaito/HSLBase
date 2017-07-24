@@ -3,17 +3,18 @@ using System.Linq;
 
 namespace HSLProcessor
 {
-    class Utils
+    internal static class Utils
     {
         /// <summary>
         /// Get artist, if doesn't exist, create new
         /// </summary>
         /// <param name="artist">Artist class</param>
+        /// <param name="context">Reference to the database context</param>
         /// <returns>Result of the artist</returns>
         public static Artist GetOrAddArtist(Artist artist, ref HSLContext context)
         {
             var result = context.Artists.Where((item) => item.Name == artist.Name);
-            if (result.Count() == 0)
+            if (!result.Any())
             {
                 context.Artists.Add(artist);
                 context.SaveChanges();
@@ -25,15 +26,16 @@ namespace HSLProcessor
             }
         }
 
-                /// <summary>
-        /// Get artist, if doesn't exist, create new
+        /// <summary>
+        /// Get source, if doesn't exist, create new
         /// </summary>
-        /// <param name="artist">Artist class</param>
-        /// <returns>Result of the artist</returns>
+        /// <param name="source">Source class</param>
+        /// <param name="context">Reference to the database context</param>
+        /// <returns>Result of the source</returns>
         public static Source GetOrAddSource(Source source, ref HSLContext context)
         {
             var result = context.Sources.Where((item) => item.Name == source.Name);
-            if (result.Count() == 0)
+            if (!result.Any())
             {
                 context.Sources.Add(source);
                 context.SaveChanges();
@@ -50,11 +52,12 @@ namespace HSLProcessor
         /// Get artist, if doesn't exist, create new
         /// </summary>
         /// <param name="series">Series class</param>
+        /// <param name="context">Reference to the database context</param>
         /// <returns>Result of the artist</returns>
         public static Series GetOrAddSeries(Series series, ref HSLContext context)
         {
             var result = context.Series.Where((item) => item.Name == series.Name);
-            if (result.Count() == 0)
+            if (!result.Any())
             {
                 context.Series.Add(series);
                 context.SaveChanges();
