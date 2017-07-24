@@ -49,7 +49,7 @@ namespace HSLProcessor
         }
 
         /// <summary>
-        /// Get artist, if doesn't exist, create new
+        /// Get series, if doesn't exist, create new
         /// </summary>
         /// <param name="series">Series class</param>
         /// <param name="context">Reference to the database context</param>
