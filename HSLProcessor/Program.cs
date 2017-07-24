@@ -25,7 +25,7 @@ namespace HSLProcessor
                     log4netConfig.Load(reader);
                 }
 
-                ILoggerRepository rep = log4net.LogManager.CreateRepository(Assembly.GetEntryAssembly(), typeof(log4net.Repository.Hierarchy.Hierarchy));
+                ILoggerRepository rep = LogManager.CreateRepository(Assembly.GetEntryAssembly(), typeof(log4net.Repository.Hierarchy.Hierarchy));
                 XmlConfigurator.Configure(rep, log4netConfig["log4net"]);
             }
             catch (Exception ex)
@@ -43,7 +43,7 @@ namespace HSLProcessor
                 if (args.Length == 0)
                 {
                     Log.Error("Missing arguments!");
-                    Console.WriteLine("Options are: importcsv, importxml, importseriescsv, exportxml, generatehtml, generatesitemap, deleteitem, and list");
+                    Console.WriteLine("Options are: importcsv, importxml, importseriescsv, exportxml, exportjson, generatehtml, generatesitemap, deleteitem, and list");
                     return -1;
                 }
 

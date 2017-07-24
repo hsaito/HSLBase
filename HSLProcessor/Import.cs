@@ -15,7 +15,7 @@ namespace HSLProcessor
         /// <summary>
         /// Synchronous wrapper for importing CSV file
         /// </summary>
-        /// <param name="filename">CSV file to import</param>
+        /// <param name="file">CSV file to import</param>
         /// <returns>Result of the import</returns>
         public static ImportResult ImportCsv(FileInfo file)
         {
@@ -25,7 +25,7 @@ namespace HSLProcessor
         /// <summary>
         /// Import CSV file
         /// </summary>
-        /// <param name="filename">CSV file to import</param>
+        /// <param name="file">CSV file to import</param>
         /// <returns>Result of the import</returns>
         public static async Task<ImportResult> ImportCsvAsync(FileInfo file)
         {
@@ -101,7 +101,7 @@ namespace HSLProcessor
         /// Import XML file
         /// </summary>
         /// <param name="file">XML file to import</param>
-        /// <returns>Result of the import<</returns>
+        /// <returns>Result of the import</returns>
         public static async Task<ImportResult> ImportXmlAsync(FileInfo file)
         {
             try
@@ -209,7 +209,7 @@ namespace HSLProcessor
         /// <summary>
         /// Synchronous wrapper for importing Series CSV file
         /// </summary>
-        /// <param name="filename">CSV file to import</param>
+        /// <param name="file">CSV file to import</param>
         /// <returns>Result of the import</returns>
         public static ImportResult ImportSourceSeriesCsv(FileInfo file)
         {
@@ -219,7 +219,7 @@ namespace HSLProcessor
         /// <summary>
         /// Import reference CSV file
         /// </summary>
-        /// <param name="filename">CSV file to import</param>
+        /// <param name="file">CSV file to import</param>
         /// <returns>Result of the import</returns>
         public static async Task<ImportResult> ImportSourceSeriesCsvAsync(FileInfo file)
         {

@@ -18,7 +18,7 @@ namespace HSLProcessor
         /// <summary>
         ///  Generate HTML pages based on DB entries
         /// </summary>
-        /// <param name "template">Location of the template</param>
+        /// <param name="template">Location of the template</param>
         /// <param name="directory">Directory (root) to export files</param>
         /// <returns>Result of the process</returns>
         public static GenerateResult Generate(DirectoryInfo template, DirectoryInfo directory)
@@ -49,7 +49,7 @@ namespace HSLProcessor
         /// <summary>
         /// Generate title details listing
         /// </summary>
-        /// <param name "template">Location of the template</param>
+        /// <param name="template">Location of the template</param>
         /// <param name="directory">Directory to export to</param>
         /// <returns>Result of the export</returns>
         public static GenerateResult GenerateTitleDetail(DirectoryInfo template, DirectoryInfo directory)
@@ -117,7 +117,7 @@ namespace HSLProcessor
         /// <summary>
         /// Generate artist details listing
         /// </summary>
-        /// <param name "template">Location of the template</param>
+        /// <param name="template">Location of the template</param>
         /// <param name="directory">Directory to export to</param>
         /// <returns>Result of the export</returns>
         public static GenerateResult GenerateArtistDetail(DirectoryInfo template, DirectoryInfo directory)
@@ -160,7 +160,7 @@ namespace HSLProcessor
                     var song_list_content = "<table id=\"content_table\"><tr class=\"row\"><th class=\"cell table_head\">Title</th><th class=\"cell table_head\">Source</th></tr>\r\n";
                     foreach (var title_item in list)
                     {
-                        song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"../../title/{4}/{2}.html\">{0}</a></td></td><td class=\"cell\"><a href=\"../../source/{5}/{3}.html\">{1}</a></td></tr>\r\n"
+                        song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"../../title/{4}/{2}.html\">{0}</a></td><td class=\"cell\"><a href=\"../../source/{5}/{3}.html\">{1}</a></td></tr>\r\n"
                         , title_item.Title, title_item.Source.Name, title_item.TitleId, title_item.Source.SourceId, 
                         Utils.GetGuidPrefix(title_item.TitleId), Utils.GetGuidPrefix(title_item.Source.SourceId));
                     }
@@ -192,7 +192,7 @@ namespace HSLProcessor
         /// <summary>
         /// Generate source details listing
         /// </summary>
-        /// <param name "template">Location of the template</param>
+        /// <param name="template">Location of the template</param>
         /// <param name="directory">Directory to export to</param>
         /// <returns>Result of the export</returns>
         public static GenerateResult GenerateSourceDetail(DirectoryInfo template, DirectoryInfo directory)
@@ -241,7 +241,7 @@ namespace HSLProcessor
                     var song_list_content = "<table id=\"content_table\"><tr class=\"row\"><th class=\"cell table_head\">Title</th><th class=\"cell table_head\">Artist</th></tr>\r\n";
                     foreach (var title_item in list)
                     {
-                        song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"../../title/{4}/{2}.html\">{0}</a></td></td><td class=\"cell\"><a href=\"../../artist/{5}/{3}.html\">{1}</a></td></tr>\r\n"
+                        song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"../../title/{4}/{2}.html\">{0}</a></td><td class=\"cell\"><a href=\"../../artist/{5}/{3}.html\">{1}</a></td></tr>\r\n"
                         , title_item.Title, title_item.Artist.Name, title_item.TitleId, title_item.Artist.ArtistId, 
                         Utils.GetGuidPrefix(title_item.TitleId), Utils.GetGuidPrefix(title_item.Artist.ArtistId));
                     }
@@ -273,7 +273,7 @@ namespace HSLProcessor
         /// <summary>
         /// Generate series details listing
         /// </summary>
-        /// <param name "template">Location of the template</param>
+        /// <param name="template">Location of the template</param>
         /// <param name="directory">Directory to export to</param>
         /// <returns>Result of the export</returns>
         public static GenerateResult GenerateSeriesDetail(DirectoryInfo template, DirectoryInfo directory)
@@ -315,7 +315,7 @@ namespace HSLProcessor
                     var song_list_content = "<table id=\"content_table\"><tr class=\"row\"><th class=\"cell table_head\">Title</th><th class=\"cell table_head\">Artist</th><th class=\"cell table_head\">Source</th></tr>\r\n";
                     foreach (var title_item in list)
                     {
-                        song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"../../title/{6}/{2}.html\">{0}</a></td></td><td class=\"cell\"><a href=\"../../artist/{7}/{3}.html\">{1}</a></td><td class=\"cell\"><a href=\"../../source/{8}/{5}.html\">{4}</a></td></tr>\r\n"
+                        song_list_content += string.Format("<tr class=\"row\"><td class=\"cell\"><a href=\"../../title/{6}/{2}.html\">{0}</a></td><td class=\"cell\"><a href=\"../../artist/{7}/{3}.html\">{1}</a></td><td class=\"cell\"><a href=\"../../source/{8}/{5}.html\">{4}</a></td></tr>\r\n"
                         , title_item.Title, title_item.Artist.Name, title_item.TitleId, title_item.Artist.ArtistId, title_item.Source.Name, title_item.SourceId, 
                         Utils.GetGuidPrefix(title_item.TitleId), Utils.GetGuidPrefix(title_item.Artist.ArtistId), Utils.GetGuidPrefix(title_item.Source.SourceId));
                     }
@@ -348,7 +348,7 @@ namespace HSLProcessor
         /// <summary>
         /// Generate title main listing
         /// </summary>
-        /// <param name "template">Location of the template</param>
+        /// <param name="template">Location of the template</param>
         /// <param name="directory">Directory to export to</param>
         /// <returns>Result of the export</returns>
         public static GenerateResult GenerateListing(DirectoryInfo template, DirectoryInfo directory)
@@ -419,6 +419,7 @@ namespace HSLProcessor
         /// Export sitemap
         /// </summary>
         /// <param name="file">XML file to export to</param>
+        /// <param name="urlbase">Base of the URL to append to the sitemap</param>
         /// <returns>Result of the export</returns>
         public static GenerateResult ExportSitemap(FileInfo file, string urlbase)
         {
