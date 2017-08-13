@@ -1,4 +1,4 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
@@ -30,5 +30,6 @@ Global
 		{C5B2B196-110A-49DA-88D0-2B632EB1557E}.Release|x64.Build.0 = Release|x64
 		{C5B2B196-110A-49DA-88D0-2B632EB1557E}.Release|x86.ActiveCfg = Release|x86
 		{C5B2B196-110A-49DA-88D0-2B632EB1557E}.Release|x86.Build.0 = Release|x86
+		{C5B2B196-110A-49DA-88D0-2B632EB1557E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 	EndGlobalSection
 EndGlobal
