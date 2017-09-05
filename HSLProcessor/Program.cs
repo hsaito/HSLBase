@@ -6,27 +6,26 @@ using System.Reflection;
 using System.Xml;
 using log4net;
 using log4net.Config;
-using log4net.Repository;
 
 namespace HSLProcessor
 {
-    class Program
+    internal class Program
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(Program));
-        static int Main(string[] args)
+        public static int Main(string[] args)
         {
             try
             {
                 // Configuration for logging
-                XmlDocument log4netConfig = new XmlDocument();
+                var log4NetConfig = new XmlDocument();
 
-                using (StreamReader reader = new StreamReader(new FileStream("log4net.config", FileMode.Open, FileAccess.Read)))
+                using (var reader = new StreamReader(new FileStream("log4net.config", FileMode.Open, FileAccess.Read)))
                 {
-                    log4netConfig.Load(reader);
+                    log4NetConfig.Load(reader);
                 }
 
-                ILoggerRepository rep = LogManager.CreateRepository(Assembly.GetEntryAssembly(), typeof(log4net.Repository.Hierarchy.Hierarchy));
-                XmlConfigurator.Configure(rep, log4netConfig["log4net"]);
+                var rep = LogManager.CreateRepository(Assembly.GetEntryAssembly(), typeof(log4net.Repository.Hierarchy.Hierarchy));
+                XmlConfigurator.Configure(rep, log4NetConfig["log4net"]);
             }
             catch (Exception ex)
             {
@@ -152,7 +151,7 @@ namespace HSLProcessor
                             var (result3, hit3) = Searcher.Search(args[1], Searcher.SearchType.Source);
 
                             // Merge the list
-                            List<Song> hit = new List<Song>();
+                            var hit = new List<Song>();
                             if (result1 == Searcher.SearchResult.Success &&
                             result1 == result2 &&
                             result2 == result3)
@@ -163,9 +162,9 @@ namespace HSLProcessor
                             }
 
                             // Uniquify + Sort
-                            var unique_list = hit.GroupBy(song => song.TitleId).Select(group => group.First()).ToList();
-                            unique_list = unique_list.OrderBy(list => list.Title).ToList();
-                            Lister.List(unique_list.ToList());
+                            var uniqueList = hit.GroupBy(song => song.TitleId).Select(group => group.First()).ToList();
+                            uniqueList = uniqueList.OrderBy(list => list.Title).ToList();
+                            Lister.List(uniqueList.ToList());
                             break;
                         }
 

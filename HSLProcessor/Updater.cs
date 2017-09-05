@@ -1,5 +1,6 @@
 using System;
 using log4net;
+// ReSharper disable UnusedMethodReturnValue.Global
 
 namespace HSLProcessor
 {
@@ -8,7 +9,7 @@ namespace HSLProcessor
         private static readonly ILog Log = LogManager.GetLogger(typeof(Updater));
         public enum UpdateResult { Success, Failed }
 
-        public enum UpdateType { Title, Artist, Source }
+        private enum UpdateType { Title, Artist, Source }
 
         /// <summary>
         /// Delete entry by Guid
@@ -16,7 +17,7 @@ namespace HSLProcessor
         /// <param name="item">Guid of the item to delete</param>
         /// <param name="type">Type of the item</param>
         /// <returns>Result of the operation</returns>
-        public static UpdateResult Delete(Guid item, UpdateType type)
+        private static UpdateResult Delete(Guid item, UpdateType type)
         {
             try
             {
@@ -55,6 +56,8 @@ namespace HSLProcessor
                             context.SaveChanges();
                             break;
                         }
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(type), type, null);
                 }
 
                 return UpdateResult.Success;
@@ -86,11 +89,8 @@ namespace HSLProcessor
                     Log.Info("Deletion completed.");
                     return UpdateResult.Success;
                 }
-                else
-                {
-                    Log.Info("No hit. No changes made.");
-                    return UpdateResult.Failed;
-                }
+                Log.Info("No hit. No changes made.");
+                return UpdateResult.Failed;
             }
             catch (Exception ex)
             {

@@ -13,17 +13,11 @@ namespace HSLProcessor
         /// <returns>Result of the artist</returns>
         public static Artist GetOrAddArtist(Artist artist, ref HSLContext context)
         {
-            var result = context.Artists.Where((item) => item.Name == artist.Name);
-            if (!result.Any())
-            {
-                context.Artists.Add(artist);
-                context.SaveChanges();
-                return artist;
-            }
-            else
-            {
-                return context.Artists.Find(result.First().ArtistId);
-            }
+            var result = context.Artists.Where(item => item.Name == artist.Name);
+            if (result.Any()) return context.Artists.Find(result.First().ArtistId);
+            context.Artists.Add(artist);
+            context.SaveChanges();
+            return artist;
         }
 
         /// <summary>
@@ -34,18 +28,11 @@ namespace HSLProcessor
         /// <returns>Result of the source</returns>
         public static Source GetOrAddSource(Source source, ref HSLContext context)
         {
-            var result = context.Sources.Where((item) => item.Name == source.Name);
-            if (!result.Any())
-            {
-                context.Sources.Add(source);
-                context.SaveChanges();
-                return source;
-            }
-            else
-            {
-                return context.Sources.Find(result.First().SourceId);
-            }
-
+            var result = context.Sources.Where(item => item.Name == source.Name);
+            if (result.Any()) return context.Sources.Find(result.First().SourceId);
+            context.Sources.Add(source);
+            context.SaveChanges();
+            return source;
         }
 
         /// <summary>
@@ -56,17 +43,11 @@ namespace HSLProcessor
         /// <returns>Result of the artist</returns>
         public static Series GetOrAddSeries(Series series, ref HSLContext context)
         {
-            var result = context.Series.Where((item) => item.Name == series.Name);
-            if (!result.Any())
-            {
-                context.Series.Add(series);
-                context.SaveChanges();
-                return series;
-            }
-            else
-            {
-                return context.Series.Find(result.First().SeriesId);
-            }
+            var result = context.Series.Where(item => item.Name == series.Name);
+            if (result.Any()) return context.Series.Find(result.First().SeriesId);
+            context.Series.Add(series);
+            context.SaveChanges();
+            return series;
         }
 
         /// <summary>

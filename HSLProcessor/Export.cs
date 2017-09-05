@@ -1,27 +1,32 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Xml.Linq;
 using log4net;
 using Newtonsoft.Json;
+// ReSharper disable UnusedMethodReturnValue.Global
 
 namespace HSLProcessor
 {
-    static class Exporter
+    internal static class Exporter
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(Exporter));
         public enum ExportResult { Success, Failed }
 
-        struct SongEntry
+        [SuppressMessage("ReSharper", "NotAccessedField.Local")]
+        private struct SongEntry
         {
-            public string title_id;
-            public string title;
-            public string artist_id;
-            public string artist;
-            public string source_id;
-            public string source;
-            public string series_id;
-            public string series;
+#pragma warning disable 414
+            public string TitleId;
+            public string Title;
+            public string ArtistId;
+            public string Artist;
+            public string SourceId;
+            public string Source;
+            public string SeriesId;
+            public string Series;
+#pragma warning restore 414
         }
 
         /// <summary>
@@ -34,27 +39,29 @@ namespace HSLProcessor
             try
             {
                 var entry = new List<SongEntry>();
-                HSLContext context = new HSLContext();
+                var context = new HSLContext();
                 context.LoadRelations();
 
                 foreach (var item in context.Songs)
                 {
-                    var song = new SongEntry();
+                    var song = new SongEntry
+                    {
+                        Title = item.Title,
+                        TitleId = item.TitleId.ToString(),
+                        Artist = item.Artist.Name,
+                        ArtistId = item.Artist.ArtistId.ToString()
+                    };
 
-                    song.title = item.Title;
-                    song.title_id = item.TitleId.ToString();
-                    song.artist = item.Artist.Name;
-                    song.artist_id = item.Artist.ArtistId.ToString();
 
                     if (item.Source != null)
                     {
-                        song.source = item.Source.Name;
-                        song.source_id = item.Source.SourceId.ToString();
+                        song.Source = item.Source.Name;
+                        song.SourceId = item.Source.SourceId.ToString();
 
                         if (item.Source.Series != null)
                         {
-                            song.series = item.Source.Series.Name;
-                            song.series_id = item.Source.Series.SeriesId.ToString();
+                            song.Series = item.Source.Series.Name;
+                            song.SeriesId = item.Source.Series.SeriesId.ToString();
                         }
                     }
                     entry.Add(song);
@@ -84,70 +91,70 @@ namespace HSLProcessor
         {
             try
             {
-                HSLContext context = new HSLContext();
+                var context = new HSLContext();
 
                 context.LoadRelations();
 
                 // Create a root element
-                XElement xl = new XElement("hsl");
-                XElement xl_songs = new XElement("songs");
+                var xl = new XElement("hsl");
+                var xlSongs = new XElement("songs");
                 foreach (var item in context.Songs)
                 {
-                    XElement xl_item = new XElement("entry");
-                    xl_item.SetAttributeValue("id", item.TitleId);
-                    xl_item.SetElementValue("title", item.Title);
+                    var xlItem = new XElement("entry");
+                    xlItem.SetAttributeValue("id", item.TitleId);
+                    xlItem.SetElementValue("title", item.Title);
 
-                    XElement xl_artist = new XElement("artist");
-                    xl_artist.SetAttributeValue("id", item.Artist.ArtistId);
-                    xl_artist.Value = item.Artist.Name;
-                    xl_item.Add(xl_artist);
+                    var xlArtist = new XElement("artist");
+                    xlArtist.SetAttributeValue("id", item.Artist.ArtistId);
+                    xlArtist.Value = item.Artist.Name;
+                    xlItem.Add(xlArtist);
 
-                    XElement xl_source = new XElement("source");
-                    xl_source.SetAttributeValue("id", item.Source.SourceId);
-                    xl_source.Value = item.Source.Name;
-                    xl_item.Add(xl_source);
-                    xl_songs.Add(xl_item);
+                    var xlSource = new XElement("source");
+                    xlSource.SetAttributeValue("id", item.Source.SourceId);
+                    xlSource.Value = item.Source.Name;
+                    xlItem.Add(xlSource);
+                    xlSongs.Add(xlItem);
                 }
-                xl.Add(xl_songs);
+                xl.Add(xlSongs);
 
-                XElement xl_artists = new XElement("artists");
+                var xlArtists = new XElement("artists");
                 foreach (var item in context.Artists)
                 {
-                    XElement xl_item = new XElement("entry");
-                    xl_item.SetAttributeValue("id", item.ArtistId);
-                    xl_item.SetElementValue("name", item.Name);
-                    xl_artists.Add(xl_item);
+                    var xlItem = new XElement("entry");
+                    xlItem.SetAttributeValue("id", item.ArtistId);
+                    xlItem.SetElementValue("name", item.Name);
+                    xlArtists.Add(xlItem);
                 }
-                xl.Add(xl_artists);
+                xl.Add(xlArtists);
 
-                XElement xl_sources = new XElement("sources");
+                var xlSources = new XElement("sources");
                 foreach (var item in context.Sources)
                 {
-                    XElement xl_item = new XElement("entry");
-                    xl_item.SetAttributeValue("id", item.SourceId);
-                    xl_item.SetElementValue("name", item.Name);
+                    var xlItem = new XElement("entry");
+                    xlItem.SetAttributeValue("id", item.SourceId);
+                    xlItem.SetElementValue("name", item.Name);
 
                     if (item.Series != null)
                     {
-                        xl_item.SetElementValue("series", item.Series.Name);
-                        xl_item.Element("series").SetAttributeValue("id", item.Series.SeriesId);
+                        xlItem.SetElementValue("series", item.Series.Name);
+                        xlItem.Element("series")?.SetAttributeValue("id", item.Series.SeriesId);
                     }
 
-                    xl_sources.Add(xl_item);
+                    xlSources.Add(xlItem);
                 }
 
-                xl.Add(xl_sources);
+                xl.Add(xlSources);
 
-                XElement xl_series = new XElement("series");
+                var xlSeries = new XElement("series");
                 foreach (var item in context.Series)
                 {
-                    XElement xl_item = new XElement("entry");
-                    xl_item.SetAttributeValue("id", item.SeriesId);
-                    xl_item.SetElementValue("name", item.Name);
-                    xl_series.Add(xl_item);
+                    var xlItem = new XElement("entry");
+                    xlItem.SetAttributeValue("id", item.SeriesId);
+                    xlItem.SetElementValue("name", item.Name);
+                    xlSeries.Add(xlItem);
                 }
 
-                xl.Add(xl_series);
+                xl.Add(xlSeries);
 
 
                 // Save to the file

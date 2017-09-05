@@ -1,14 +1,12 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
-using HSLProcessor;
+// ReSharper disable UnusedMember.Global
 
 namespace HSLProcessor.Migrations
 {
     [DbContext(typeof(HSLContext))]
-    partial class HSLContextModelSnapshot : ModelSnapshot
+    internal class HslContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

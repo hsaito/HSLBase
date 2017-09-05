@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HSLProcessor.Migrations
 {
+    // ReSharper disable once UnusedMember.Global
     public partial class Songs : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

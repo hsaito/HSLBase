@@ -4,7 +4,7 @@ using log4net;
 
 namespace HSLProcessor
 {
-    static class Lister
+    internal static class Lister
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(Lister));
         /// <summary>
@@ -19,7 +19,7 @@ namespace HSLProcessor
                 context.LoadRelations();
 
                 // For counting
-                int i = 0;
+                var i = 0;
 
                 // Display each item
                 foreach (var item in context.Songs)
@@ -45,7 +45,7 @@ namespace HSLProcessor
         /// List songs from the list of Song class
         /// </summary>
         /// <param name="songs">List of songs</param>
-        public static void List(List<Song> songs)
+        public static void List(IEnumerable<Song> songs)
         {
             try
             {

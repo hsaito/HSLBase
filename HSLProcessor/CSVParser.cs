@@ -5,15 +5,15 @@ using log4net;
 
 namespace HSLProcessor
 {
-    public static class CSVParser
+    public static class CsvParser
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(CSVParser));
+        private static readonly ILog Log = LogManager.GetLogger(typeof(CsvParser));
 
-        public enum operation_mode { Songlist, Series_Source };
+        public enum OperationMode { Songlist, SeriesSource }
 
-        public class CSVContent
+        public class CsvContent
         {
-            public Dictionary<string, string> entry;
+            public Dictionary<string, string> Entry;
         }
 
         /// <summary>
@@ -21,17 +21,17 @@ namespace HSLProcessor
         /// </summary>
         /// <param name="file">CSV file</param>
         /// <param name="hasHeader">Whether the file has a header</param>
-        /// <param name="op_mode">Operation mode to use</param>
+        /// <param name="opMode">Operation mode to use</param>
         /// <returns>List of CSV content</returns>
-        public static List<CSVContent> Load(FileInfo file, operation_mode op_mode = operation_mode.Songlist, bool hasHeader = true)
+        public static IEnumerable<CsvContent> Load(FileInfo file, OperationMode opMode = OperationMode.Songlist, bool hasHeader = true)
         {
             try
             {
-                var list = new List<CSVContent>();
+                var list = new List<CsvContent>();
                 var reader = new StreamReader(new FileStream(file.FullName, FileMode.Open));
 
                 // If no header, grab one from index 0
-                int i = 0;
+                var i = 0;
                 if (!hasHeader)
                     i = -1;
 
@@ -44,32 +44,24 @@ namespace HSLProcessor
                         // Rudimentary split
                         var splitted = line.Split(',');
 
-                        var content = new CSVContent();
-                        content.entry = new Dictionary<string, string>();
+                        var content = new CsvContent {Entry = new Dictionary<string, string>()};
 
-                        switch (op_mode)
+                        switch (opMode)
                         {
-                            case operation_mode.Songlist:
+                            case OperationMode.Songlist:
                                 {
-                                    content.entry.Add("title", splitted[0]);
-                                    content.entry.Add("artist", splitted[1]);
+                                    content.Entry.Add("title", splitted[0]);
+                                    content.Entry.Add("artist", splitted[1]);
 
                                     // If third argument is present, that's source/reference
-                                    if (splitted.Length == 3)
-                                    {
-                                        content.entry.Add("source", splitted[2]);
-                                    }
-                                    else
-                                    {
-                                        content.entry.Add("source", "");
-                                    }
+                                    content.Entry.Add("source", splitted.Length == 3 ? splitted[2] : "");
                                     break;
 
                                 }
-                            case operation_mode.Series_Source:
+                            case OperationMode.SeriesSource:
                                 {
-                                    content.entry.Add("source", splitted[0]);
-                                    content.entry.Add("series", splitted[1]);
+                                    content.Entry.Add("source", splitted[0]);
+                                    content.Entry.Add("series", splitted[1]);
                                     break;
                                 }
 
