@@ -4,17 +4,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using log4net;
+
 // ReSharper disable UnusedMethodReturnValue.Global
 
 namespace HSLProcessor
 {
     internal static class Importer
     {
+        public enum ImportResult
+        {
+            Success,
+            Failed
+        }
+
         private static readonly ILog Log = LogManager.GetLogger(typeof(Importer));
-        public enum ImportResult { Success, Failed }
 
         /// <summary>
-        /// Synchronous wrapper for importing CSV file
+        ///     Synchronous wrapper for importing CSV file
         /// </summary>
         /// <param name="file">CSV file to import</param>
         /// <returns>Result of the import</returns>
@@ -24,7 +30,7 @@ namespace HSLProcessor
         }
 
         /// <summary>
-        /// Import CSV file
+        ///     Import CSV file
         /// </summary>
         /// <param name="file">CSV file to import</param>
         /// <returns>Result of the import</returns>
@@ -86,7 +92,7 @@ namespace HSLProcessor
         }
 
         /// <summary>
-        /// Synchronous wrapper for importing XML file
+        ///     Synchronous wrapper for importing XML file
         /// </summary>
         /// <param name="file">XML file to import</param>
         /// <returns>Result of the import</returns>
@@ -96,7 +102,7 @@ namespace HSLProcessor
         }
 
         /// <summary>
-        /// Import XML file
+        ///     Import XML file
         /// </summary>
         /// <param name="file">XML file to import</param>
         /// <returns>Result of the import</returns>
@@ -207,7 +213,7 @@ namespace HSLProcessor
         }
 
         /// <summary>
-        /// Synchronous wrapper for importing Series CSV file
+        ///     Synchronous wrapper for importing Series CSV file
         /// </summary>
         /// <param name="file">CSV file to import</param>
         /// <returns>Result of the import</returns>
@@ -217,7 +223,7 @@ namespace HSLProcessor
         }
 
         /// <summary>
-        /// Import reference CSV file
+        ///     Import reference CSV file
         /// </summary>
         /// <param name="file">CSV file to import</param>
         /// <returns>Result of the import</returns>
@@ -253,9 +259,7 @@ namespace HSLProcessor
                     var dbSourceList = context.Sources.Where(entry => entry.SourceId == sourceItem).ToList();
 
                     foreach (var sourceEntry in dbSourceList)
-                    {
                         sourceEntry.SeriesId = seriesItem;
-                    }
 
                     context.Sources.UpdateRange(dbSourceList);
                 }
@@ -278,6 +282,5 @@ namespace HSLProcessor
                 return ImportResult.Failed;
             }
         }
-
     }
 }

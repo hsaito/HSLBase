@@ -6,7 +6,7 @@ namespace HSLProcessor
     internal static class Utils
     {
         /// <summary>
-        /// Get artist, if doesn't exist, create new
+        ///     Get artist, if doesn't exist, create new
         /// </summary>
         /// <param name="artist">Artist class</param>
         /// <param name="context">Reference to the database context</param>
@@ -21,7 +21,7 @@ namespace HSLProcessor
         }
 
         /// <summary>
-        /// Get source, if doesn't exist, create new
+        ///     Get source, if doesn't exist, create new
         /// </summary>
         /// <param name="source">Source class</param>
         /// <param name="context">Reference to the database context</param>
@@ -36,7 +36,7 @@ namespace HSLProcessor
         }
 
         /// <summary>
-        /// Get series, if doesn't exist, create new
+        ///     Get series, if doesn't exist, create new
         /// </summary>
         /// <param name="series">Series class</param>
         /// <param name="context">Reference to the database context</param>
@@ -51,15 +51,13 @@ namespace HSLProcessor
         }
 
         /// <summary>
-        /// Get Guid prefix
+        ///     Get Guid prefix
         /// </summary>
         /// <param name="guid">Guid</param>
         /// <returns>Prefix (first three characters) of Guid in string</returns>
         public static string GetGuidPrefix(Guid guid)
         {
-            return guid.ToString().Substring(0,3);
+            return guid.ToString().Substring(0, 3);
         }
-
-
     }
 }

@@ -5,32 +5,23 @@ using System.IO;
 using System.Xml.Linq;
 using log4net;
 using Newtonsoft.Json;
+
 // ReSharper disable UnusedMethodReturnValue.Global
 
 namespace HSLProcessor
 {
     internal static class Exporter
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(Exporter));
-        public enum ExportResult { Success, Failed }
-
-        [SuppressMessage("ReSharper", "NotAccessedField.Local")]
-        private struct SongEntry
+        public enum ExportResult
         {
-#pragma warning disable 414
-            public string TitleId;
-            public string Title;
-            public string ArtistId;
-            public string Artist;
-            public string SourceId;
-            public string Source;
-            public string SeriesId;
-            public string Series;
-#pragma warning restore 414
+            Success,
+            Failed
         }
 
+        private static readonly ILog Log = LogManager.GetLogger(typeof(Exporter));
+
         /// <summary>
-        /// Export to JSON
+        ///     Export to JSON
         /// </summary>
         /// <param name="file">JSON file to export to</param>
         /// <returns>Result of the export</returns>
@@ -66,7 +57,7 @@ namespace HSLProcessor
                     }
                     entry.Add(song);
                 }
-                
+
                 var output = JsonConvert.SerializeObject(entry);
 
                 var writer = new StreamWriter(new FileStream(file.FullName, FileMode.Create));
@@ -83,7 +74,7 @@ namespace HSLProcessor
         }
 
         /// <summary>
-        /// Export to XML
+        ///     Export to XML
         /// </summary>
         /// <param name="file">XML file to export to</param>
         /// <returns>Result of the export</returns>
@@ -167,6 +158,21 @@ namespace HSLProcessor
                 Log.Debug(ex.Message);
                 return ExportResult.Failed;
             }
+        }
+
+        [SuppressMessage("ReSharper", "NotAccessedField.Local")]
+        private struct SongEntry
+        {
+#pragma warning disable 414
+            public string TitleId;
+            public string Title;
+            public string ArtistId;
+            public string Artist;
+            public string SourceId;
+            public string Source;
+            public string SeriesId;
+            public string Series;
+#pragma warning restore 414
         }
     }
 }

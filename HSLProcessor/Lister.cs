@@ -7,8 +7,9 @@ namespace HSLProcessor
     internal static class Lister
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(Lister));
+
         /// <summary>
-        /// List DB items
+        ///     List DB items
         /// </summary>
         public static void List()
         {
@@ -26,7 +27,7 @@ namespace HSLProcessor
                 {
                     Console.WriteLine(
                         string.Format("Id: {0} Title: {1} Artist: {2} Source: {3}",
-                        item.TitleId, item.Title, item.Artist.Name, item.Source.Name));
+                            item.TitleId, item.Title, item.Artist.Name, item.Source.Name));
                     i++;
                 }
 
@@ -42,7 +43,7 @@ namespace HSLProcessor
         }
 
         /// <summary>
-        /// List songs from the list of Song class
+        ///     List songs from the list of Song class
         /// </summary>
         /// <param name="songs">List of songs</param>
         public static void List(IEnumerable<Song> songs)
@@ -54,7 +55,7 @@ namespace HSLProcessor
                 {
                     Console.WriteLine(
                         string.Format("Id: {0} Title: {1} Artist: {2} Source: {3}",
-                        item.TitleId, item.Title, item.Artist.Name, item.Source.Name));
+                            item.TitleId, item.Title, item.Artist.Name, item.Source.Name));
                     i++;
                 }
                 Console.WriteLine(string.Format("Count: {0}", i));

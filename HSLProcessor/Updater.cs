@@ -1,18 +1,22 @@
 using System;
 using log4net;
+
 // ReSharper disable UnusedMethodReturnValue.Global
 
 namespace HSLProcessor
 {
     internal static class Updater
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(Updater));
-        public enum UpdateResult { Success, Failed }
+        public enum UpdateResult
+        {
+            Success,
+            Failed
+        }
 
-        private enum UpdateType { Title, Artist, Source }
+        private static readonly ILog Log = LogManager.GetLogger(typeof(Updater));
 
         /// <summary>
-        /// Delete entry by Guid
+        ///     Delete entry by Guid
         /// </summary>
         /// <param name="item">Guid of the item to delete</param>
         /// <param name="type">Type of the item</param>
@@ -25,37 +29,37 @@ namespace HSLProcessor
                 switch (type)
                 {
                     case UpdateType.Title:
-                        {
-                            Log.Info(string.Format("Finding and deleting {0} for title.",item));
-                            var entry = context.Songs.Find(item);
-                            if (entry == null)
-                                return UpdateResult.Failed;
-                            context.Songs.Remove(entry);
-                            context.SaveChanges();
-                            break;
-                        }
+                    {
+                        Log.Info(string.Format("Finding and deleting {0} for title.", item));
+                        var entry = context.Songs.Find(item);
+                        if (entry == null)
+                            return UpdateResult.Failed;
+                        context.Songs.Remove(entry);
+                        context.SaveChanges();
+                        break;
+                    }
 
                     case UpdateType.Artist:
-                        {
-                            Log.Info(string.Format("Finding and deleting {0} for artist.",item));
-                            var entry = context.Artists.Find(item);
-                            if (entry == null)
-                                return UpdateResult.Failed;
-                            context.Artists.Remove(entry);
-                            context.SaveChanges();
-                            break;
-                        }
+                    {
+                        Log.Info(string.Format("Finding and deleting {0} for artist.", item));
+                        var entry = context.Artists.Find(item);
+                        if (entry == null)
+                            return UpdateResult.Failed;
+                        context.Artists.Remove(entry);
+                        context.SaveChanges();
+                        break;
+                    }
 
                     case UpdateType.Source:
-                        {
-                            Log.Info(string.Format("Finding and deleting {0} for source.",item));
-                            var entry = context.Sources.Find(item);
-                            if (entry == null)
-                                return UpdateResult.Failed;
-                            context.Sources.Remove(entry);
-                            context.SaveChanges();
-                            break;
-                        }
+                    {
+                        Log.Info(string.Format("Finding and deleting {0} for source.", item));
+                        var entry = context.Sources.Find(item);
+                        if (entry == null)
+                            return UpdateResult.Failed;
+                        context.Sources.Remove(entry);
+                        context.SaveChanges();
+                        break;
+                    }
                     default:
                         throw new ArgumentOutOfRangeException(nameof(type), type, null);
                 }
@@ -71,7 +75,7 @@ namespace HSLProcessor
         }
 
         /// <summary>
-        /// Delete entry by Guid
+        ///     Delete entry by Guid
         /// </summary>
         /// <param name="item">Guid of the item to delete</param>
         /// <returns>Result of the operation</returns>
@@ -79,7 +83,7 @@ namespace HSLProcessor
         {
             try
             {
-                Log.Info(string.Format("Searching {0} for deletion.",item));
+                Log.Info(string.Format("Searching {0} for deletion.", item));
                 var resultTitle = Delete(item, UpdateType.Title) == UpdateResult.Success;
                 var resultArtist = Delete(item, UpdateType.Artist) == UpdateResult.Success;
                 var resultSource = Delete(item, UpdateType.Source) == UpdateResult.Success;
@@ -98,6 +102,13 @@ namespace HSLProcessor
                 Log.Debug(ex.Message);
                 return UpdateResult.Failed;
             }
+        }
+
+        private enum UpdateType
+        {
+            Title,
+            Artist,
+            Source
         }
     }
 }

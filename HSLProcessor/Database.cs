@@ -1,7 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+
 // ReSharper disable ClassWithVirtualMembersNeverInherited.Global
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedAutoPropertyAccessor.Global
@@ -11,17 +12,20 @@ namespace HSLProcessor
     [Table("Song")]
     public class Song
     {
-        [Required, Key]
+        [Required]
+        [Key]
         public Guid TitleId { get; set; }
 
         [Required]
         public string Title { get; set; }
 
         public Guid ArtistId { get; set; }
+
         [ForeignKey("ArtistId")]
         public virtual Artist Artist { get; set; }
 
         public Guid SourceId { get; set; }
+
         [ForeignKey("SourceId")]
         public virtual Source Source { get; set; }
     }
@@ -29,8 +33,10 @@ namespace HSLProcessor
     [Table("Artist")]
     public class Artist
     {
-        [Required, Key]
+        [Required]
+        [Key]
         public Guid ArtistId { get; set; }
+
         [Required]
         public string Name { get; set; }
     }
@@ -38,10 +44,13 @@ namespace HSLProcessor
     [Table("Source")]
     public class Source
     {
-        [Required, Key]
+        [Required]
+        [Key]
         public Guid SourceId { get; set; }
+
         [Required]
         public string Name { get; set; }
+
         public Guid? SeriesId { get; set; }
         public virtual Series Series { get; set; }
     }
@@ -49,8 +58,10 @@ namespace HSLProcessor
     [Table("Series")]
     public class Series
     {
-        [Required, Key]
+        [Required]
+        [Key]
         public Guid SeriesId { get; set; }
+
         [Required]
         public string Name { get; set; }
     }
@@ -63,7 +74,7 @@ namespace HSLProcessor
         public virtual DbSet<Series> Series { get; set; }
 
         /// <summary>
-        /// Explicitly load tables
+        ///     Explicitly load tables
         /// </summary>
         public void LoadRelations()
         {
@@ -74,10 +85,8 @@ namespace HSLProcessor
             }
 
             foreach (var source in Sources)
-            {
-                if(source.SeriesId != null)
+                if (source.SeriesId != null)
                     source.Series = Series.Find(source.SeriesId);
-            }
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -9,32 +9,26 @@ namespace HSLProcessor.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Artists",
-                columns: table => new
+                "Artists",
+                table => new
                 {
                     ArtistId = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Artists", x => x.ArtistId);
-                });
+                constraints: table => { table.PrimaryKey("PK_Artists", x => x.ArtistId); });
 
             migrationBuilder.CreateTable(
-                name: "Series",
-                columns: table => new
+                "Series",
+                table => new
                 {
                     SeriesId = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Series", x => x.SeriesId);
-                });
+                constraints: table => { table.PrimaryKey("PK_Series", x => x.SeriesId); });
 
             migrationBuilder.CreateTable(
-                name: "Sources",
-                columns: table => new
+                "Sources",
+                table => new
                 {
                     SourceId = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: false),
@@ -44,16 +38,16 @@ namespace HSLProcessor.Migrations
                 {
                     table.PrimaryKey("PK_Sources", x => x.SourceId);
                     table.ForeignKey(
-                        name: "FK_Sources_Series_SeriesId",
-                        column: x => x.SeriesId,
-                        principalTable: "Series",
-                        principalColumn: "SeriesId",
+                        "FK_Sources_Series_SeriesId",
+                        x => x.SeriesId,
+                        "Series",
+                        "SeriesId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Songs",
-                columns: table => new
+                "Songs",
+                table => new
                 {
                     TitleId = table.Column<Guid>(nullable: false),
                     ArtistId = table.Column<Guid>(nullable: false),
@@ -64,48 +58,48 @@ namespace HSLProcessor.Migrations
                 {
                     table.PrimaryKey("PK_Songs", x => x.TitleId);
                     table.ForeignKey(
-                        name: "FK_Songs_Artists_ArtistId",
-                        column: x => x.ArtistId,
-                        principalTable: "Artists",
-                        principalColumn: "ArtistId",
+                        "FK_Songs_Artists_ArtistId",
+                        x => x.ArtistId,
+                        "Artists",
+                        "ArtistId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Songs_Sources_SourceId",
-                        column: x => x.SourceId,
-                        principalTable: "Sources",
-                        principalColumn: "SourceId",
+                        "FK_Songs_Sources_SourceId",
+                        x => x.SourceId,
+                        "Sources",
+                        "SourceId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Songs_ArtistId",
-                table: "Songs",
-                column: "ArtistId");
+                "IX_Songs_ArtistId",
+                "Songs",
+                "ArtistId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Songs_SourceId",
-                table: "Songs",
-                column: "SourceId");
+                "IX_Songs_SourceId",
+                "Songs",
+                "SourceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sources_SeriesId",
-                table: "Sources",
-                column: "SeriesId");
+                "IX_Sources_SeriesId",
+                "Sources",
+                "SeriesId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Songs");
+                "Songs");
 
             migrationBuilder.DropTable(
-                name: "Artists");
+                "Artists");
 
             migrationBuilder.DropTable(
-                name: "Sources");
+                "Sources");
 
             migrationBuilder.DropTable(
-                name: "Series");
+                "Series");
         }
     }
 }

@@ -7,23 +7,23 @@ namespace HSLProcessor
 {
     public static class CsvParser
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(CsvParser));
-
-        public enum OperationMode { Songlist, SeriesSource }
-
-        public class CsvContent
+        public enum OperationMode
         {
-            public Dictionary<string, string> Entry;
+            Songlist,
+            SeriesSource
         }
 
+        private static readonly ILog Log = LogManager.GetLogger(typeof(CsvParser));
+
         /// <summary>
-        /// Load and parse CSV file
+        ///     Load and parse CSV file
         /// </summary>
         /// <param name="file">CSV file</param>
         /// <param name="hasHeader">Whether the file has a header</param>
         /// <param name="opMode">Operation mode to use</param>
         /// <returns>List of CSV content</returns>
-        public static IEnumerable<CsvContent> Load(FileInfo file, OperationMode opMode = OperationMode.Songlist, bool hasHeader = true)
+        public static IEnumerable<CsvContent> Load(FileInfo file, OperationMode opMode = OperationMode.Songlist,
+            bool hasHeader = true)
         {
             try
             {
@@ -49,27 +49,25 @@ namespace HSLProcessor
                         switch (opMode)
                         {
                             case OperationMode.Songlist:
-                                {
-                                    content.Entry.Add("title", splitted[0]);
-                                    content.Entry.Add("artist", splitted[1]);
+                            {
+                                content.Entry.Add("title", splitted[0]);
+                                content.Entry.Add("artist", splitted[1]);
 
-                                    // If third argument is present, that's source/reference
-                                    content.Entry.Add("source", splitted.Length == 3 ? splitted[2] : "");
-                                    break;
-
-                                }
+                                // If third argument is present, that's source/reference
+                                content.Entry.Add("source", splitted.Length == 3 ? splitted[2] : "");
+                                break;
+                            }
                             case OperationMode.SeriesSource:
-                                {
-                                    content.Entry.Add("source", splitted[0]);
-                                    content.Entry.Add("series", splitted[1]);
-                                    break;
-                                }
+                            {
+                                content.Entry.Add("source", splitted[0]);
+                                content.Entry.Add("series", splitted[1]);
+                                break;
+                            }
 
-                                default:
-                                {
-                                    throw new Exception("Unsupported operation type.");
-                                }
-
+                            default:
+                            {
+                                throw new Exception("Unsupported operation type.");
+                            }
                         }
 
                         list.Add(content);
@@ -84,6 +82,11 @@ namespace HSLProcessor
                 Log.Debug(ex.Message);
                 return null;
             }
+        }
+
+        public class CsvContent
+        {
+            public Dictionary<string, string> Entry;
         }
     }
 }
