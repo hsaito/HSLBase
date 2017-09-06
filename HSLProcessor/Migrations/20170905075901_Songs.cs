@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HSLProcessor.Migrations
 {
@@ -12,8 +12,8 @@ namespace HSLProcessor.Migrations
                 name: "Artists",
                 columns: table => new
                 {
-                    ArtistId = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: false)
+                    ArtistId = table.Column<Guid>(type: "BLOB", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -24,8 +24,8 @@ namespace HSLProcessor.Migrations
                 name: "Series",
                 columns: table => new
                 {
-                    SeriesId = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: false)
+                    SeriesId = table.Column<Guid>(type: "BLOB", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -36,9 +36,9 @@ namespace HSLProcessor.Migrations
                 name: "Sources",
                 columns: table => new
                 {
-                    SourceId = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    SeriesId = table.Column<Guid>(nullable: true)
+                    SourceId = table.Column<Guid>(type: "BLOB", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    SeriesId = table.Column<Guid>(type: "BLOB", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -55,10 +55,10 @@ namespace HSLProcessor.Migrations
                 name: "Songs",
                 columns: table => new
                 {
-                    TitleId = table.Column<Guid>(nullable: false),
-                    ArtistId = table.Column<Guid>(nullable: false),
-                    SourceId = table.Column<Guid>(nullable: false),
-                    Title = table.Column<string>(nullable: false)
+                    TitleId = table.Column<Guid>(type: "BLOB", nullable: false),
+                    ArtistId = table.Column<Guid>(type: "BLOB", nullable: false),
+                    SourceId = table.Column<Guid>(type: "BLOB", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
