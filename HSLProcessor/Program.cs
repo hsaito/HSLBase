@@ -83,6 +83,13 @@ namespace HSLProcessor
                                     break;
                                 }
 
+                                case "protobuf":
+                                {
+                                    Console.WriteLine("Protocol Buffer");
+                                    Importer.ImportProtocolBuffer(new FileInfo(ImportSubOptions.File));
+                                    break;
+                                }
+                                    
                                 case "xml":
                                 {
                                     Console.WriteLine("XML");

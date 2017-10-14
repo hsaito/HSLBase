@@ -204,7 +204,11 @@ namespace HSLProcessor
 
                     if (proto.Series.Any(q => q.Id == item.SeriesId.ToString()))
                         artist.Series = proto.Series.First(q => q.Id == item.SeriesId.ToString()).SerialNumber;
-
+                    else
+                    {
+                        artist.Series = -1;
+                    }
+                    
                     proto.Sources.Add(artist);
                     i++;
                 }
@@ -236,9 +240,16 @@ namespace HSLProcessor
                     
                     if(proto.Artists.Any(q => q.Id == item.ArtistId.ToString()))
                         song.Artist = proto.Artists.First(q => q.Id == item.ArtistId.ToString()).SerialNumber;
+                    else
+                    {
+                        song.Artist = -1;
+                    }
                     if (proto.Sources.Any(q => q.Id == item.SourceId.ToString()))
                         song.Source = proto.Sources.First(q => q.Id == item.SourceId.ToString()).SerialNumber;
-                    
+                    else
+                    {
+                        song.Source = -1;
+                    }
                     proto.Songs.Add(song);
                     i++;
                 }

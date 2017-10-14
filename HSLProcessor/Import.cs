@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using HSLProto;
 using log4net;
 
 // ReSharper disable UnusedMethodReturnValue.Global
@@ -101,6 +102,98 @@ namespace HSLProcessor
             return ImportXmlAsync(file).Result;
         }
 
+        /// <summary>
+        /// Import protocol buffer file
+        /// </summary>
+        /// <param name="file">File name to protocol buffer file</param>
+        /// <returns>Result of the import</returns>
+        public static ImportResult ImportProtocolBuffer(FileInfo file)
+        {
+            return ImportProtocolBufferAsync(file).Result;
+        }
+        
+        
+        /// <summary>
+        /// Import protocol buffer file
+        /// </summary>
+        /// <param name="file">File name to protocol buffer file</param>
+        /// <returns>Result of the import</returns>
+        public static async Task<ImportResult> ImportProtocolBufferAsync(FileSystemInfo file)
+        {
+            try
+            {
+                HSL proto;
+                using (var input = File.OpenRead(file.FullName))
+                {
+                    proto = HSL.Parser.ParseFrom(input);
+                }
+                var context = new HSLContext();
+
+                foreach (var item in proto.Songs)
+                {
+                    var entry = new Song
+                    {
+                        TitleId = new Guid(item.Id),
+                        Title = item.Name
+                    };
+                    
+                    var artist = new Artist();
+                    if (item.Artist != -1)
+                    {
+                        var a = proto.Artists.First(q => q.SerialNumber == item.Artist);
+                        entry.ArtistId = new Guid(a.Id);
+
+                        artist.ArtistId = new Guid(a.Id);
+                        artist.Name = a.Name;
+                        Utils.GetOrAddArtist(artist, ref context);
+                    }
+                    else
+                    {
+                        artist.Name = "";
+                        Utils.GetOrAddArtist(artist, ref context);
+                    }
+
+                    var source = new Source();
+                    if (item.Source != -1)
+                    {
+                        var s = proto.Sources.First(q => q.SerialNumber == item.Source);
+                        source.SourceId = new Guid(s.Id);
+                        source.Name = s.Name;
+                        Utils.GetOrAddSource(source, ref context);
+
+                        var series = new Series();
+                        if (s.Series != -1)
+                        {
+                            var s2 = proto.Series.First(q => q.SerialNumber == s.Series);
+                            series.Name = s2.Name;
+                            series.SeriesId = new Guid(s2.Id);
+                            Utils.GetOrAddSeries(series, ref context);
+                        }
+                    }
+                    else
+                    {
+                        source.Name = "";
+                        Utils.GetOrAddSource(source, ref context);
+                    }
+
+                    // Add to DB
+                    await context.AddAsync(entry);
+                    await context.SaveChangesAsync();
+                }
+                return ImportResult.Success;
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Failed importing Protocol Buffer.");
+                Log.Debug(ex.Message);
+                Log.Debug(ex.StackTrace);
+                if (ex.InnerException != null)
+                    Log.Error(ex.InnerException.Message);
+                return ImportResult.Failed;
+            }
+        }
+        
         /// <summary>
         ///     Import XML file
         /// </summary>
