@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Xml.Linq;
+using Google.Protobuf;
 using log4net;
 using Newtonsoft.Json;
 
@@ -156,6 +159,96 @@ namespace HSLProcessor
             {
                 Log.Error("Failed exporting to XML.");
                 Log.Debug(ex.Message);
+                return ExportResult.Failed;
+            }
+        }
+
+        public static ExportResult ExportProtoBuffer(FileInfo file)
+        {
+            try
+            {
+                var context = new HSLContext();
+
+                context.LoadRelations();
+
+                var proto = new HSLProto.HSL();
+
+                var i = 0;
+                foreach (var item in context.Series)
+                {
+                    var series = new HSLProto.Series
+                    {
+                        SerialNumber = i,
+                        Id = item.SeriesId.ToString(),
+                        Name = item.Name
+                    };
+                    proto.Series.Add(series);
+                    i++;
+                }
+
+                i = 0;
+
+                foreach (var item in context.Sources)
+                {
+                    var artist = new HSLProto.Source
+                    {
+                        SerialNumber = i,
+                        Id = item.SourceId.ToString(),
+                        Name = item.Name,
+                    };
+
+                    if (proto.Series.Any(q => q.Id == item.SeriesId.ToString()))
+                        artist.Series = proto.Series.First(q => q.Id == item.SeriesId.ToString()).SerialNumber;
+
+                    proto.Sources.Add(artist);
+                    i++;
+                }
+
+                i = 0;
+
+                foreach (var item in context.Artists)
+                {
+                    var artist = new HSLProto.Artist
+                    {
+                        SerialNumber = i,
+                        Id = item.ArtistId.ToString(),
+                        Name = item.Name
+                    };
+                    proto.Artists.Add(artist);
+                    i++;
+                }
+
+                i = 0;
+
+                foreach (var item in context.Songs)
+                {
+                    var song = new HSLProto.Song
+                    {
+                        SerialNumber = i,
+                        Id = item.TitleId.ToString(),
+                        Name = item.Title
+                    };
+                    
+                    if(proto.Artists.Any(q => q.Id == item.ArtistId.ToString()))
+                        song.Artist = proto.Artists.First(q => q.Id == item.ArtistId.ToString()).SerialNumber;
+                    if (proto.Sources.Any(q => q.Id == item.SourceId.ToString()))
+                        song.Source = proto.Sources.First(q => q.Id == item.SourceId.ToString()).SerialNumber;
+                    
+                    proto.Songs.Add(song);
+                    i++;
+                }
+
+                using (var output = File.Create(file.FullName))
+                {
+                    proto.WriteTo(output);
+                }
+
+                return ExportResult.Success;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message);
+                Log.Debug(e.StackTrace);
                 return ExportResult.Failed;
             }
         }

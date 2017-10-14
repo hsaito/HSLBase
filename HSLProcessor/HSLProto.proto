@@ -1,0 +1,41 @@
+syntax = "proto3";
+option csharp_namespace = "HSLProto";
+
+message HSL
+{
+    repeated Song songs = 1;
+    repeated Artist artists = 2;
+    repeated Source sources = 3;
+    repeated Series series = 4;
+}
+
+message Song
+{
+    int32 serialNumber = 1;
+    string id = 2;
+    string name = 3;
+    int32 artist = 4;
+    int32 source = 5;
+}
+
+message Artist
+{
+    int32 serialNumber = 1;
+    string id = 2;
+    string name = 3;
+}
+
+message Source
+{
+    int32 serialNumber = 1;
+    string id = 2;
+    string name = 3;
+    int32 series = 4;
+}
+
+message Series
+{
+    int32 serialNumber = 1;
+    string id = 2;
+    string name = 3;
+}

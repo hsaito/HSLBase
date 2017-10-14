@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -40,117 +41,135 @@ namespace HSLProcessor
             {
                 Log.Debug("Starting the process.");
 
-                // No argument
-                if (args.Length == 0)
+                var invokedVerb = "";
+                object invokedVerbInstance = null;
+                
+                var options = new Options();
+
+                if (!CommandLine.Parser.Default.ParseArguments(args, options,
+                    (verb, subOptions) =>
+                    {
+                        // if parsing succeeds the verb name and correct instance
+                        // will be passed to onVerbCommand delegate (string,object)
+                        invokedVerb = verb;
+                        invokedVerbInstance = subOptions;
+                    }))
                 {
-                    Log.Error("Missing arguments!");
-                    Console.WriteLine(
-                        "Options are: importcsv, importxml, importseriescsv, exportxml, exportjson, generatehtml, generatesitemap, deleteitem, and list");
-                    return -1;
+                    Environment.Exit(CommandLine.Parser.DefaultExitCodeFail);
                 }
 
-                switch (args[0])
+                switch (invokedVerb)
                 {
-                    // Import
-                    case "importcsv":
+                    case "import":
                     {
-                        if (args.Length < 2)
+                        Console.WriteLine("Import mode");
+                        var ImportSubOptions = (Options.ImportSubOptions) invokedVerbInstance;
+                        if (ImportSubOptions.File != null)
                         {
-                            Log.Error("Missing file name.");
-                            return -1;
+                            switch (ImportSubOptions.Type)
+                            {
+                                case "csv":
+                                {
+                                    Console.WriteLine("CSV");
+                                    var result = Importer.ImportCsv(new FileInfo(ImportSubOptions.File));
+
+                                    if (result == Importer.ImportResult.Failed)
+                                    {
+                                        Log.Error("Import failed");
+
+                                        return -1;
+                                    }
+
+                                    break;
+                                }
+
+                                case "xml":
+                                {
+                                    Console.WriteLine("XML");
+                                    Importer.ImportXml(new FileInfo(ImportSubOptions.File));
+                                    break;
+                                }
+
+                                case "seriescsv":
+                                {
+                                    Console.WriteLine("Series CSV");
+                                    Importer.ImportSourceSeriesCsv(new FileInfo(ImportSubOptions.File));
+                                    break;
+                                }
+                            }
                         }
-
-                        var result = Importer.ImportCsv(new FileInfo(args[1]));
-
-                        if (result == Importer.ImportResult.Failed)
-                        {
-                            Log.Error("Import failed");
-
-                            return -1;
-                        }
-
                         break;
                     }
 
-                    // List
                     case "list":
                     {
                         Lister.List();
                         break;
                     }
-
-                    // Export to XML
-                    case "exportxml":
+                        
+                    case "export":
                     {
-                        if (args.Length < 2)
+                        var ExportSubOptions = (Options.ExportSubOptions) invokedVerbInstance;
+                        if (ExportSubOptions.File != null)
                         {
-                            Log.Error("Missing file name.");
-                            return -1;
+                            switch (ExportSubOptions.Type)
+                            {
+                                case "xml":
+                                {
+                                    Exporter.ExportXml(new FileInfo(ExportSubOptions.File));
+                                    break;
+                                }
+
+                                case "json":
+                                {
+                                    Exporter.ExportJson(new FileInfo(ExportSubOptions.File));
+                                    break;
+                                }
+
+                                case "protobuf":
+                                {
+                                    Exporter.ExportProtoBuffer(new FileInfo(ExportSubOptions.File));
+                                    break;
+                                }
+                            }
                         }
-                        Exporter.ExportXml(new FileInfo(args[1]));
                         break;
                     }
 
-                    case "exportjson":
+                    case "generate":
                     {
-                        if (args.Length < 2)
+                        var GenerateSubOptions = (Options.GenerateSubOptions) invokedVerbInstance;
+                        switch (GenerateSubOptions.Type)
                         {
-                            Log.Error("Missing file name.");
-                            return -1;
-                        }
+                            case "sitemap":
+                            {
+                                if (GenerateSubOptions.File != null)
+                                {
+                                    PageGenerator.ExportSitemap(new FileInfo(GenerateSubOptions.File),
+                                        GenerateSubOptions.Base);
+                                }
+                                break;
+                            }
 
-                        Exporter.ExportJson(new FileInfo(args[1]));
+                            case "html":
+                            {
+                                if (GenerateSubOptions.File != null && GenerateSubOptions.Base != null)
+                                {
+                                    PageGenerator.Generate(new DirectoryInfo(GenerateSubOptions.File), new DirectoryInfo(GenerateSubOptions.Base));
+                                }
+                                break;
+                            }
+                        }
                         break;
                     }
 
-                    case "generatesitemap":
-                    {
-                        if (args.Length < 3)
-                        {
-                            Log.Error("Missing arguments.\nUsage: file urlbase");
-                            return -1;
-                        }
-
-                        PageGenerator.ExportSitemap(new FileInfo(args[1]), args[2]);
-                        break;
-                    }
-
-                    // Import XML
-                    case "importxml":
-                    {
-                        if (args.Length < 2)
-                        {
-                            Log.Error("Missing file name.");
-                            return -1;
-                        }
-                        Importer.ImportXml(new FileInfo(args[1]));
-                        break;
-                    }
-
-                    case "importseriescsv":
-                    {
-                        if (args.Length < 2)
-                        {
-                            Log.Error("Missing file name.");
-                            return -1;
-                        }
-                        Importer.ImportSourceSeriesCsv(new FileInfo(args[1]));
-                        break;
-                    }
-
-                    // Search
                     case "search":
                     {
-                        if (args.Length < 2)
-                        {
-                            Log.Error("Missing file name.");
-                            return -1;
-                        }
-
+                        var SearchSubOptions = (Options.SearchSubOptions) invokedVerbInstance;
                         // Get information for all
-                        var (result1, hit1) = Searcher.Search(args[1], Searcher.SearchType.Title);
-                        var (result2, hit2) = Searcher.Search(args[1], Searcher.SearchType.Artist);
-                        var (result3, hit3) = Searcher.Search(args[1], Searcher.SearchType.Source);
+                        var (result1, hit1) = Searcher.Search(SearchSubOptions.Query, Searcher.SearchType.Title);
+                        var (result2, hit2) = Searcher.Search(SearchSubOptions.Query, Searcher.SearchType.Artist);
+                        var (result3, hit3) = Searcher.Search(SearchSubOptions.Query, Searcher.SearchType.Source);
 
                         // Merge the list
                         var hit = new List<Song>();
@@ -170,37 +189,13 @@ namespace HSLProcessor
                         break;
                     }
 
-                    // Generate HTML static pages
-                    case "generatehtml":
+                    case "delete":
                     {
-                        if (args.Length < 3)
-                        {
-                            Log.Error("Missing template and  file name.");
-                            return -1;
-                        }
-                        PageGenerator.Generate(new DirectoryInfo(args[1]), new DirectoryInfo(args[2]));
+                        var DeleteSubOptions = (Options.DeleteSubOptions) invokedVerbInstance;
+                        Updater.Delete(new Guid(DeleteSubOptions.Id));
                         break;
-                    }
-
-                    case "deleteitem":
-                    {
-                        if (args.Length < 2)
-                        {
-                            Log.Error("Missing file name.");
-                            return -1;
-                        }
-                        Updater.Delete(new Guid(args[1]));
-                        break;
-                    }
-
-                    // Other (invalid) options
-                    default:
-                    {
-                        Log.Error("Unknown option.");
-                        return -1;
                     }
                 }
-
                 return 0;
             }
             catch (Exception ex)
@@ -211,4 +206,7 @@ namespace HSLProcessor
             }
         }
     }
+
+
+
 }
