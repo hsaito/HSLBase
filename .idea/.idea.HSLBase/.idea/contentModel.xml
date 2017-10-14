@@ -1588,6 +1588,7 @@
           <e p="source.tpl" t="Include" />
           <e p="title.tpl" t="Include" />
         </e>
+        <e p="test.dat" t="Include" />
       </e>
       <e p="packages" t="ExcludeRecursive" />
     </e>

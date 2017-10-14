@@ -43,7 +43,7 @@ namespace HSLProcessor
 
                 var invokedVerb = "";
                 object invokedVerbInstance = null;
-                
+
                 var options = new Options();
 
                 if (!CommandLine.Parser.Default.ParseArguments(args, options,
@@ -106,9 +106,10 @@ namespace HSLProcessor
                         Lister.List();
                         break;
                     }
-                        
+
                     case "export":
                     {
+                        Console.WriteLine("Export mode");
                         var ExportSubOptions = (Options.ExportSubOptions) invokedVerbInstance;
                         if (ExportSubOptions.File != null)
                         {
@@ -116,18 +117,21 @@ namespace HSLProcessor
                             {
                                 case "xml":
                                 {
+                                    Console.WriteLine("XML");
                                     Exporter.ExportXml(new FileInfo(ExportSubOptions.File));
                                     break;
                                 }
 
                                 case "json":
                                 {
+                                    Console.WriteLine("JSON");
                                     Exporter.ExportJson(new FileInfo(ExportSubOptions.File));
                                     break;
                                 }
 
                                 case "protobuf":
                                 {
+                                    Console.WriteLine("Protocol Buffer");
                                     Exporter.ExportProtoBuffer(new FileInfo(ExportSubOptions.File));
                                     break;
                                 }
@@ -138,11 +142,13 @@ namespace HSLProcessor
 
                     case "generate":
                     {
+                        Console.WriteLine("Generation mode");
                         var GenerateSubOptions = (Options.GenerateSubOptions) invokedVerbInstance;
                         switch (GenerateSubOptions.Type)
                         {
                             case "sitemap":
                             {
+                                Console.WriteLine("Sitemap");
                                 if (GenerateSubOptions.File != null)
                                 {
                                     PageGenerator.ExportSitemap(new FileInfo(GenerateSubOptions.File),
@@ -153,9 +159,11 @@ namespace HSLProcessor
 
                             case "html":
                             {
+                                Console.WriteLine("HTML tree");
                                 if (GenerateSubOptions.File != null && GenerateSubOptions.Base != null)
                                 {
-                                    PageGenerator.Generate(new DirectoryInfo(GenerateSubOptions.File), new DirectoryInfo(GenerateSubOptions.Base));
+                                    PageGenerator.Generate(new DirectoryInfo(GenerateSubOptions.File),
+                                        new DirectoryInfo(GenerateSubOptions.Base));
                                 }
                                 break;
                             }
@@ -206,7 +214,4 @@ namespace HSLProcessor
             }
         }
     }
-
-
-
 }

@@ -163,6 +163,11 @@ namespace HSLProcessor
             }
         }
 
+        /// <summary>
+        /// Export to Protocol Buffer
+        /// </summary>
+        /// <param name="file">File name to export to</param>
+        /// <returns>Export result</returns>
         public static ExportResult ExportProtoBuffer(FileInfo file)
         {
             try
