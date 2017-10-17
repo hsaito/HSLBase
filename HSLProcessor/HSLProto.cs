@@ -25,12 +25,12 @@ namespace HSLProto {
             "Cg5IU0xQcm90by5wcm90byJoCgNIU0wSFAoFc29uZ3MYASADKAsyBS5Tb25n",
             "EhgKB2FydGlzdHMYAiADKAsyBy5BcnRpc3QSGAoHc291cmNlcxgDIAMoCzIH",
             "LlNvdXJjZRIXCgZzZXJpZXMYBCADKAsyBy5TZXJpZXMiVgoEU29uZxIUCgxz",
-            "ZXJpYWxOdW1iZXIYASABKAUSCgoCaWQYAiABKAkSDAoEbmFtZRgDIAEoCRIO",
+            "ZXJpYWxOdW1iZXIYASABKAUSCgoCaWQYAiABKAUSDAoEbmFtZRgDIAEoCRIO",
             "CgZhcnRpc3QYBCABKAUSDgoGc291cmNlGAUgASgFIjgKBkFydGlzdBIUCgxz",
-            "ZXJpYWxOdW1iZXIYASABKAUSCgoCaWQYAiABKAkSDAoEbmFtZRgDIAEoCSJI",
-            "CgZTb3VyY2USFAoMc2VyaWFsTnVtYmVyGAEgASgFEgoKAmlkGAIgASgJEgwK",
+            "ZXJpYWxOdW1iZXIYASABKAUSCgoCaWQYAiABKAUSDAoEbmFtZRgDIAEoCSJI",
+            "CgZTb3VyY2USFAoMc2VyaWFsTnVtYmVyGAEgASgFEgoKAmlkGAIgASgFEgwK",
             "BG5hbWUYAyABKAkSDgoGc2VyaWVzGAQgASgFIjgKBlNlcmllcxIUCgxzZXJp",
-            "YWxOdW1iZXIYASABKAUSCgoCaWQYAiABKAkSDAoEbmFtZRgDIAEoCUILqgII",
+            "YWxOdW1iZXIYASABKAUSCgoCaWQYAiABKAUSDAoEbmFtZRgDIAEoCUILqgII",
             "SFNMUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
@@ -264,12 +264,12 @@ namespace HSLProto {
 
     /// <summary>Field number for the "id" field.</summary>
     public const int IdFieldNumber = 2;
-    private string id_ = "";
+    private int id_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Id {
+    public int Id {
       get { return id_; }
       set {
-        id_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        id_ = value;
       }
     }
 
@@ -331,7 +331,7 @@ namespace HSLProto {
     public override int GetHashCode() {
       int hash = 1;
       if (SerialNumber != 0) hash ^= SerialNumber.GetHashCode();
-      if (Id.Length != 0) hash ^= Id.GetHashCode();
+      if (Id != 0) hash ^= Id.GetHashCode();
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (Artist != 0) hash ^= Artist.GetHashCode();
       if (Source != 0) hash ^= Source.GetHashCode();
@@ -349,9 +349,9 @@ namespace HSLProto {
         output.WriteRawTag(8);
         output.WriteInt32(SerialNumber);
       }
-      if (Id.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Id);
+      if (Id != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(Id);
       }
       if (Name.Length != 0) {
         output.WriteRawTag(26);
@@ -373,8 +373,8 @@ namespace HSLProto {
       if (SerialNumber != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(SerialNumber);
       }
-      if (Id.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
+      if (Id != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Id);
       }
       if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
@@ -396,7 +396,7 @@ namespace HSLProto {
       if (other.SerialNumber != 0) {
         SerialNumber = other.SerialNumber;
       }
-      if (other.Id.Length != 0) {
+      if (other.Id != 0) {
         Id = other.Id;
       }
       if (other.Name.Length != 0) {
@@ -422,8 +422,8 @@ namespace HSLProto {
             SerialNumber = input.ReadInt32();
             break;
           }
-          case 18: {
-            Id = input.ReadString();
+          case 16: {
+            Id = input.ReadInt32();
             break;
           }
           case 26: {
@@ -491,12 +491,12 @@ namespace HSLProto {
 
     /// <summary>Field number for the "id" field.</summary>
     public const int IdFieldNumber = 2;
-    private string id_ = "";
+    private int id_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Id {
+    public int Id {
       get { return id_; }
       set {
-        id_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        id_ = value;
       }
     }
 
@@ -534,7 +534,7 @@ namespace HSLProto {
     public override int GetHashCode() {
       int hash = 1;
       if (SerialNumber != 0) hash ^= SerialNumber.GetHashCode();
-      if (Id.Length != 0) hash ^= Id.GetHashCode();
+      if (Id != 0) hash ^= Id.GetHashCode();
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       return hash;
     }
@@ -550,9 +550,9 @@ namespace HSLProto {
         output.WriteRawTag(8);
         output.WriteInt32(SerialNumber);
       }
-      if (Id.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Id);
+      if (Id != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(Id);
       }
       if (Name.Length != 0) {
         output.WriteRawTag(26);
@@ -566,8 +566,8 @@ namespace HSLProto {
       if (SerialNumber != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(SerialNumber);
       }
-      if (Id.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
+      if (Id != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Id);
       }
       if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
@@ -583,7 +583,7 @@ namespace HSLProto {
       if (other.SerialNumber != 0) {
         SerialNumber = other.SerialNumber;
       }
-      if (other.Id.Length != 0) {
+      if (other.Id != 0) {
         Id = other.Id;
       }
       if (other.Name.Length != 0) {
@@ -603,8 +603,8 @@ namespace HSLProto {
             SerialNumber = input.ReadInt32();
             break;
           }
-          case 18: {
-            Id = input.ReadString();
+          case 16: {
+            Id = input.ReadInt32();
             break;
           }
           case 26: {
@@ -665,12 +665,12 @@ namespace HSLProto {
 
     /// <summary>Field number for the "id" field.</summary>
     public const int IdFieldNumber = 2;
-    private string id_ = "";
+    private int id_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Id {
+    public int Id {
       get { return id_; }
       set {
-        id_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        id_ = value;
       }
     }
 
@@ -720,7 +720,7 @@ namespace HSLProto {
     public override int GetHashCode() {
       int hash = 1;
       if (SerialNumber != 0) hash ^= SerialNumber.GetHashCode();
-      if (Id.Length != 0) hash ^= Id.GetHashCode();
+      if (Id != 0) hash ^= Id.GetHashCode();
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (Series != 0) hash ^= Series.GetHashCode();
       return hash;
@@ -737,9 +737,9 @@ namespace HSLProto {
         output.WriteRawTag(8);
         output.WriteInt32(SerialNumber);
       }
-      if (Id.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Id);
+      if (Id != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(Id);
       }
       if (Name.Length != 0) {
         output.WriteRawTag(26);
@@ -757,8 +757,8 @@ namespace HSLProto {
       if (SerialNumber != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(SerialNumber);
       }
-      if (Id.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
+      if (Id != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Id);
       }
       if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
@@ -777,7 +777,7 @@ namespace HSLProto {
       if (other.SerialNumber != 0) {
         SerialNumber = other.SerialNumber;
       }
-      if (other.Id.Length != 0) {
+      if (other.Id != 0) {
         Id = other.Id;
       }
       if (other.Name.Length != 0) {
@@ -800,8 +800,8 @@ namespace HSLProto {
             SerialNumber = input.ReadInt32();
             break;
           }
-          case 18: {
-            Id = input.ReadString();
+          case 16: {
+            Id = input.ReadInt32();
             break;
           }
           case 26: {
@@ -865,12 +865,12 @@ namespace HSLProto {
 
     /// <summary>Field number for the "id" field.</summary>
     public const int IdFieldNumber = 2;
-    private string id_ = "";
+    private int id_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Id {
+    public int Id {
       get { return id_; }
       set {
-        id_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        id_ = value;
       }
     }
 
@@ -908,7 +908,7 @@ namespace HSLProto {
     public override int GetHashCode() {
       int hash = 1;
       if (SerialNumber != 0) hash ^= SerialNumber.GetHashCode();
-      if (Id.Length != 0) hash ^= Id.GetHashCode();
+      if (Id != 0) hash ^= Id.GetHashCode();
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       return hash;
     }
@@ -924,9 +924,9 @@ namespace HSLProto {
         output.WriteRawTag(8);
         output.WriteInt32(SerialNumber);
       }
-      if (Id.Length != 0) {
-        output.WriteRawTag(18);
-        output.WriteString(Id);
+      if (Id != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(Id);
       }
       if (Name.Length != 0) {
         output.WriteRawTag(26);
@@ -940,8 +940,8 @@ namespace HSLProto {
       if (SerialNumber != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(SerialNumber);
       }
-      if (Id.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
+      if (Id != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Id);
       }
       if (Name.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
@@ -957,7 +957,7 @@ namespace HSLProto {
       if (other.SerialNumber != 0) {
         SerialNumber = other.SerialNumber;
       }
-      if (other.Id.Length != 0) {
+      if (other.Id != 0) {
         Id = other.Id;
       }
       if (other.Name.Length != 0) {
@@ -977,8 +977,8 @@ namespace HSLProto {
             SerialNumber = input.ReadInt32();
             break;
           }
-          case 18: {
-            Id = input.ReadString();
+          case 16: {
+            Id = input.ReadInt32();
             break;
           }
           case 26: {

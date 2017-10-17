@@ -12,7 +12,7 @@ message HSL
 message Song
 {
     int32 serialNumber = 1;
-    string id = 2;
+    int32 id = 2;
     string name = 3;
     int32 artist = 4;
     int32 source = 5;
@@ -21,14 +21,14 @@ message Song
 message Artist
 {
     int32 serialNumber = 1;
-    string id = 2;
+    int32 id = 2;
     string name = 3;
 }
 
 message Source
 {
     int32 serialNumber = 1;
-    string id = 2;
+    int32 id = 2;
     string name = 3;
     int32 series = 4;
 }
@@ -36,6 +36,6 @@ message Source
 message Series
 {
     int32 serialNumber = 1;
-    string id = 2;
+    int32 id = 2;
     string name = 3;
 }

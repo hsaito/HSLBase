@@ -133,7 +133,7 @@ namespace HSLProcessor
                 {
                     var entry = new Song
                     {
-                        TitleId = new Guid(item.Id),
+                        TitleId = Utils.Int2Guid(item.Id),
                         Title = item.Name
                     };
                     
@@ -141,9 +141,9 @@ namespace HSLProcessor
                     if (item.Artist != -1)
                     {
                         var a = proto.Artists.First(q => q.SerialNumber == item.Artist);
-                        entry.ArtistId = new Guid(a.Id);
+                        entry.ArtistId = Utils.Int2Guid(a.Id);
 
-                        artist.ArtistId = new Guid(a.Id);
+                        artist.ArtistId = Utils.Int2Guid(a.Id);
                         artist.Name = a.Name;
                         Utils.GetOrAddArtist(artist, ref context);
                     }
@@ -157,7 +157,7 @@ namespace HSLProcessor
                     if (item.Source != -1)
                     {
                         var s = proto.Sources.First(q => q.SerialNumber == item.Source);
-                        source.SourceId = new Guid(s.Id);
+                        source.SourceId = Utils.Int2Guid(s.Id);
                         source.Name = s.Name;
                         Utils.GetOrAddSource(source, ref context);
 
@@ -166,7 +166,7 @@ namespace HSLProcessor
                         {
                             var s2 = proto.Series.First(q => q.SerialNumber == s.Series);
                             series.Name = s2.Name;
-                            series.SeriesId = new Guid(s2.Id);
+                            series.SeriesId = Utils.Int2Guid(s2.Id);
                             Utils.GetOrAddSeries(series, ref context);
                         }
                     }

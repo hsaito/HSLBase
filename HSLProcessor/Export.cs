@@ -184,7 +184,7 @@ namespace HSLProcessor
                     var series = new HSLProto.Series
                     {
                         SerialNumber = i,
-                        Id = item.SeriesId.ToString(),
+                        Id = Utils.Guid2Int(item.SeriesId),
                         Name = item.Name
                     };
                     proto.Series.Add(series);
@@ -198,12 +198,13 @@ namespace HSLProcessor
                     var artist = new HSLProto.Source
                     {
                         SerialNumber = i,
-                        Id = item.SourceId.ToString(),
+                        Id = Utils.Guid2Int(item.SourceId),
                         Name = item.Name,
                     };
 
-                    if (proto.Series.Any(q => q.Id == item.SeriesId.ToString()))
-                        artist.Series = proto.Series.First(q => q.Id == item.SeriesId.ToString()).SerialNumber;
+                    
+                    if (proto.Series.Any(q => q.Id == Utils.Guid2Int(item.SeriesId ?? Guid.Empty)))
+                        artist.Series = proto.Series.First(q => q.Id == Utils.Guid2Int(item.SeriesId ?? Guid.Empty)).SerialNumber;
                     else
                     {
                         artist.Series = -1;
@@ -220,7 +221,7 @@ namespace HSLProcessor
                     var artist = new HSLProto.Artist
                     {
                         SerialNumber = i,
-                        Id = item.ArtistId.ToString(),
+                        Id = Utils.Guid2Int(item.ArtistId),
                         Name = item.Name
                     };
                     proto.Artists.Add(artist);
@@ -234,18 +235,18 @@ namespace HSLProcessor
                     var song = new HSLProto.Song
                     {
                         SerialNumber = i,
-                        Id = item.TitleId.ToString(),
+                        Id = Utils.Guid2Int(item.TitleId),
                         Name = item.Title
                     };
                     
-                    if(proto.Artists.Any(q => q.Id == item.ArtistId.ToString()))
-                        song.Artist = proto.Artists.First(q => q.Id == item.ArtistId.ToString()).SerialNumber;
+                    if(proto.Artists.Any(q => q.Id == Utils.Guid2Int(item.ArtistId)))
+                        song.Artist = proto.Artists.First(q => q.Id == Utils.Guid2Int(item.ArtistId)).SerialNumber;
                     else
                     {
                         song.Artist = -1;
                     }
-                    if (proto.Sources.Any(q => q.Id == item.SourceId.ToString()))
-                        song.Source = proto.Sources.First(q => q.Id == item.SourceId.ToString()).SerialNumber;
+                    if (proto.Sources.Any(q => q.Id == Utils.Guid2Int(item.SourceId)))
+                        song.Source = proto.Sources.First(q => q.Id == Utils.Guid2Int(item.SourceId)).SerialNumber;
                     else
                     {
                         song.Source = -1;
