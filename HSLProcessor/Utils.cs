@@ -59,30 +59,5 @@ namespace HSLProcessor
         {
             return guid.ToString().Substring(0, 3);
         }
-        
-        /// <summary>
-        /// Convert Integer to Guid
-        /// </summary>
-        /// <param name="value">Integer to convert</param>
-        /// <returns>Guid of the value</returns>
-        public static Guid Int2Guid(int value)
-        {
-            var bytes = new byte[16];
-            BitConverter.GetBytes(value).CopyTo(bytes, 0);
-            return new Guid(bytes);
-        }
-
-        /// <summary>
-        /// Convert Guid to Integer
-        /// </summary>
-        /// <param name="value">Guid to convert</param>
-        /// <returns>Integer of the value</returns>
-        public static int Guid2Int(Guid value)
-        {
-            var b = value.ToByteArray();
-            var bit = BitConverter.ToInt32(b, 0);
-            return bit;
-        }
-        
     }
 }
