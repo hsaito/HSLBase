@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using HSLProto;
@@ -92,6 +93,8 @@ namespace HSLProcessor
             }
         }
 
+        
+        
         /// <summary>
         ///     Synchronous wrapper for importing XML file
         /// </summary>
@@ -134,7 +137,9 @@ namespace HSLProcessor
                     var entry = new Song
                     {
                         TitleId = new Guid(item.Id),
-                        Title = item.Name
+                        Title = item.Name,
+                        ArtistId = new Guid(proto.Artists.First(q => q.SerialNumber == item.Artist).Id),
+                        SourceId = new Guid(proto.Sources.First(q => q.SerialNumber == item.Source).Id)
                     };
                     
                     var artist = new Artist();
