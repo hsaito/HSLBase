@@ -14,6 +14,7 @@
     <AssemblyVersion>1.4.6.0</AssemblyVersion>
     <FileVersion>1.4.6.0</FileVersion>
     <RuntimeIdentifiers>linux-x64,linux-arm,win-x64,win-x86,osx-x64</RuntimeIdentifiers>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="1.9.71" />
@@ -22,6 +23,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="System.Net.Sockets" Version="4.3.0" />
     <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
   </ItemGroup>

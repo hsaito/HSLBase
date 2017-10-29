@@ -46,6 +46,12 @@ namespace HSLProcessor
 
                 var options = new Options();
 
+                if (args.Length == 0)
+                {
+                    options.GetUsage();
+                    Environment.Exit(CommandLine.Parser.DefaultExitCodeFail);
+                }
+                
                 if (!CommandLine.Parser.Default.ParseArguments(args, options,
                     (verb, subOptions) =>
                     {
@@ -55,6 +61,7 @@ namespace HSLProcessor
                         invokedVerbInstance = subOptions;
                     }))
                 {
+                    options.GetUsage();
                     Environment.Exit(CommandLine.Parser.DefaultExitCodeFail);
                 }
 
