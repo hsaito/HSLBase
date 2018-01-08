@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -70,15 +69,15 @@ namespace HSLProcessor
                     case "import":
                     {
                         Console.WriteLine("Import mode");
-                        var ImportSubOptions = (Options.ImportSubOptions) invokedVerbInstance;
-                        if (ImportSubOptions.File != null)
+                        var importSubOptions = (Options.ImportSubOptions) invokedVerbInstance;
+                        if (importSubOptions.File != null)
                         {
-                            switch (ImportSubOptions.Type)
+                            switch (importSubOptions.Type)
                             {
                                 case "csv":
                                 {
                                     Console.WriteLine("CSV");
-                                    var result = Importer.ImportCsv(new FileInfo(ImportSubOptions.File));
+                                    var result = Importer.ImportCsv(new FileInfo(importSubOptions.File));
 
                                     if (result == Importer.ImportResult.Failed)
                                     {
@@ -93,21 +92,21 @@ namespace HSLProcessor
                                 case "protobuf":
                                 {
                                     Console.WriteLine("Protocol Buffer");
-                                    Importer.ImportProtocolBuffer(new FileInfo(ImportSubOptions.File));
+                                    Importer.ImportProtocolBuffer(new FileInfo(importSubOptions.File));
                                     break;
                                 }
                                     
                                 case "xml":
                                 {
                                     Console.WriteLine("XML");
-                                    Importer.ImportXml(new FileInfo(ImportSubOptions.File));
+                                    Importer.ImportXml(new FileInfo(importSubOptions.File));
                                     break;
                                 }
 
                                 case "seriescsv":
                                 {
                                     Console.WriteLine("Series CSV");
-                                    Importer.ImportSourceSeriesCsv(new FileInfo(ImportSubOptions.File));
+                                    Importer.ImportSourceSeriesCsv(new FileInfo(importSubOptions.File));
                                     break;
                                 }
                             }
@@ -124,29 +123,29 @@ namespace HSLProcessor
                     case "export":
                     {
                         Console.WriteLine("Export mode");
-                        var ExportSubOptions = (Options.ExportSubOptions) invokedVerbInstance;
-                        if (ExportSubOptions.File != null)
+                        var exportSubOptions = (Options.ExportSubOptions) invokedVerbInstance;
+                        if (exportSubOptions.File != null)
                         {
-                            switch (ExportSubOptions.Type)
+                            switch (exportSubOptions.Type)
                             {
                                 case "xml":
                                 {
                                     Console.WriteLine("XML");
-                                    Exporter.ExportXml(new FileInfo(ExportSubOptions.File));
+                                    Exporter.ExportXml(new FileInfo(exportSubOptions.File));
                                     break;
                                 }
 
                                 case "json":
                                 {
                                     Console.WriteLine("JSON");
-                                    Exporter.ExportJson(new FileInfo(ExportSubOptions.File));
+                                    Exporter.ExportJson(new FileInfo(exportSubOptions.File));
                                     break;
                                 }
 
                                 case "protobuf":
                                 {
                                     Console.WriteLine("Protocol Buffer");
-                                    Exporter.ExportProtoBuffer(new FileInfo(ExportSubOptions.File));
+                                    Exporter.ExportProtoBuffer(new FileInfo(exportSubOptions.File));
                                     break;
                                 }
                             }
@@ -157,16 +156,16 @@ namespace HSLProcessor
                     case "generate":
                     {
                         Console.WriteLine("Generation mode");
-                        var GenerateSubOptions = (Options.GenerateSubOptions) invokedVerbInstance;
-                        switch (GenerateSubOptions.Type)
+                        var generateSubOptions = (Options.GenerateSubOptions) invokedVerbInstance;
+                        switch (generateSubOptions.Type)
                         {
                             case "sitemap":
                             {
                                 Console.WriteLine("Sitemap");
-                                if (GenerateSubOptions.File != null)
+                                if (generateSubOptions.File != null)
                                 {
-                                    PageGenerator.ExportSitemap(new FileInfo(GenerateSubOptions.File),
-                                        GenerateSubOptions.Base);
+                                    PageGenerator.ExportSitemap(new FileInfo(generateSubOptions.File),
+                                        generateSubOptions.Base);
                                 }
                                 break;
                             }
@@ -174,10 +173,10 @@ namespace HSLProcessor
                             case "html":
                             {
                                 Console.WriteLine("HTML tree");
-                                if (GenerateSubOptions.File != null && GenerateSubOptions.Base != null)
+                                if (generateSubOptions.File != null && generateSubOptions.Base != null)
                                 {
-                                    PageGenerator.Generate(new DirectoryInfo(GenerateSubOptions.File),
-                                        new DirectoryInfo(GenerateSubOptions.Base));
+                                    PageGenerator.Generate(new DirectoryInfo(generateSubOptions.File),
+                                        new DirectoryInfo(generateSubOptions.Base));
                                 }
                                 break;
                             }
@@ -187,11 +186,11 @@ namespace HSLProcessor
 
                     case "search":
                     {
-                        var SearchSubOptions = (Options.SearchSubOptions) invokedVerbInstance;
+                        var searchSubOptions = (Options.SearchSubOptions) invokedVerbInstance;
                         // Get information for all
-                        var (result1, hit1) = Searcher.Search(SearchSubOptions.Query, Searcher.SearchType.Title);
-                        var (result2, hit2) = Searcher.Search(SearchSubOptions.Query, Searcher.SearchType.Artist);
-                        var (result3, hit3) = Searcher.Search(SearchSubOptions.Query, Searcher.SearchType.Source);
+                        var (result1, hit1) = Searcher.Search(searchSubOptions.Query, Searcher.SearchType.Title);
+                        var (result2, hit2) = Searcher.Search(searchSubOptions.Query, Searcher.SearchType.Artist);
+                        var (result3, hit3) = Searcher.Search(searchSubOptions.Query, Searcher.SearchType.Source);
 
                         // Merge the list
                         var hit = new List<Song>();
@@ -213,8 +212,8 @@ namespace HSLProcessor
 
                     case "delete":
                     {
-                        var DeleteSubOptions = (Options.DeleteSubOptions) invokedVerbInstance;
-                        Updater.Delete(new Guid(DeleteSubOptions.Id));
+                        var deleteSubOptions = (Options.DeleteSubOptions) invokedVerbInstance;
+                        Updater.Delete(new Guid(deleteSubOptions.Id));
                         break;
                     }
                 }
